@@ -1,0 +1,14 @@
+query FindProfile($id: String!) {
+	findProfile(id: $id) {
+		id
+		username
+		email
+		displayName
+		avatar
+		socialLinks {
+			title
+			url
+			position
+		}
+	}
+}
