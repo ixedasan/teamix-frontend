@@ -1,5 +1,5 @@
-query FindProfile($id: String!) {
-	findProfile(id: $id) {
+query FindProfile {
+	findProfile {
 		id
 		username
 		email
