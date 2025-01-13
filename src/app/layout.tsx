@@ -1,10 +1,11 @@
-import ApolloClientProvider from '@/providers/ApolloClientProvider'
-import { ThemeProvider } from '@/providers/ThemeProvicer'
-import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 import { Geist, Geist_Mono } from 'next/font/google'
+import ApolloClientProvider from '@/providers/ApolloClientProvider'
+import { ThemeProvider } from '@/providers/ThemeProvicer'
+import { ToasterProvider } from '@/providers/ToastProvider'
+import '@/styles/globals.css'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -41,6 +42,7 @@ export default async function RootLayout({
 							defaultTheme="dark"
 							disableTransitionOnChange
 						>
+							<ToasterProvider />
 							{children}
 						</ThemeProvider>
 					</NextIntlClientProvider>

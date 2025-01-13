@@ -1,5 +1,15 @@
 {
-	"home": {
-		"test": "Hello World!"
+	"auth": {
+		"register": {
+			"heading": "Create an accaunt",
+			"backButtonLabel": "Already have an account? Sign in",
+			"usernameLabel": "Username",
+			"emailLabel": "Email",
+			"passwordLabel": "Password",
+			"submitButton": "Sign up",
+			"successAlertTitle": "Check Your Email",
+			"successAlertDescription": "A verification email has been sent to your inbox. If you don't see the email, check your spam folder",
+			"errorMessage": "Error when creating an account"
+		}
 	}
 }
