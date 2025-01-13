@@ -1,4 +1,5 @@
 import ApolloClientProvider from '@/providers/ApolloClientProvider'
+import { ThemeProvider } from '@/providers/ThemeProvicer'
 import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
@@ -29,13 +30,19 @@ export default async function RootLayout({
 	const messages = await getMessages()
 
 	return (
-		<html lang={locale}>
+		<html lang={locale} suppressHydrationWarning>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
 				<ApolloClientProvider>
 					<NextIntlClientProvider messages={messages}>
-						{children}
+						<ThemeProvider
+							attribute="class"
+							defaultTheme="dark"
+							disableTransitionOnChange
+						>
+							{children}
+						</ThemeProvider>
 					</NextIntlClientProvider>
 				</ApolloClientProvider>
 			</body>
