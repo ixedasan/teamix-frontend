@@ -45,7 +45,7 @@ export function LoginAccountForm() {
 			if (data.loginUser.message) {
 				setIsShowTwoFactor(true)
 			} else {
-				router.push('/dashboard/settings')
+				router.push('/dashboard')
 			}
 		},
 		onError(error) {
