@@ -30,6 +30,26 @@
 			"submitButton": "Login",
 			"successMessage": "You have successfully logged in",
 			"errorMessage": "Error when logging in"
+		},
+		"resetPassword": {
+			"heading": "Password reset",
+			"backButtonLabel": "Already have an account? Sign in",
+			"emailLabel": "Email",
+			"submitButton": "Reset password",
+			"successAlertTitle": "Link sent",
+			"successAlertDescription": "We have sent a link to reset your password to your email. If you have notifications enabled in Telegram, the link has been sent there as well",
+			"errorMessage": "User with this email address was not found"
+		},
+		"newPassword": {
+			"heading": "New password",
+			"backButtonLabel": "Already have an account? Sign in",
+			"passwordLabel": "New password",
+			"passwordDescription": "The password you used during registration",
+			"passwordRepeatLabel": "Repeat password",
+			"passwordRepeatDescription": "Repeat your new password for confirmation",
+			"submitButton": "Set new password",
+			"successMessage": "Password successfully changed",
+			"errorMessage": "Error when setting a new password"
 		}
 	}
 }
