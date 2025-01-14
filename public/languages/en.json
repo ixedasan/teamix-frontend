@@ -1,12 +1,13 @@
 {
 	"auth": {
 		"register": {
+			"head": "Sign up",
 			"heading": "Create an accaunt",
 			"backButtonLabel": "Already have an account? Sign in",
 			"usernameLabel": "Username",
 			"emailLabel": "Email",
 			"passwordLabel": "Password",
-			"submitButton": "Sign up",
+			"submitButton": "Sign up!",
 			"successAlertTitle": "Check Your Email",
 			"successAlertDescription": "A verification email has been sent to your inbox. If you don't see the email, check your spam folder",
 			"errorMessage": "Error when creating an account"
@@ -15,6 +16,20 @@
 			"heading": "Account verification",
 			"successMessage": "Account verified",
 			"errorMessage": "Verification error"
+		},
+		"login": {
+			"head": "Sign in",
+			"heading": "Welcome back!",
+			"backButtonLabel": "Don't have an account? Sign up!",
+			"loginLabel": "Username or Email",
+			"loginDescription": "Your username or email that you used during registration.",
+			"passwordLabel": "Password",
+			"pinLabel": "6-digit code",
+			"pinDescription": "Enter the code from your authentication app.",
+			"forgotPassword": "Forgot password?",
+			"submitButton": "Login",
+			"successMessage": "You have successfully logged in",
+			"errorMessage": "Error when logging in"
 		}
 	}
 }

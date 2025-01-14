@@ -23,7 +23,7 @@ import {
 } from '@/schemas/auth/create-accaunt.schema'
 import { AuthWrapper } from '../AuthWrapper'
 
-export function CreateAccauntForm() {
+export function CreateAccountForm() {
 	const t = useTranslations('auth.register')
 
 	const [isSuccess, setIsSuccess] = useState(false)
@@ -61,7 +61,7 @@ export function CreateAccauntForm() {
 		<AuthWrapper
 			heading={t('heading')}
 			backButtonLabel={t('backButtonLabel')}
-			backButtonHref="/accaunt/login"
+			backButtonHref="/account/login"
 		>
 			{isSuccess ? (
 				<Alert>

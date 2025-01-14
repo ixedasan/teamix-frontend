@@ -8,7 +8,7 @@ import Loader from '@/components/common/Loader'
 import { useVerifyAccauntMutation } from '@/graphql/generated/output'
 import { AuthWrapper } from '../AuthWrapper'
 
-export function VerifyAccauntForm() {
+export function VerifyAccountForm() {
 	const t = useTranslations('auth.verify')
 	const router = useRouter()
 	const searchParams = useSearchParams()
