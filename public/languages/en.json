@@ -10,6 +10,11 @@
 			"successAlertTitle": "Check Your Email",
 			"successAlertDescription": "A verification email has been sent to your inbox. If you don't see the email, check your spam folder",
 			"errorMessage": "Error when creating an account"
+		},
+		"verify": {
+			"heading": "Account verification",
+			"successMessage": "Account verified",
+			"errorMessage": "Verification error"
 		}
 	}
 }
