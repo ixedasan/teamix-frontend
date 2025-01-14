@@ -24,7 +24,7 @@
 			"loginLabel": "Username or Email",
 			"loginDescription": "Your username or email that you used during registration.",
 			"passwordLabel": "Password",
-			"pinLabel": "6-digit code",
+			"totpVerification": "2FA verification",
 			"pinDescription": "Enter the code from your authentication app.",
 			"forgotPassword": "Forgot password?",
 			"submitButton": "Login",

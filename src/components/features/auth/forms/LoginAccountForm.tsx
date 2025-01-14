@@ -1,13 +1,14 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, KeyRound } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/Button'
+import { Card, CardContent } from '@/components/ui/Card'
 import {
 	Form,
 	FormControl,
@@ -70,28 +71,38 @@ export function LoginAccountForm() {
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 					{isShowTwoFactor ? (
-						<FormField
-							control={form.control}
-							name="pin"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>{t('pinLabel')}</FormLabel>
-									<FormControl>
-										<InputOTP maxLength={6} {...field}>
-											<InputOTPGroup>
-												<InputOTPSlot index={0} />
-												<InputOTPSlot index={1} />
-												<InputOTPSlot index={2} />
-												<InputOTPSlot index={3} />
-												<InputOTPSlot index={4} />
-												<InputOTPSlot index={5} />
-											</InputOTPGroup>
-										</InputOTP>
-									</FormControl>
-									<FormDescription>{t('pinDescription')}</FormDescription>
-								</FormItem>
-							)}
-						/>
+						<Card className="border-2 border-primary/20">
+							<CardContent className="flex flex-col items-center justify-center pt-6">
+								<div className="mb-4 flex items-center justify-center space-x-2">
+									<KeyRound className="h-5 w-5 text-primary" />
+									<span className="text-lg font-medium">
+										{t('totpVerification')}
+									</span>
+								</div>
+								<FormField
+									control={form.control}
+									name="pin"
+									render={({ field }) => (
+										<FormItem className="w-full max-w-xs">
+											<FormControl>
+												<div className="flex justify-center">
+													<InputOTP maxLength={6} {...field}>
+														<InputOTPGroup>
+															{Array.from({ length: 6 }).map((_, index) => (
+																<InputOTPSlot key={index} index={index} />
+															))}
+														</InputOTPGroup>
+													</InputOTP>
+												</div>
+											</FormControl>
+											<FormDescription className="text-center">
+												{t('pinDescription')}
+											</FormDescription>
+										</FormItem>
+									)}
+								/>
+							</CardContent>
+						</Card>
 					) : (
 						<>
 							<FormField
