@@ -1,5 +1,55 @@
 {
-	"home": {
-		"test": "Hello World!"
+	"auth": {
+		"register": {
+			"head": "Sign up",
+			"heading": "Create an accaunt",
+			"backButtonLabel": "Already have an account? Sign in",
+			"usernameLabel": "Username",
+			"emailLabel": "Email",
+			"passwordLabel": "Password",
+			"submitButton": "Sign up!",
+			"successAlertTitle": "Check Your Email",
+			"successAlertDescription": "A verification email has been sent to your inbox. If you don't see the email, check your spam folder",
+			"errorMessage": "Error when creating an account"
+		},
+		"verify": {
+			"heading": "Account verification",
+			"successMessage": "Account verified",
+			"errorMessage": "Verification error"
+		},
+		"login": {
+			"head": "Sign in",
+			"heading": "Welcome back!",
+			"backButtonLabel": "Don't have an account? Sign up!",
+			"loginLabel": "Username or Email",
+			"loginDescription": "Your username or email that you used during registration.",
+			"passwordLabel": "Password",
+			"totpVerification": "2FA verification",
+			"pinDescription": "Enter the code from your authentication app.",
+			"forgotPassword": "Forgot password?",
+			"submitButton": "Login",
+			"successMessage": "You have successfully logged in",
+			"errorMessage": "Error when logging in"
+		},
+		"resetPassword": {
+			"heading": "Password reset",
+			"backButtonLabel": "Already have an account? Sign in",
+			"emailLabel": "Email",
+			"submitButton": "Reset password",
+			"successAlertTitle": "Link sent",
+			"successAlertDescription": "We have sent a link to reset your password to your email. If you have notifications enabled in Telegram, the link has been sent there as well",
+			"errorMessage": "User with this email address was not found"
+		},
+		"newPassword": {
+			"heading": "New password",
+			"backButtonLabel": "Already have an account? Sign in",
+			"passwordLabel": "New password",
+			"passwordDescription": "The password you used during registration",
+			"passwordRepeatLabel": "Repeat password",
+			"passwordRepeatDescription": "Repeat your new password for confirmation",
+			"submitButton": "Set new password",
+			"successMessage": "Password successfully changed",
+			"errorMessage": "Error when setting a new password"
+		}
 	}
 }
