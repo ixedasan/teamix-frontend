@@ -5,10 +5,5 @@ query FindProfile {
 		email
 		displayName
 		avatar
-		socialLinks {
-			title
-			url
-			position
-		}
 	}
 }

@@ -17,7 +17,8 @@ import {
 	SidebarContent,
 	SidebarFooter,
 	SidebarHeader,
-	SidebarRail
+	SidebarRail,
+	useSidebar
 } from '@/components/ui/Sidebar'
 import { NavMain } from './nav/NavMain'
 import { NavProjects } from './nav/NavProjects'
@@ -75,18 +76,20 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
+	const { state } = useSidebar()
+
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
-				<Logo iconSize={12} />
+				<Logo iconSize={12} showText={state === 'expanded'} />
 				<Separator />
-				<NavMain items={data.navMain} />
+				<NavMain />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavProjects projects={data.projects} />
+				<NavProjects />
 			</SidebarContent>
 			<SidebarFooter>
-				<NavUser user={data.user} />
+				<NavUser />
 			</SidebarFooter>
 			<SidebarRail />
 		</Sidebar>

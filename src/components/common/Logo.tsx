@@ -1,7 +1,6 @@
 'use client'
 
 import { CommandIcon } from 'lucide-react'
-import { useSidebar } from '@/components/ui/Sidebar'
 import { cn } from '@/lib/utils'
 
 interface LogoProps {
@@ -17,8 +16,6 @@ export function Logo({
 	className,
 	showText = true
 }: LogoProps) {
-	const { state } = useSidebar()
-
 	return (
 		<div
 			className={cn(
@@ -31,7 +28,7 @@ export function Logo({
 				<div className="absolute inset-0 animate-pulse rounded-xl bg-primary/10" />
 			</div>
 
-			{showText && state === 'expanded' && (
+			{showText && (
 				<div className={cn('font-extrabold tracking-tight', fontSize)}>
 					<span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
 						Team

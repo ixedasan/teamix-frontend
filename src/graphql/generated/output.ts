@@ -767,6 +767,11 @@ export type LoginUserMutationVariables = Exact<{
 
 export type LoginUserMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'AuthModel', message?: string | null, user?: { __typename?: 'UserModel', username: string } | null } };
 
+export type LogoutUserMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutUserMutation = { __typename?: 'Mutation', logoutUser: boolean };
+
 export type NewPasswordMutationVariables = Exact<{
   data: NewPasswordInput;
 }>;
@@ -788,10 +793,15 @@ export type VerifyAccauntMutationVariables = Exact<{
 
 export type VerifyAccauntMutation = { __typename?: 'Mutation', verifyAccaunt: { __typename?: 'AuthModel', message?: string | null, user?: { __typename?: 'UserModel', isEmailVerified: boolean } | null } };
 
+export type FindUserProjectsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindUserProjectsQuery = { __typename?: 'Query', getAllUserProjects: Array<{ __typename?: 'ProjectModel', id: string, name: string }> };
+
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, username: string, email: string, displayName: string, avatar?: string | null, socialLinks: Array<{ __typename?: 'SocialLinksModel', title: string, url: string, position: number }> } };
+export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, username: string, email: string, displayName: string, avatar?: string | null } };
 
 
 export const CreateUserDocument = gql`
@@ -861,6 +871,36 @@ export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<Lo
 export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
 export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
 export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
+export const LogoutUserDocument = gql`
+    mutation LogoutUser {
+  logoutUser
+}
+    `;
+export type LogoutUserMutationFn = Apollo.MutationFunction<LogoutUserMutation, LogoutUserMutationVariables>;
+
+/**
+ * __useLogoutUserMutation__
+ *
+ * To run a mutation, you first call `useLogoutUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutUserMutation, { data, loading, error }] = useLogoutUserMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutUserMutation(baseOptions?: Apollo.MutationHookOptions<LogoutUserMutation, LogoutUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutUserMutation, LogoutUserMutationVariables>(LogoutUserDocument, options);
+      }
+export type LogoutUserMutationHookResult = ReturnType<typeof useLogoutUserMutation>;
+export type LogoutUserMutationResult = Apollo.MutationResult<LogoutUserMutation>;
+export type LogoutUserMutationOptions = Apollo.BaseMutationOptions<LogoutUserMutation, LogoutUserMutationVariables>;
 export const NewPasswordDocument = gql`
     mutation NewPassword($data: NewPasswordInput!) {
   newPassword(data: $data)
@@ -959,6 +999,46 @@ export function useVerifyAccauntMutation(baseOptions?: Apollo.MutationHookOption
 export type VerifyAccauntMutationHookResult = ReturnType<typeof useVerifyAccauntMutation>;
 export type VerifyAccauntMutationResult = Apollo.MutationResult<VerifyAccauntMutation>;
 export type VerifyAccauntMutationOptions = Apollo.BaseMutationOptions<VerifyAccauntMutation, VerifyAccauntMutationVariables>;
+export const FindUserProjectsDocument = gql`
+    query FindUserProjects {
+  getAllUserProjects {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useFindUserProjectsQuery__
+ *
+ * To run a query within a React component, call `useFindUserProjectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUserProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUserProjectsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindUserProjectsQuery(baseOptions?: Apollo.QueryHookOptions<FindUserProjectsQuery, FindUserProjectsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUserProjectsQuery, FindUserProjectsQueryVariables>(FindUserProjectsDocument, options);
+      }
+export function useFindUserProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserProjectsQuery, FindUserProjectsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUserProjectsQuery, FindUserProjectsQueryVariables>(FindUserProjectsDocument, options);
+        }
+export function useFindUserProjectsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindUserProjectsQuery, FindUserProjectsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindUserProjectsQuery, FindUserProjectsQueryVariables>(FindUserProjectsDocument, options);
+        }
+export type FindUserProjectsQueryHookResult = ReturnType<typeof useFindUserProjectsQuery>;
+export type FindUserProjectsLazyQueryHookResult = ReturnType<typeof useFindUserProjectsLazyQuery>;
+export type FindUserProjectsSuspenseQueryHookResult = ReturnType<typeof useFindUserProjectsSuspenseQuery>;
+export type FindUserProjectsQueryResult = Apollo.QueryResult<FindUserProjectsQuery, FindUserProjectsQueryVariables>;
 export const FindProfileDocument = gql`
     query FindProfile {
   findProfile {
@@ -967,11 +1047,6 @@ export const FindProfileDocument = gql`
     email
     displayName
     avatar
-    socialLinks {
-      title
-      url
-      position
-    }
   }
 }
     `;

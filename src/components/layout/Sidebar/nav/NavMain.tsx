@@ -1,34 +1,48 @@
-import { type LucideIcon } from 'lucide-react'
-import { type ComponentPropsWithoutRef } from 'react'
+import { FolderKanban, Home, Inbox } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import {
-	SidebarGroup,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem
 } from '@/components/ui/Sidebar'
 
-export function NavMain({
-	items
-}: {
-	items: {
-		title: string
-		url: string
-		icon: LucideIcon
-		isActive?: boolean
-	}[]
-} & ComponentPropsWithoutRef<typeof SidebarGroup>) {
+export function NavMain() {
+	const pahthName = usePathname()
+
+	const items = [
+		{
+			title: 'Home',
+			url: '/dashboard',
+			icon: Home
+		},
+		{
+			title: 'Notifications',
+			url: '/notifications',
+			icon: Inbox
+		},
+		{
+			title: 'Projects',
+			url: '/projects',
+			icon: FolderKanban
+		}
+	]
+
 	return (
 		<SidebarMenu>
-			{items.map(item => (
-				<SidebarMenuItem key={item.title}>
-					<SidebarMenuButton asChild isActive={item.isActive}>
-						<a href={item.url}>
-							<item.icon />
-							<span>{item.title}</span>
-						</a>
-					</SidebarMenuButton>
-				</SidebarMenuItem>
-			))}
+			{items.map(item => {
+				const isActive = pahthName === item.url
+
+				return (
+					<SidebarMenuItem key={item.title}>
+						<SidebarMenuButton asChild isActive={isActive}>
+							<a href={item.url}>
+								<item.icon />
+								<span>{item.title}</span>
+							</a>
+						</SidebarMenuButton>
+					</SidebarMenuItem>
+				)
+			})}
 		</SidebarMenu>
 	)
 }
