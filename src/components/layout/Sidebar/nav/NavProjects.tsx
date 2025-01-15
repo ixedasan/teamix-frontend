@@ -16,6 +16,7 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem
 } from '@/components/ui/Sidebar'
+import { cn } from '@/lib/utils'
 
 export function NavProjects({
 	projects
@@ -29,6 +30,7 @@ export function NavProjects({
 			title: string
 			url: string
 			icon?: LucideIcon
+			isActive?: boolean
 		}[]
 	}[]
 }) {
@@ -57,7 +59,14 @@ export function NavProjects({
 										<SidebarMenuSubItem key={subItem.title}>
 											<SidebarMenuSubButton asChild>
 												<a href={subItem.url}>
-													{subItem.icon && <subItem.icon className="h-5 w-5" />}
+													{subItem.icon && (
+														<subItem.icon
+															className={cn(
+																'h-5 w-5',
+																subItem.isActive && 'stroke-primary'
+															)}
+														/>
+													)}
 													<span>{subItem.title}</span>
 												</a>
 											</SidebarMenuSubButton>

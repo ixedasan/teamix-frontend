@@ -1,5 +1,6 @@
 'use client'
 
+import { Separator } from '@radix-ui/react-separator'
 import {
 	ChartColumn,
 	FileText,
@@ -10,6 +11,7 @@ import {
 	KanbanSquare
 } from 'lucide-react'
 import { type ComponentProps } from 'react'
+import { Logo } from '@/components/common/Logo'
 import {
 	Sidebar,
 	SidebarContent,
@@ -54,7 +56,8 @@ const data = {
 				{
 					title: 'Issues',
 					url: '#',
-					icon: KanbanSquare
+					icon: KanbanSquare,
+					isActive: true
 				},
 				{
 					title: 'Statistics',
@@ -75,13 +78,16 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
-				<NavUser user={data.user} />
+				<Logo iconSize={12} />
+				<Separator />
+				<NavMain items={data.navMain} />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavMain items={data.navMain} />
 				<NavProjects projects={data.projects} />
 			</SidebarContent>
-			<SidebarFooter></SidebarFooter>
+			<SidebarFooter>
+				<NavUser user={data.user} />
+			</SidebarFooter>
 			<SidebarRail />
 		</Sidebar>
 	)
