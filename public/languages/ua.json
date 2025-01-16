@@ -15,6 +15,17 @@
 			"logout": "Вийти"
 		}
 	},
+	"settings": {
+		"header": {
+			"heading": "Налаштування",
+			"description": "Керуйте своїми налаштуваннями",
+			"profile": "Профіль",
+			"account": "Акаунт",
+			"appearance": "Зовнішній вигляд",
+			"notifications": "Сповіщення",
+			"sessions": "Сеанси"
+		}
+	},
 	"auth": {
 		"register": {
 			"head": "Sign up",

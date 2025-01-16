@@ -15,10 +15,21 @@
 			"logout": "Вийти"
 		}
 	},
+	"settings": {
+		"header": {
+			"heading": "Settings",
+			"description": "Manage your settings",
+			"profile": "Profile",
+			"account": "Account",
+			"appearance": "Appearance",
+			"notifications": "Notifications",
+			"sessions": "Sessions"
+		}
+	},
 	"auth": {
 		"register": {
 			"head": "Sign up",
-			"heading": "Create an accaunt",
+			"heading": "Create an account",
 			"backButtonLabel": "Already have an account? Sign in",
 			"usernameLabel": "Username",
 			"emailLabel": "Email",
