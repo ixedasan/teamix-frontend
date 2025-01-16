@@ -1,4 +1,5 @@
-import { FolderKanban, Home, Inbox } from 'lucide-react'
+import { FolderKanban, Home } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import {
 	SidebarMenu,
@@ -7,21 +8,18 @@ import {
 } from '@/components/ui/Sidebar'
 
 export function NavMain() {
+	const t = useTranslations('sidebar.main')
+
 	const pahthName = usePathname()
 
 	const items = [
 		{
-			title: 'Home',
+			title: t('dashboard'),
 			url: '/dashboard',
 			icon: Home
 		},
 		{
-			title: 'Notifications',
-			url: '/notifications',
-			icon: Inbox
-		},
-		{
-			title: 'Projects',
+			title: t('projects'),
 			url: '/projects',
 			icon: FolderKanban
 		}

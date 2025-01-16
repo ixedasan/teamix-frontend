@@ -7,6 +7,7 @@ import {
 	FileText,
 	Sheet
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -28,20 +29,21 @@ import { useFindUserProjectsQuery } from '@/graphql/generated/output'
 import { cn } from '@/lib/utils'
 
 export function NavProjects() {
+	const t = useTranslations('sidebar.projects')
 	const pathName = usePathname()
 
 	const { data } = useFindUserProjectsQuery()
 	const projects = data?.getAllUserProjects || []
 
 	const subMenuItems = [
-		{ title: 'Tasks', icon: ClipboardList, path: 'tasks' },
-		{ title: 'Analytics', icon: BarChart2, path: 'analytics' },
-		{ title: 'Docs', icon: FileText, path: 'docs' }
+		{ title: t('task'), icon: ClipboardList, path: 'tasks' },
+		{ title: t('analytics'), icon: BarChart2, path: 'analytics' },
+		{ title: t('docs'), icon: FileText, path: 'docs' }
 	]
 
 	return (
 		<SidebarGroup>
-			<SidebarGroupLabel>Projects</SidebarGroupLabel>
+			<SidebarGroupLabel>{t('heading')}</SidebarGroupLabel>
 			<SidebarMenu key={projects.length}>
 				{projects.map(item => {
 					const isActive = pathName?.includes(`/projects/${item.id}`)

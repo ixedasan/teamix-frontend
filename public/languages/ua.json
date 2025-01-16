@@ -1,4 +1,20 @@
 {
+	"sidebar": {
+		"main": {
+			"dashboard": "Домашня",
+			"projects": "Проєкти"
+		},
+		"projects": {
+			"heading": "ВАШІ ПРОЄКТИ",
+			"task": "Завдання",
+			"analytics": "Аналітика",
+			"docs": "Документи"
+		},
+		"user": {
+			"settings": "Налаштування",
+			"logout": "Вийти"
+		}
+	},
 	"auth": {
 		"register": {
 			"head": "Sign up",
