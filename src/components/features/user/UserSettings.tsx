@@ -2,6 +2,7 @@ import { TabsContent } from '@radix-ui/react-tabs'
 import { useTranslations } from 'next-intl'
 import { Heading } from '@/components/common/Heading'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
 
 const TAB_ITEMS = [
 	'profile',
@@ -22,7 +23,7 @@ export function UserSettings() {
 				size="lg"
 			/>
 			<Tabs defaultValue="profile">
-				<div className="relative my-3 rounded-lg bg-muted">
+				<div className="relative mb-4 mt-2 rounded-md bg-muted">
 					<TabsList className="scrollbar-hide m flex min-w-full gap-1">
 						{TAB_ITEMS.map(tab => (
 							<TabsTrigger
@@ -35,7 +36,13 @@ export function UserSettings() {
 						))}
 					</TabsList>
 				</div>
-				<TabsContent value="profile">profile</TabsContent>
+				<TabsContent value="profile" className="space-y-6">
+					<Heading
+						title={t('profile.header.heading')}
+						description={t('profile.header.description')}
+					/>
+					<ChangeAvatarForm />
+				</TabsContent>
 				<TabsContent value="account">account</TabsContent>
 				<TabsContent value="appearance">appearance</TabsContent>
 				<TabsContent value="notifications">notifications</TabsContent>

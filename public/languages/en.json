@@ -24,6 +24,25 @@
 			"appearance": "Appearance",
 			"notifications": "Notifications",
 			"sessions": "Sessions"
+		},
+		"profile": {
+			"header": {
+				"heading": "Profile",
+				"description": "Customize your profile by changing your avatar, personal information, and social media links. Make your profile visible to others and stand out!"
+			},
+			"avatar": {
+				"heading": "Profile Picture",
+				"updateButton": "Change Your Profile Picture",
+				"confirmModal": {
+					"heading": "Delete",
+					"message": "Are you sure you want to delete your profile picture? This action cannot be undone."
+				},
+				"info": "You can upload images in JPG, JPEG, PNG, WEBP, or GIF formats. Maximum file size is 10 MB.",
+				"successUpdateMessage": "Your profile picture was updated successfully!",
+				"errorUpdateMessage": "Something went wrong while updating your profile picture. Please try again.",
+				"successRemoveMessage": "Your avatar was successfully deleted!",
+				"errorRemoveMessage": "Something went wrong while deleting your avatar. Please try again."
+			}
 		}
 	},
 	"auth": {
@@ -77,6 +96,12 @@
 			"submitButton": "Set new password",
 			"successMessage": "Password successfully changed",
 			"errorMessage": "Error when setting a new password"
+		}
+	},
+	"components": {
+		"confirmModal": {
+			"cancel": "Cancel",
+			"continue": "Continue"
 		}
 	}
 }

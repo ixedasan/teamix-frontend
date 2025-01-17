@@ -20,7 +20,7 @@ import { useResetPasswordMutation } from '@/graphql/generated/output'
 import {
 	ResetPasswordSchema,
 	TypeResetPasswordSchema
-} from '@/schemas/auth/reset-password.shema'
+} from '@/schemas/auth/reset-password.schema'
 import { AuthWrapper } from '../AuthWrapper'
 
 export function ResetPasswordForm() {
