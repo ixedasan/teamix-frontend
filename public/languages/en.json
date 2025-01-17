@@ -11,8 +11,8 @@
 			"docs": "Docs"
 		},
 		"user": {
-			"settings": "Налаштування",
-			"logout": "Вийти"
+			"settings": "Settings",
+			"logout": "Logout"
 		}
 	},
 	"settings": {
@@ -42,6 +42,17 @@
 				"errorUpdateMessage": "Something went wrong while updating your profile picture. Please try again.",
 				"successRemoveMessage": "Your avatar was successfully deleted!",
 				"errorRemoveMessage": "Something went wrong while deleting your avatar. Please try again."
+			},
+			"info": {
+				"heading": "Profile Settings",
+				"usernameLabel": "Username",
+				"usernamePlaceholder": "johndoe",
+				"displayNameLabel": "Display Name",
+				"displayNamePlaceholder": "John Doe",
+				"bioLabel": "About Me",
+				"submitButton": "Save Changes",
+				"successMessage": "Profile updated successfully",
+				"errorMessage": "Error updating profile"
 			}
 		}
 	},

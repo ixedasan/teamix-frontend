@@ -42,6 +42,17 @@
 				"errorUpdateMessage": "Щось пішло не так під час оновлення фото профілю. Спробуйте ще раз.",
 				"successRemoveMessage": "Ваш аватар успішно видалено!",
 				"errorRemoveMessage": "Щось пішло не так під час видалення аватара. Спробуйте ще раз."
+			},
+			"info": {
+				"heading": "Налаштування профілю",
+				"usernameLabel": "Ім'я користувача",
+				"usernamePlaceholder": "johndoe",
+				"displayNameLabel": "Відображуване ім'я",
+				"displayNamePlaceholder": "John Doe",
+				"bioLabel": "Про себе",
+				"submitButton": "Зберегти зміни",
+				"successMessage": "Профіль успішно оновлено",
+				"errorMessage": "Помилка під час оновлення профілю"
 			}
 		}
 	},

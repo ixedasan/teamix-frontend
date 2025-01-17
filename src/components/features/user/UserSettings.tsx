@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl'
 import { Heading } from '@/components/common/Heading'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
+import { ChangeInfoForm } from './profile/ChangeInfoForm'
 
 const TAB_ITEMS = [
 	'profile',
@@ -42,6 +43,7 @@ export function UserSettings() {
 						description={t('profile.header.description')}
 					/>
 					<ChangeAvatarForm />
+					<ChangeInfoForm />
 				</TabsContent>
 				<TabsContent value="account">account</TabsContent>
 				<TabsContent value="appearance">appearance</TabsContent>
