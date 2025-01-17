@@ -53,6 +53,29 @@
 				"submitButton": "Зберегти зміни",
 				"successMessage": "Профіль успішно оновлено",
 				"errorMessage": "Помилка під час оновлення профілю"
+			},
+			"socialLinks": {
+				"createForm": {
+					"heading": "Посилання на соцмережі",
+					"titleLabel": "Назва посилання",
+					"titlePlaceholder": "GitHub",
+					"urlLabel": "URL посилання",
+					"urlPlaceholder": "https://github.com/ixedasan",
+					"submitButton": "Додати",
+					"successMessage": "Посилання на соц. мережу успішно додано",
+					"errorMessage": "Помилка під час додавання посилання на соц. мережу"
+				},
+				"editForm": {
+					"cancelButton": "Скасувати",
+					"submitButton": "Зберегти",
+					"successUpdateMessage": "Посилання на соц. мережу успішно змінено",
+					"errorUpdateMessage": "Помилка під час оновлення соц. мережі",
+					"successRemoveMessage": "Посилання на соц. мережу успішно видалено",
+					"errorRemoveMessage": "Помилка під час видалення соц. мережі"
+				},
+				"noData": "Посилань на соц. мережі не знайдено",
+				"noDataSpan": "Додайте посилання на свої соц. мережі, щоб зробити свій профіль більш особистим та унікальним.",
+				"errorReorderMessage": "Помилка під час зміни порядку соц. мереж"
 			}
 		}
 	},

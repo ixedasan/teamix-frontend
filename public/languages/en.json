@@ -53,6 +53,29 @@
 				"submitButton": "Save Changes",
 				"successMessage": "Profile updated successfully",
 				"errorMessage": "Error updating profile"
+			},
+			"socialLinks": {
+				"createForm": {
+					"heading": "Social Media Links",
+					"titleLabel": "Link Title",
+					"titlePlaceholder": "GitHub",
+					"urlLabel": "Link URL",
+					"urlPlaceholder": "https://github.com/ixedasan",
+					"submitButton": "Add",
+					"successMessage": "Social media link added successfully",
+					"errorMessage": "Error adding social media link"
+				},
+				"editForm": {
+					"cancelButton": "Cancel",
+					"submitButton": "Save",
+					"successUpdateMessage": "Social media link updated successfully",
+					"errorUpdateMessage": "Error updating social media link",
+					"successRemoveMessage": "Social media link removed successfully",
+					"errorRemoveMessage": "Error removing social media link"
+				},
+				"noData": "Links to social networks not found",
+				"noDataSpan": "Add links to your social networks to make your profile more personal and unique.",
+				"errorReorderMessage": "Error reordering social media links"
 			}
 		}
 	},

@@ -5,6 +5,7 @@ import { Heading } from '@/components/common/Heading'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
 import { ChangeInfoForm } from './profile/ChangeInfoForm'
+import { SocilLinksForm } from './profile/socils-links/SocilLinksForm'
 
 const TAB_ITEMS = [
 	'profile',
@@ -45,6 +46,7 @@ export function UserSettings() {
 					/>
 					<ChangeAvatarForm />
 					<ChangeInfoForm />
+					<SocilLinksForm />
 				</TabsContent>
 				<TabsContent value="account">account</TabsContent>
 				<TabsContent value="appearance">appearance</TabsContent>
