@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from 'class-variance-authority'
+
 import { FindProfileQuery } from '@/graphql/generated/output'
 import { getMediaSource } from '@/utils/get-media-source'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/Avatar'

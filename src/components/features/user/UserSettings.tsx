@@ -1,5 +1,6 @@
 import { TabsContent } from '@radix-ui/react-tabs'
 import { useTranslations } from 'next-intl'
+
 import { Heading } from '@/components/common/Heading'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'

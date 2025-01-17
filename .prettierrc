@@ -6,7 +6,10 @@
 	"singleQuote": true,
 	"arrowParens": "avoid",
 	"importOrder": [
+		"^(react/(.*)$)|^(react$)",
+		"^(next/(.*)$)|^(next$)",
 		"<THIRD_PARTY_MODULES>",
+		"",
 		"^@/app/(.*)$",
 		"^@/components/(.*)$",
 		"^@/graphql/(.*)$",

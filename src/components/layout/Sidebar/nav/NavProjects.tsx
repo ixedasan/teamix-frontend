@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import {
 	BarChart2,
 	ChevronRight,
@@ -8,8 +10,7 @@ import {
 	Sheet
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+
 import {
 	Collapsible,
 	CollapsibleContent,

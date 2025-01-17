@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
+
 import { ResetPasswordForm } from '@/components/features/auth/forms/ResetPasswordForm'
 
 export async function generateMetadata(): Promise<Metadata> {

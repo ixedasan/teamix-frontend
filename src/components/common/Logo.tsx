@@ -1,6 +1,7 @@
 'use client'
 
 import { CommandIcon } from 'lucide-react'
+
 import { cn } from '@/lib/utils'
 
 interface LogoProps {

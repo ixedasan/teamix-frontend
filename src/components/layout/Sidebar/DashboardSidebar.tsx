@@ -1,7 +1,8 @@
 'use client'
 
-import { Separator } from '@radix-ui/react-separator'
 import { type ComponentProps } from 'react'
+import { Separator } from '@radix-ui/react-separator'
+
 import { Logo } from '@/components/common/Logo'
 import {
 	Sidebar,

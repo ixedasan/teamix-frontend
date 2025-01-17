@@ -1,9 +1,10 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { ChevronsUpDown, LogOut, Settings } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+
 import { SkeletonWrapper } from '@/components/common/SkeletonWrapper'
 import { UserAvatar } from '@/components/common/UserAvatar'
 import {

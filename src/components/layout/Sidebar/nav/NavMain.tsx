@@ -1,6 +1,7 @@
+import { usePathname } from 'next/navigation'
 import { FolderKanban, Home } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { usePathname } from 'next/navigation'
+
 import {
 	SidebarMenu,
 	SidebarMenuButton,

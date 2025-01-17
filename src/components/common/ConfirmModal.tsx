@@ -1,7 +1,8 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
 import type { PropsWithChildren } from 'react'
+import { useTranslations } from 'next-intl'
+
 import {
 	AlertDialog,
 	AlertDialogAction,

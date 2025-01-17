@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
+
 import { LoginAccountForm } from '@/components/features/auth/forms/LoginAccountForm'
 
 export async function generateMetadata(): Promise<Metadata> {

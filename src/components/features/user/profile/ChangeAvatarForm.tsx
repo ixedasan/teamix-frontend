@@ -1,11 +1,12 @@
 'use client'
 
+import { useRef, type ChangeEvent } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Trash } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useRef, type ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+
 import { ConfirmModal } from '@/components/common/ConfirmModal'
 import { FormWrapper } from '@/components/common/FormWrapper'
 import { SkeletonWrapper } from '@/components/common/SkeletonWrapper'
@@ -79,7 +80,7 @@ export function ChangeAvatarForm() {
 					render={({ field }) => (
 						<div className="px-5 pb-5">
 							<SkeletonWrapper isLoading={loading}>
-								<div className="w-full items-center space-x-6 flex">
+								<div className="flex w-full items-center space-x-6">
 									<UserAvatar
 										user={{
 											username: profile?.username || 'A',
