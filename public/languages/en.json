@@ -77,6 +77,50 @@
 				"noDataSpan": "Add links to your social networks to make your profile more personal and unique.",
 				"errorReorderMessage": "Error reordering social media links"
 			}
+		},
+		"account": {
+			"header": {
+				"heading": "Account",
+				"description": "Manage your account settings, including access changes, security, and deactivation options.",
+				"securityHeading": "Security",
+				"securityDescription": "Set up two-factor authentication for enhanced data protection."
+			},
+			"email": {
+				"heading": "Email Address",
+				"emailLabel": "Email",
+				"submitButton": "Save",
+				"successMessage": "Email updated successfully",
+				"errorMessage": "Error updating email"
+			},
+			"password": {
+				"heading": "Account Password",
+				"oldPasswordLabel": "Current Password",
+				"newPasswordLabel": "New Password",
+				"submitButton": "Save",
+				"successMessage": "Password updated successfully",
+				"errorMessage": "Error updating password"
+			},
+			"twoFactor": {
+				"heading": "TOTP Authentication",
+				"description": "Enhance the security of your account by enabling TOTP authentication. This extra layer of protection requires a unique code, making your account less vulnerable to unauthorized access.",
+				"enable": {
+					"trigger": "Enable",
+					"heading": "Enable TOTP",
+					"qrInstructions": "Scan the QR code to add TOTP",
+					"secretCodeLabel": "Secret Code: ",
+					"pinLabel": "PIN Code",
+					"submitButton": "Confirm",
+					"successMessage": "TOTP authentication enabled successfully",
+					"errorMessage": "Error verifying the code"
+				},
+				"disable": {
+					"trigger": "Disable",
+					"heading": "Are you sure you want to disable TOTP?",
+					"message": "Disabling TOTP authentication will make your account less secure. Are you sure you want to proceed?",
+					"successMessage": "TOTP authentication disabled successfully",
+					"errorMessage": "Error disabling TOTP"
+				}
+			}
 		}
 	},
 	"auth": {
