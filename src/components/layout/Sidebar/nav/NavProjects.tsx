@@ -22,6 +22,7 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
+	SidebarMenuSkeleton,
 	SidebarMenuSub,
 	SidebarMenuSubButton,
 	SidebarMenuSubItem
@@ -33,7 +34,7 @@ export function NavProjects() {
 	const t = useTranslations('sidebar.projects')
 	const pathName = usePathname()
 
-	const { data } = useFindUserProjectsQuery()
+	const { data, loading } = useFindUserProjectsQuery()
 	const projects = data?.getAllUserProjects || []
 
 	const subMenuItems = [
@@ -45,6 +46,15 @@ export function NavProjects() {
 	return (
 		<SidebarGroup>
 			<SidebarGroupLabel>{t('heading')}</SidebarGroupLabel>
+			{loading && (
+				<SidebarMenu>
+					{Array.from({ length: 3 }).map((_, index) => (
+						<SidebarMenuItem key={index}>
+							<SidebarMenuSkeleton showIcon />
+						</SidebarMenuItem>
+					))}
+				</SidebarMenu>
+			)}
 			<SidebarMenu key={projects.length}>
 				{projects.map(item => {
 					const isActive = pathName?.includes(`/projects/${item.id}`)

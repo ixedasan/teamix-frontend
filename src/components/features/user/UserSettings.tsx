@@ -22,7 +22,7 @@ export function UserSettings() {
 	const t = useTranslations('settings')
 
 	return (
-		<>
+		<div className="mx-auto w-full max-w-5xl">
 			<Heading
 				title={t('header.heading')}
 				description={t('header.description')}
@@ -68,6 +68,6 @@ export function UserSettings() {
 				<TabsContent value="notifications">notifications</TabsContent>
 				<TabsContent value="sessions">sessions</TabsContent>
 			</Tabs>
-		</>
+		</div>
 	)
 }
