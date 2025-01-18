@@ -6,6 +6,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { ChangeEmailForm } from './account/ChangeEmailForm'
 import { ChangePasswordForm } from './account/ChangePasswordForm'
 import { WrapperTotp } from './account/totp/WrapperTotp'
+import { ChangeColorForm } from './appearance/ChangeColorForm'
 import { ChangeLanguageForm } from './appearance/ChangeLanguageForm'
 import { ChangeThemeForm } from './appearance/ChangeThemeForm'
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
@@ -73,6 +74,7 @@ export function UserSettings() {
 					/>
 					<ChangeThemeForm />
 					<ChangeLanguageForm />
+					<ChangeColorForm />
 				</TabsContent>
 				<TabsContent value="notifications">notifications</TabsContent>
 				<TabsContent value="sessions">sessions</TabsContent>

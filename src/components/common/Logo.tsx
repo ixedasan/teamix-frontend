@@ -24,16 +24,14 @@ export function Logo({
 				className
 			)}
 		>
-			<div className="relative rounded-xl bg-gradient-to-br from-primary to-primary/80 p-2.5 transition-all group-hover:shadow-lg">
+			<div className="relative rounded-xl bg-primary p-2.5 transition-all group-hover:shadow-lg">
 				<CommandIcon size={iconSize} className="stroke-primary-foreground" />
 				<div className="absolute inset-0 animate-pulse rounded-xl bg-primary/10" />
 			</div>
 
 			{showText && (
 				<div className={cn('font-extrabold tracking-tight', fontSize)}>
-					<span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-						Team
-					</span>
+					<span className="bg-primary bg-clip-text text-transparent">Team</span>
 					<span className="text-foreground">ix</span>
 				</div>
 			)}
