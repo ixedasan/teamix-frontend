@@ -122,6 +122,27 @@
 					"errorMessage": "Error disabling TOTP"
 				}
 			}
+		},
+		"appearance": {
+			"header": {
+				"heading": "Appearance",
+				"description": "Customize the look and feel of the website interface to your liking. Choose a theme and language that will make your interactions more comfortable."
+			},
+			"theme": {
+				"heading": "Change Theme",
+				"description": "You can choose a dark or light theme for the website interface",
+				"activeLabel": "Active"
+			},
+			"language": {
+				"heading": "Website language",
+				"description": "Select the language to be used on the site",
+				"selectPlaceholder": "Select a language",
+				"successMessage": "The site language has been successfully changed"
+			},
+			"color": {
+				"heading": "Accent Color",
+				"description": "Choose an accent color for the interface"
+			}
 		}
 	},
 	"auth": {
