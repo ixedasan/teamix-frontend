@@ -143,6 +143,22 @@
 				"heading": "Accent Color",
 				"description": "Choose an accent color for the interface"
 			}
+		},
+		"notifications": {
+			"header": {
+				"heading": "Notifications",
+				"description": "Set up how you want to receive notifications."
+			},
+			"siteNotifications": {
+				"heading": "Site Notifications",
+				"description": "If you disable site notifications, you will not receive alerts about new events, comments, and other important updates."
+			},
+			"telegramNotifications": {
+				"heading": "Telegram Notifications",
+				"description": "If you enable notifications via Telegram, your account will be linked to your Telegram account, and you will receive messages about new events, comments, password resets, and other important updates."
+			},
+			"successMessage": "Notification settings updated successfully",
+			"errorMessage": "Error updating notification settings"
 		}
 	},
 	"auth": {
