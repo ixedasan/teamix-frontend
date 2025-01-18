@@ -5,6 +5,7 @@ import { Heading } from '@/components/common/Heading'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { ChangeEmailForm } from './account/ChangeEmailForm'
 import { ChangePasswordForm } from './account/ChangePasswordForm'
+import { WrapperTotp } from './account/totp/WrapperTotp'
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
 import { ChangeInfoForm } from './profile/ChangeInfoForm'
 import { SocilLinksForm } from './profile/socils-links/SocilLinksForm'
@@ -57,6 +58,11 @@ export function UserSettings() {
 					/>
 					<ChangeEmailForm />
 					<ChangePasswordForm />
+					<Heading
+						title={t('account.header.securityHeading')}
+						description={t('account.header.securityDescription')}
+					/>
+					<WrapperTotp />
 				</TabsContent>
 				<TabsContent value="appearance">appearance</TabsContent>
 				<TabsContent value="notifications">notifications</TabsContent>

@@ -109,6 +109,7 @@
 					"qrInstructions": "Scan the QR code to add TOTP",
 					"secretCodeLabel": "Secret Code: ",
 					"pinLabel": "PIN Code",
+					"pinDescription": "Please enter the 6-digit code provided by your authentication application.",
 					"submitButton": "Confirm",
 					"successMessage": "TOTP authentication enabled successfully",
 					"errorMessage": "Error verifying the code"

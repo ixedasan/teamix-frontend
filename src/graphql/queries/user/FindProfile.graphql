@@ -6,5 +6,6 @@ query FindProfile {
 		displayName
 		avatar
 		bio
+		isTotpEnabled
 	}
 }
