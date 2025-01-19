@@ -13,6 +13,7 @@ import { ChangeNotificationsSettingsForm } from './notifications/ChangeNotificat
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
 import { ChangeInfoForm } from './profile/ChangeInfoForm'
 import { SocilLinksForm } from './profile/socils-links/SocilLinksForm'
+import { SessionsList } from './sessions/SessionsList'
 
 const TAB_ITEMS = [
 	'profile',
@@ -84,7 +85,13 @@ export function UserSettings() {
 					/>
 					<ChangeNotificationsSettingsForm />
 				</TabsContent>
-				<TabsContent value="sessions">sessions</TabsContent>
+				<TabsContent value="sessions" className="space-y-6">
+					<Heading
+						title={t('sessions.header.heading')}
+						description={t('sessions.header.description')}
+					/>
+					<SessionsList />
+				</TabsContent>
 			</Tabs>
 		</div>
 	)
