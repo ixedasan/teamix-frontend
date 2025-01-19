@@ -27,9 +27,9 @@ import {
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/InputOtp'
 import {
 	useEnableTotpMutation,
-	useFindProfileQuery,
 	useGenerateTotpSecretQuery
 } from '@/graphql/generated/output'
+import { useCurrentUser } from '@/hooks/use-current-user'
 import {
 	EnableTotpSchema,
 	type TypeEnableTotpSchema
@@ -40,7 +40,7 @@ export function EnableTotp() {
 
 	const [isOpen, setIsOpen] = useState(false)
 
-	const { refetch } = useFindProfileQuery()
+	const { refetch } = useCurrentUser()
 	const { data, loading } = useGenerateTotpSecretQuery()
 	const twoFactorSecret = data?.generateTotpSecret
 

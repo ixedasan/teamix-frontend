@@ -23,22 +23,15 @@ import {
 } from '@/components/ui/Sidebar'
 import {
 	FindProfileQuery,
-	useFindProfileQuery,
 	useLogoutUserMutation
 } from '@/graphql/generated/output'
+import { useCurrentUser } from '@/hooks/use-current-user'
 
 type Profile = FindProfileQuery['findProfile']
 
 interface UserDropdownTriggerProps {
 	profile: Profile | null | undefined
 	loading: boolean
-}
-
-interface UserDropdownContentProps {
-	profile: Profile | null | undefined
-	isMobile: boolean
-	onSettingsClick: () => void
-	onLogoutClick: () => void
 }
 
 const UserDropdownTrigger = ({
@@ -72,8 +65,7 @@ export function NavUser() {
 	const t = useTranslations('sidebar.user')
 	const router = useRouter()
 	const { isMobile } = useSidebar()
-	const { data, loading } = useFindProfileQuery()
-	const profile = data?.findProfile
+	const { profile, loading } = useCurrentUser()
 
 	const [logout] = useLogoutUserMutation({
 		onCompleted() {

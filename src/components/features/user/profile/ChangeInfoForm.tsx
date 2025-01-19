@@ -18,10 +18,8 @@ import {
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
-import {
-	useChangeProfileInfoMutation,
-	useFindProfileQuery
-} from '@/graphql/generated/output'
+import { useChangeProfileInfoMutation } from '@/graphql/generated/output'
+import { useCurrentUser } from '@/hooks/use-current-user'
 import {
 	ChangeInfoSchema,
 	TypeChangeInfoSchema
@@ -30,8 +28,7 @@ import {
 export function ChangeInfoForm() {
 	const t = useTranslations('settings.profile.info')
 
-	const { data, loading, refetch } = useFindProfileQuery()
-	const profile = data?.findProfile
+	const { profile, loading, refetch } = useCurrentUser()
 
 	const form = useForm<TypeChangeInfoSchema>({
 		resolver: zodResolver(ChangeInfoSchema),

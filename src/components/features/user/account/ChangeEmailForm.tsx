@@ -16,10 +16,8 @@ import {
 	FormLabel
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
-import {
-	useChangeEmailMutation,
-	useFindProfileQuery
-} from '@/graphql/generated/output'
+import { useChangeEmailMutation } from '@/graphql/generated/output'
+import { useCurrentUser } from '@/hooks/use-current-user'
 import {
 	ChangeEmailSchema,
 	type TypeChangeEmailSchema
@@ -28,8 +26,7 @@ import {
 export function ChangeEmailForm() {
 	const t = useTranslations('settings.account.email')
 
-	const { data, loading, refetch } = useFindProfileQuery()
-	const profile = data?.findProfile
+	const { profile, loading, refetch } = useCurrentUser()
 
 	const form = useForm<TypeChangeEmailSchema>({
 		resolver: zodResolver(ChangeEmailSchema),

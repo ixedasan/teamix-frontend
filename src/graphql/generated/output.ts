@@ -828,6 +828,11 @@ export type ChangeProfileInfoMutationVariables = Exact<{
 
 export type ChangeProfileInfoMutation = { __typename?: 'Mutation', changeProfileInfo: boolean };
 
+export type ClearSessionCookieMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClearSessionCookieMutation = { __typename?: 'Mutation', clearSessionCookie: boolean };
+
 export type CreateSocialLinkMutationVariables = Exact<{
   data: SocialLinkInput;
 }>;
@@ -1251,6 +1256,36 @@ export function useChangeProfileInfoMutation(baseOptions?: Apollo.MutationHookOp
 export type ChangeProfileInfoMutationHookResult = ReturnType<typeof useChangeProfileInfoMutation>;
 export type ChangeProfileInfoMutationResult = Apollo.MutationResult<ChangeProfileInfoMutation>;
 export type ChangeProfileInfoMutationOptions = Apollo.BaseMutationOptions<ChangeProfileInfoMutation, ChangeProfileInfoMutationVariables>;
+export const ClearSessionCookieDocument = gql`
+    mutation ClearSessionCookie {
+  clearSessionCookie
+}
+    `;
+export type ClearSessionCookieMutationFn = Apollo.MutationFunction<ClearSessionCookieMutation, ClearSessionCookieMutationVariables>;
+
+/**
+ * __useClearSessionCookieMutation__
+ *
+ * To run a mutation, you first call `useClearSessionCookieMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useClearSessionCookieMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [clearSessionCookieMutation, { data, loading, error }] = useClearSessionCookieMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useClearSessionCookieMutation(baseOptions?: Apollo.MutationHookOptions<ClearSessionCookieMutation, ClearSessionCookieMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ClearSessionCookieMutation, ClearSessionCookieMutationVariables>(ClearSessionCookieDocument, options);
+      }
+export type ClearSessionCookieMutationHookResult = ReturnType<typeof useClearSessionCookieMutation>;
+export type ClearSessionCookieMutationResult = Apollo.MutationResult<ClearSessionCookieMutation>;
+export type ClearSessionCookieMutationOptions = Apollo.BaseMutationOptions<ClearSessionCookieMutation, ClearSessionCookieMutationVariables>;
 export const CreateSocialLinkDocument = gql`
     mutation CreateSocialLink($data: SocialLinkInput!) {
   createSocialLink(data: $data)

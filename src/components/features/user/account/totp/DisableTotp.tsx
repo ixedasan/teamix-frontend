@@ -5,15 +5,13 @@ import { toast } from 'sonner'
 
 import { ConfirmModal } from '@/components/common/ConfirmModal'
 import { Button } from '@/components/ui/Button'
-import {
-	useDisableTotpMutation,
-	useFindProfileQuery
-} from '@/graphql/generated/output'
+import { useDisableTotpMutation } from '@/graphql/generated/output'
+import { useCurrentUser } from '@/hooks/use-current-user'
 
 export function DisableTotp() {
 	const t = useTranslations('settings.account.twoFactor.disable')
 
-	const { refetch } = useFindProfileQuery()
+	const { refetch } = useCurrentUser()
 
 	const [disable, { loading: isLoadingDisable }] = useDisableTotpMutation({
 		onCompleted() {

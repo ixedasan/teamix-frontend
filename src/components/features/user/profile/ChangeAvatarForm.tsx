@@ -15,9 +15,9 @@ import { Button } from '@/components/ui/Button'
 import { Form, FormField } from '@/components/ui/Form'
 import {
 	useChangeProfileAvatarMutation,
-	useFindProfileQuery,
 	useRemoveProfileAvatarMutation
 } from '@/graphql/generated/output'
+import { useCurrentUser } from '@/hooks/use-current-user'
 import {
 	TypeUploadImageSchema,
 	UploadImageSchema
@@ -28,8 +28,7 @@ export function ChangeAvatarForm() {
 
 	const inputRef = useRef<HTMLInputElement>(null)
 
-	const { data, loading, refetch } = useFindProfileQuery()
-	const profile = data?.findProfile
+	const { profile, loading, refetch } = useCurrentUser()
 
 	const form = useForm<TypeUploadImageSchema>({
 		resolver: zodResolver(UploadImageSchema),

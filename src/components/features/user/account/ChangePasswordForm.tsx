@@ -16,10 +16,8 @@ import {
 	FormLabel
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
-import {
-	useChangePasswordMutation,
-	useFindProfileQuery
-} from '@/graphql/generated/output'
+import { useChangePasswordMutation } from '@/graphql/generated/output'
+import { useCurrentUser } from '@/hooks/use-current-user'
 import {
 	ChangePasswordSchema,
 	type TypeChangePasswordSchema
@@ -28,7 +26,7 @@ import {
 export function ChangePasswordForm() {
 	const t = useTranslations('settings.account.password')
 
-	const { refetch, loading } = useFindProfileQuery()
+	const { refetch, loading } = useCurrentUser()
 
 	const form = useForm<TypeChangePasswordSchema>({
 		resolver: zodResolver(ChangePasswordSchema),

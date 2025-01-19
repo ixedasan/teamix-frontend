@@ -7,10 +7,8 @@ import { toast } from 'sonner'
 
 import { ToggleCard, ToggleCardSkeleton } from '@/components/common/ToggleCard'
 import { Form, FormField } from '@/components/ui/Form'
-import {
-	useChangeNotificationsSettingsMutation,
-	useFindProfileQuery
-} from '@/graphql/generated/output'
+import { useChangeNotificationsSettingsMutation } from '@/graphql/generated/output'
+import { useCurrentUser } from '@/hooks/use-current-user'
 import {
 	ChangeNotificationsSettingsSchema,
 	TypeChangeNotificationsSchema
@@ -20,8 +18,7 @@ import { TELEGRAM_BOT_URL } from '@/constants/url.constants'
 export function ChangeNotificationsSettingsForm() {
 	const t = useTranslations('settings.notifications')
 
-	const { data, loading, refetch } = useFindProfileQuery()
-	const user = data?.findProfile
+	const { profile: user, loading, refetch } = useCurrentUser()
 
 	const form = useForm<TypeChangeNotificationsSchema>({
 		resolver: zodResolver(ChangeNotificationsSettingsSchema),
