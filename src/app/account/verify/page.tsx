@@ -1,5 +1,6 @@
-import { VerifyAccountForm } from "@/components/features/auth/forms/VerifyAccountForm"
 import { redirect } from 'next/navigation'
+
+import { VerifyAccountForm } from '@/components/features/auth/forms/VerifyAccountForm'
 
 export default async function VerifyAccountPage(props: {
 	searchParams: Promise<{ token: string }>

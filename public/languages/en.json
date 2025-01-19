@@ -1,8 +1,198 @@
 {
+	"sidebar": {
+		"main": {
+			"dashboard": "Dashboard",
+			"projects": "Projects"
+		},
+		"projects": {
+			"heading": "YOUR PROJECTS",
+			"task": "Tasks",
+			"analytics": "Analytics",
+			"docs": "Docs"
+		},
+		"user": {
+			"settings": "Settings",
+			"logout": "Logout"
+		}
+	},
+	"settings": {
+		"header": {
+			"heading": "Settings",
+			"description": "Manage your settings",
+			"profile": "Profile",
+			"account": "Account",
+			"appearance": "Appearance",
+			"notifications": "Notifications",
+			"sessions": "Sessions"
+		},
+		"profile": {
+			"header": {
+				"heading": "Profile",
+				"description": "Customize your profile by changing your avatar, personal information, and social media links. Make your profile visible to others and stand out!"
+			},
+			"avatar": {
+				"heading": "Profile Picture",
+				"updateButton": "Change Your Profile Picture",
+				"confirmModal": {
+					"heading": "Delete",
+					"message": "Are you sure you want to delete your profile picture? This action cannot be undone."
+				},
+				"info": "You can upload images in JPG, JPEG, PNG, WEBP, or GIF formats. Maximum file size is 10 MB.",
+				"successUpdateMessage": "Your profile picture was updated successfully!",
+				"errorUpdateMessage": "Something went wrong while updating your profile picture. Please try again.",
+				"successRemoveMessage": "Your avatar was successfully deleted!",
+				"errorRemoveMessage": "Something went wrong while deleting your avatar. Please try again."
+			},
+			"info": {
+				"heading": "Profile Settings",
+				"usernameLabel": "Username",
+				"usernamePlaceholder": "johndoe",
+				"displayNameLabel": "Display Name",
+				"displayNamePlaceholder": "John Doe",
+				"bioLabel": "About Me",
+				"submitButton": "Save Changes",
+				"successMessage": "Profile updated successfully",
+				"errorMessage": "Error updating profile"
+			},
+			"socialLinks": {
+				"createForm": {
+					"heading": "Social Media Links",
+					"titleLabel": "Link Title",
+					"titlePlaceholder": "GitHub",
+					"urlLabel": "Link URL",
+					"urlPlaceholder": "https://github.com/ixedasan",
+					"submitButton": "Add",
+					"successMessage": "Social media link added successfully",
+					"errorMessage": "Error adding social media link"
+				},
+				"editForm": {
+					"cancelButton": "Cancel",
+					"submitButton": "Save",
+					"successUpdateMessage": "Social media link updated successfully",
+					"errorUpdateMessage": "Error updating social media link",
+					"successRemoveMessage": "Social media link removed successfully",
+					"errorRemoveMessage": "Error removing social media link"
+				},
+				"noData": "Links to social networks not found",
+				"noDataSpan": "Add links to your social networks to make your profile more personal and unique.",
+				"errorReorderMessage": "Error reordering social media links"
+			}
+		},
+		"account": {
+			"header": {
+				"heading": "Account",
+				"description": "Manage your account settings, including access changes, security, and deactivation options.",
+				"securityHeading": "Security",
+				"securityDescription": "Set up two-factor authentication for enhanced data protection."
+			},
+			"email": {
+				"heading": "Email Address",
+				"emailLabel": "Email",
+				"submitButton": "Save",
+				"successMessage": "Email updated successfully",
+				"errorMessage": "Error updating email"
+			},
+			"password": {
+				"heading": "Account Password",
+				"oldPasswordLabel": "Current Password",
+				"newPasswordLabel": "New Password",
+				"submitButton": "Save",
+				"successMessage": "Password updated successfully",
+				"errorMessage": "Error updating password"
+			},
+			"twoFactor": {
+				"heading": "TOTP Authentication",
+				"description": "Enhance the security of your account by enabling TOTP authentication. This extra layer of protection requires a unique code, making your account less vulnerable to unauthorized access.",
+				"enable": {
+					"trigger": "Enable",
+					"heading": "Enable TOTP",
+					"qrInstructions": "Scan the QR code to add TOTP",
+					"secretCodeLabel": "Secret Code: ",
+					"pinLabel": "PIN Code",
+					"pinDescription": "Please enter the 6-digit code provided by your authentication application.",
+					"submitButton": "Confirm",
+					"successMessage": "TOTP authentication enabled successfully",
+					"errorMessage": "Error verifying the code"
+				},
+				"disable": {
+					"trigger": "Disable",
+					"heading": "Are you sure you want to disable TOTP?",
+					"message": "Disabling TOTP authentication will make your account less secure. Are you sure you want to proceed?",
+					"successMessage": "TOTP authentication disabled successfully",
+					"errorMessage": "Error disabling TOTP"
+				}
+			}
+		},
+		"appearance": {
+			"header": {
+				"heading": "Appearance",
+				"description": "Customize the look and feel of the website interface to your liking. Choose a theme and language that will make your interactions more comfortable."
+			},
+			"theme": {
+				"heading": "Change Theme",
+				"description": "You can choose a dark or light theme for the website interface",
+				"activeLabel": "Active"
+			},
+			"language": {
+				"heading": "Website language",
+				"description": "Select the language to be used on the site",
+				"selectPlaceholder": "Select a language",
+				"successMessage": "The site language has been successfully changed"
+			},
+			"color": {
+				"heading": "Accent Color",
+				"description": "Choose an accent color for the interface"
+			}
+		},
+		"notifications": {
+			"header": {
+				"heading": "Notifications",
+				"description": "Set up how you want to receive notifications."
+			},
+			"siteNotifications": {
+				"heading": "Site Notifications",
+				"description": "If you disable site notifications, you will not receive alerts about new events, comments, and other important updates."
+			},
+			"telegramNotifications": {
+				"heading": "Telegram Notifications",
+				"description": "If you enable notifications via Telegram, your account will be linked to your Telegram account, and you will receive messages about new events, comments, password resets, and other important updates."
+			},
+			"successMessage": "Notification settings updated successfully",
+			"errorMessage": "Error updating notification settings"
+		},
+		"sessions": {
+			"header": {
+				"heading": "Sessions",
+				"description": "Sessions represent devices you are using or have used to log into your account. You can view and remove active sessions to ensure the security of your account."
+			},
+			"info": {
+				"current": "Current Session",
+				"active": "Active Sessions",
+				"notFound": "No active sessions found"
+			},
+			"sessionItem": {
+				"deleteButton": "Remove",
+				"detailsButton": "Details",
+				"confirmModal": {
+					"heading": "Remove Session",
+					"message": "Are you sure you want to remove this session? This action will permanently delete the session on this device and terminate all active activities associated with it."
+				},
+				"successMessage": "Session removed successfully",
+				"errorMessage": "Error removing session"
+			},
+			"sessionModal": {
+				"heading": "Session Details",
+				"device": "Device:",
+				"location": "Location:",
+				"ipAddress": "IP Address:",
+				"createdAt": "Created At:"
+			}
+		}
+	},
 	"auth": {
 		"register": {
 			"head": "Sign up",
-			"heading": "Create an accaunt",
+			"heading": "Create an account",
 			"backButtonLabel": "Already have an account? Sign in",
 			"usernameLabel": "Username",
 			"emailLabel": "Email",
@@ -50,6 +240,30 @@
 			"submitButton": "Set new password",
 			"successMessage": "Password successfully changed",
 			"errorMessage": "Error when setting a new password"
+		}
+	},
+	"components": {
+		"confirmModal": {
+			"cancel": "Cancel",
+			"continue": "Continue"
+		}
+	},
+	"utils": {
+		"formatDate": {
+			"months": {
+				"january": "January",
+				"february": "February",
+				"march": "March",
+				"april": "April",
+				"may": "May",
+				"june": "June",
+				"july": "July",
+				"august": "August",
+				"september": "September",
+				"october": "October",
+				"november": "November",
+				"december": "December"
+			}
 		}
 	}
 }

@@ -1,7 +1,5 @@
 'use client'
 
-import * as LabelPrimitive from '@radix-ui/react-label'
-import { Slot } from '@radix-ui/react-slot'
 import {
 	createContext,
 	forwardRef,
@@ -11,6 +9,8 @@ import {
 	type ComponentRef,
 	type HTMLAttributes
 } from 'react'
+import * as LabelPrimitive from '@radix-ui/react-label'
+import { Slot } from '@radix-ui/react-slot'
 import {
 	Controller,
 	FormProvider,
@@ -19,6 +19,7 @@ import {
 	type FieldPath,
 	type FieldValues
 } from 'react-hook-form'
+
 import { Label } from '@/components/ui/Label'
 import { cn } from '@/lib/utils'
 

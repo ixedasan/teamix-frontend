@@ -1,9 +1,10 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
+
 import Loader from '@/components/common/Loader'
 import { useVerifyAccauntMutation } from '@/graphql/generated/output'
 import { AuthWrapper } from '../AuthWrapper'

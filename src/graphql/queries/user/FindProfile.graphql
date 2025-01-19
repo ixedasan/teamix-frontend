@@ -5,10 +5,11 @@ query FindProfile {
 		email
 		displayName
 		avatar
-		socialLinks {
-			title
-			url
-			position
+		bio
+		isTotpEnabled
+		notificationSettings {
+			siteNotification
+			telegramNotification
 		}
 	}
 }
