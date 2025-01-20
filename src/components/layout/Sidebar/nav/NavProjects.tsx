@@ -7,7 +7,7 @@ import {
 	ChevronRight,
 	ClipboardList,
 	FileText,
-	Sheet
+	Hash
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
@@ -69,7 +69,7 @@ export function NavProjects() {
 							<SidebarMenuItem>
 								<CollapsibleTrigger asChild>
 									<SidebarMenuButton tooltip={item.name}>
-										<Sheet />
+										{item.icon ? <span>{item.icon}</span> : <Hash />}
 										<span>{item.name}</span>
 										<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
 									</SidebarMenuButton>

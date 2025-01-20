@@ -131,7 +131,9 @@
 			"theme": {
 				"heading": "Change Theme",
 				"description": "You can choose a dark or light theme for the website interface",
-				"activeLabel": "Active"
+				"activeLabel": "Active",
+				"dark": "Dark",
+				"light": "Light"
 			},
 			"language": {
 				"heading": "Website language",
@@ -187,6 +189,27 @@
 				"ipAddress": "IP Address:",
 				"createdAt": "Created At:"
 			}
+		}
+	},
+	"projects": {
+		"heading": "Projects",
+		"hello": "Hello",
+		"createButton": "Create Project",
+		"noData": "No projects found",
+		"noDataSpan": "Create a new project to start working on it. You can also invite other users to collaborate on the project.",
+		"toggler": {
+			"grid": "Grid View",
+			"list": "List View"
+		},
+		"create": {
+			"heading": "Create Project",
+			"description": "Create a new project and start working with your team. Set up everything you need for effective collaboration.",
+			"projectNamePlaceholder": "Project name",
+			"projectDescriptionPlaceholder": "Description",
+			"submitButton": "Create",
+			"cancelButton": "Cancel",
+			"successMessage": "Project created successfully",
+			"errorMessage": "Error creating project"
 		}
 	},
 	"auth": {

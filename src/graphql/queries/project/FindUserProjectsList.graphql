@@ -9,8 +9,10 @@ query FindUserProjectsList {
 			user {
 				id
 				username
+				displayName
 				avatar
 			}
+			role
 		}
 	}
 }

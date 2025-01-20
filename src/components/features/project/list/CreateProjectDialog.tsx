@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
+import { Plus } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/Button'
 import {
@@ -20,7 +22,12 @@ import {
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { CreateProjectForm } from './CreateProjectForm'
 
-export function CreateProjectDialog() {
+interface ICreateProjectDialog {
+	triger?: ReactNode
+}
+
+export function CreateProjectDialog({ triger }: ICreateProjectDialog) {
+	const t = useTranslations('projects.create')
 	const [open, setOpen] = useState(false)
 	const isDesktop = useMediaQuery('(min-width: 768px)')
 
@@ -28,14 +35,18 @@ export function CreateProjectDialog() {
 		return (
 			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogTrigger asChild>
-					<Button>+</Button>
+					{triger ? (
+						triger
+					) : (
+						<Button>
+							<Plus size={16} />
+						</Button>
+					)}
 				</DialogTrigger>
 				<DialogContent>
 					<DialogHeader>
-						<DialogTitle>Create Project</DialogTitle>
-						<DialogDescription>
-							Create a new project to start collaborating with your team.
-						</DialogDescription>
+						<DialogTitle>{t('heading')}</DialogTitle>
+						<DialogDescription>{t('description')}</DialogDescription>
 					</DialogHeader>
 					<CreateProjectForm />
 				</DialogContent>
@@ -46,14 +57,12 @@ export function CreateProjectDialog() {
 	return (
 		<Drawer open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button>+</Button>
+				{triger ? triger : <Button>+</Button>}
 			</DrawerTrigger>
 			<DrawerContent className="px-4">
 				<DrawerHeader className="text-left">
-					<DrawerTitle>Create Project</DrawerTitle>
-					<DrawerDescription>
-						Create a new project to start collaborating with your team.
-					</DrawerDescription>
+					<DrawerTitle>{t('heading')}</DrawerTitle>
+					<DrawerDescription>{t('description')}</DrawerDescription>
 				</DrawerHeader>
 				<CreateProjectForm showCancelButton onCancel={() => setOpen(false)} />
 			</DrawerContent>

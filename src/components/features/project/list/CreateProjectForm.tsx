@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
@@ -25,6 +26,8 @@ export function CreateProjectForm({
 	showCancelButton,
 	onCancel
 }: ICreateProjectForm) {
+	const t = useTranslations('projects.create')
+
 	const router = useRouter()
 
 	const form = useForm<TypeCreateProjectSchema>({
@@ -78,7 +81,7 @@ export function CreateProjectForm({
 							<FormItem className="w-full">
 								<FormControl>
 									<Input
-										placeholder="Project name"
+										placeholder={t('projectNamePlaceholder')}
 										disabled={isLoadingCreate}
 										{...field}
 									/>
@@ -96,7 +99,7 @@ export function CreateProjectForm({
 								<div className="relative">
 									<Textarea
 										className="mb-6"
-										placeholder="Description"
+										placeholder={t('projectDescriptionPlaceholder')}
 										disabled={isLoadingCreate}
 										maxLength={300}
 										{...field}
@@ -111,11 +114,11 @@ export function CreateProjectForm({
 				/>
 				<div className="flex w-full flex-col gap-4 pb-2">
 					<Button disabled={!isValid || !isDirty || isLoadingCreate}>
-						Create
+						{t('submitButton')}
 					</Button>
 					{showCancelButton && (
 						<Button type="button" variant="outline" onClick={onCancel}>
-							Cancel
+							{t('cancelButton')}
 						</Button>
 					)}
 				</div>

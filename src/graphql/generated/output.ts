@@ -129,7 +129,7 @@ export type EnableTotpInput = {
 
 export type InviteMemberInput = {
   email: Scalars['String']['input'];
-  role: Scalars['String']['input'];
+  role: Role;
 };
 
 export type LocationModel = {
@@ -157,7 +157,7 @@ export type MemberModel = {
   id: Scalars['ID']['output'];
   project: ProjectModel;
   projectId: Scalars['ID']['output'];
-  role: Scalars['String']['output'];
+  role: Role;
   updatedAt: Scalars['DateTime']['output'];
   user: UserModel;
   userId: Scalars['ID']['output'];
@@ -586,6 +586,13 @@ export type ResetPasswordInput = {
   email: Scalars['String']['input'];
 };
 
+/** User role in project */
+export enum Role {
+  Admin = 'ADMIN',
+  Member = 'MEMBER',
+  Viewer = 'VIEWER'
+}
+
 export type SendCommentInput = {
   content: Scalars['String']['input'];
   taskId: Scalars['ID']['input'];
@@ -905,7 +912,7 @@ export type FindUserProjectsQuery = { __typename?: 'Query', getAllUserProjects: 
 export type FindUserProjectsListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindUserProjectsListQuery = { __typename?: 'Query', getAllUserProjects: Array<{ __typename?: 'ProjectModel', id: string, name: string, icon?: string | null, description?: string | null, cover?: string | null, members: Array<{ __typename?: 'MemberModel', user: { __typename?: 'UserModel', id: string, username: string, avatar?: string | null } }> }> };
+export type FindUserProjectsListQuery = { __typename?: 'Query', getAllUserProjects: Array<{ __typename?: 'ProjectModel', id: string, name: string, icon?: string | null, description?: string | null, cover?: string | null, members: Array<{ __typename?: 'MemberModel', role: Role, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }> }> };
 
 export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1652,8 +1659,10 @@ export const FindUserProjectsListDocument = gql`
       user {
         id
         username
+        displayName
         avatar
       }
+      role
     }
   }
 }

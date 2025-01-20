@@ -1,24 +1,30 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Users } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Settings, Users } from 'lucide-react'
 
 import { UserAvatar } from '@/components/common/UserAvatar'
 import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/Card'
-import { FindUserProjectsListQuery } from '@/graphql/generated/output'
+import { FindUserProjectsListQuery, Role } from '@/graphql/generated/output'
+import { useCurrentUser } from '@/hooks/use-current-user'
 
 interface IProjectCard {
 	project: FindUserProjectsListQuery['getAllUserProjects'][0]
 }
 
 export function ProjectCard({ project }: IProjectCard) {
+	const router = useRouter()
+	const { profile } = useCurrentUser()
+
 	const MAX_VISIBLE_MEMBERS = 3
 	const additionalMembers = project.members.length - MAX_VISIBLE_MEMBERS
 
 	return (
 		<Link href={`/projects/${project.id}/tasks`}>
-			<Card className="group h-[250px] min-w-96 max-w-96 overflow-hidden transition-all duration-300 hover:border-primary hover:shadow-lg">
-				<div className="relative h-24 overflow-hidden bg-gradient-to-r from-primary/70 to-chart-4/80">
+			<Card className="group h-full transition-all duration-300 hover:border-primary hover:shadow-lg">
+				<div className="relative h-24 overflow-hidden rounded-md bg-gradient-to-r from-primary/70 to-chart-4/80">
 					{project.cover && (
 						<Image
 							src={project.cover}
@@ -33,11 +39,15 @@ export function ProjectCard({ project }: IProjectCard) {
 						<div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-background shadow-md">
 							<span className="text-2xl">{project.icon}</span>
 						</div>
-						<div className="flex-1">
-							<h3 className="font-semibold tracking-tight">{project.name}</h3>
-							<Badge variant="secondary" className="mt-1">
+						<div className="min-w-0 flex-1">
+							<h3 className="truncate font-semibold tracking-tight">
+								{project.name}
+							</h3>
+							<Badge variant="secondary" className="mt-1 inline-flex">
 								<Users className="mr-1 h-3 w-3" />
-								{project.members.length} members
+								<span className="truncate">
+									{project.members.length} members
+								</span>
 							</Badge>
 						</div>
 					</div>
@@ -50,7 +60,7 @@ export function ProjectCard({ project }: IProjectCard) {
 				</CardContent>
 
 				<CardFooter className="px-4">
-					<div className="flex items-center gap-2">
+					<div className="flex w-full items-center justify-between gap-2">
 						<div className="flex -space-x-2">
 							{project.members
 								.slice(0, MAX_VISIBLE_MEMBERS)
@@ -63,6 +73,21 @@ export function ProjectCard({ project }: IProjectCard) {
 								</div>
 							)}
 						</div>
+						{project.members.some(
+							member =>
+								member.role === Role.Admin && member.user.id === profile?.id
+						) && (
+							<Button
+								size="icon"
+								variant="ghost"
+								onClick={e => {
+									e.preventDefault()
+									router.push(`/projects/${project.id}/settings`)
+								}}
+							>
+								<Settings />
+							</Button>
+						)}
 					</div>
 				</CardFooter>
 			</Card>
