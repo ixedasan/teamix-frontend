@@ -155,9 +155,11 @@ export type MemberModel = {
   __typename?: 'MemberModel';
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
+  project: ProjectModel;
   projectId: Scalars['ID']['output'];
   role: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
+  user: UserModel;
   userId: Scalars['ID']['output'];
 };
 
@@ -177,7 +179,7 @@ export type Mutation = {
   changeTaskStatus: TaskModel;
   clearSessionCookie: Scalars['Boolean']['output'];
   createDocument: Scalars['Boolean']['output'];
-  createProject: Scalars['Boolean']['output'];
+  createProject: ProjectModel;
   createSocialLink: Scalars['Boolean']['output'];
   createTask: TaskModel;
   createTaskLabel: Scalars['Boolean']['output'];
@@ -499,6 +501,7 @@ export enum Priority {
 
 export type ProjectInput = {
   description?: InputMaybe<Scalars['String']['input']>;
+  icon?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
 };
 
@@ -507,6 +510,7 @@ export type ProjectModel = {
   cover?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   description?: Maybe<Scalars['String']['output']>;
+  icon?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   members: Array<MemberModel>;
   name: Scalars['String']['output'];
@@ -793,6 +797,13 @@ export type VerifyAccauntMutationVariables = Exact<{
 
 export type VerifyAccauntMutation = { __typename?: 'Mutation', verifyAccaunt: { __typename?: 'AuthModel', message?: string | null, user?: { __typename?: 'UserModel', isEmailVerified: boolean } | null } };
 
+export type CreateProjectMutationVariables = Exact<{
+  data: ProjectInput;
+}>;
+
+
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'ProjectModel', id: string } };
+
 export type ChangeEmailMutationVariables = Exact<{
   data: ChangeEmailInput;
 }>;
@@ -889,7 +900,12 @@ export type UpdateSocialLinkMutation = { __typename?: 'Mutation', updateSocialLi
 export type FindUserProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindUserProjectsQuery = { __typename?: 'Query', getAllUserProjects: Array<{ __typename?: 'ProjectModel', id: string, name: string }> };
+export type FindUserProjectsQuery = { __typename?: 'Query', getAllUserProjects: Array<{ __typename?: 'ProjectModel', id: string, name: string, icon?: string | null }> };
+
+export type FindUserProjectsListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindUserProjectsListQuery = { __typename?: 'Query', getAllUserProjects: Array<{ __typename?: 'ProjectModel', id: string, name: string, icon?: string | null, description?: string | null, cover?: string | null, members: Array<{ __typename?: 'MemberModel', user: { __typename?: 'UserModel', id: string, username: string, avatar?: string | null } }> }> };
 
 export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1112,6 +1128,39 @@ export function useVerifyAccauntMutation(baseOptions?: Apollo.MutationHookOption
 export type VerifyAccauntMutationHookResult = ReturnType<typeof useVerifyAccauntMutation>;
 export type VerifyAccauntMutationResult = Apollo.MutationResult<VerifyAccauntMutation>;
 export type VerifyAccauntMutationOptions = Apollo.BaseMutationOptions<VerifyAccauntMutation, VerifyAccauntMutationVariables>;
+export const CreateProjectDocument = gql`
+    mutation CreateProject($data: ProjectInput!) {
+  createProject(data: $data) {
+    id
+  }
+}
+    `;
+export type CreateProjectMutationFn = Apollo.MutationFunction<CreateProjectMutation, CreateProjectMutationVariables>;
+
+/**
+ * __useCreateProjectMutation__
+ *
+ * To run a mutation, you first call `useCreateProjectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProjectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProjectMutation, { data, loading, error }] = useCreateProjectMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateProjectMutation(baseOptions?: Apollo.MutationHookOptions<CreateProjectMutation, CreateProjectMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateProjectMutation, CreateProjectMutationVariables>(CreateProjectDocument, options);
+      }
+export type CreateProjectMutationHookResult = ReturnType<typeof useCreateProjectMutation>;
+export type CreateProjectMutationResult = Apollo.MutationResult<CreateProjectMutation>;
+export type CreateProjectMutationOptions = Apollo.BaseMutationOptions<CreateProjectMutation, CreateProjectMutationVariables>;
 export const ChangeEmailDocument = gql`
     mutation ChangeEmail($data: ChangeEmailInput!) {
   changeEmail(data: $data)
@@ -1555,6 +1604,7 @@ export const FindUserProjectsDocument = gql`
   getAllUserProjects {
     id
     name
+    icon
   }
 }
     `;
@@ -1590,6 +1640,56 @@ export type FindUserProjectsQueryHookResult = ReturnType<typeof useFindUserProje
 export type FindUserProjectsLazyQueryHookResult = ReturnType<typeof useFindUserProjectsLazyQuery>;
 export type FindUserProjectsSuspenseQueryHookResult = ReturnType<typeof useFindUserProjectsSuspenseQuery>;
 export type FindUserProjectsQueryResult = Apollo.QueryResult<FindUserProjectsQuery, FindUserProjectsQueryVariables>;
+export const FindUserProjectsListDocument = gql`
+    query FindUserProjectsList {
+  getAllUserProjects {
+    id
+    name
+    icon
+    description
+    cover
+    members {
+      user {
+        id
+        username
+        avatar
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindUserProjectsListQuery__
+ *
+ * To run a query within a React component, call `useFindUserProjectsListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUserProjectsListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUserProjectsListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindUserProjectsListQuery(baseOptions?: Apollo.QueryHookOptions<FindUserProjectsListQuery, FindUserProjectsListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUserProjectsListQuery, FindUserProjectsListQueryVariables>(FindUserProjectsListDocument, options);
+      }
+export function useFindUserProjectsListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserProjectsListQuery, FindUserProjectsListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUserProjectsListQuery, FindUserProjectsListQueryVariables>(FindUserProjectsListDocument, options);
+        }
+export function useFindUserProjectsListSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindUserProjectsListQuery, FindUserProjectsListQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindUserProjectsListQuery, FindUserProjectsListQueryVariables>(FindUserProjectsListDocument, options);
+        }
+export type FindUserProjectsListQueryHookResult = ReturnType<typeof useFindUserProjectsListQuery>;
+export type FindUserProjectsListLazyQueryHookResult = ReturnType<typeof useFindUserProjectsListLazyQuery>;
+export type FindUserProjectsListSuspenseQueryHookResult = ReturnType<typeof useFindUserProjectsListSuspenseQuery>;
+export type FindUserProjectsListQueryResult = Apollo.QueryResult<FindUserProjectsListQuery, FindUserProjectsListQueryVariables>;
 export const FindCurrentSessionDocument = gql`
     query FindCurrentSession {
   findCurrentSession {
