@@ -198,8 +198,8 @@
 		"noData": "No projects found",
 		"noDataSpan": "Create a new project to start working on it. You can also invite other users to collaborate on the project.",
 		"toggler": {
-			"grid": "Grid View",
-			"list": "List View"
+			"gridView": "Grid View",
+			"listView": "List View"
 		},
 		"create": {
 			"heading": "Create Project",
@@ -210,6 +210,52 @@
 			"cancelButton": "Cancel",
 			"successMessage": "Project created successfully",
 			"errorMessage": "Error creating project"
+		},
+		"settings": {
+			"heading": "Project Settings",
+			"description": "Configure your project. Change the name, description, add members, and adjust other settings.",
+			"header": {
+				"general": "General",
+				"members": "Members",
+				"labels": "Labels",
+				"plan": "Plan"
+			},
+			"general": {
+				"cover": {
+					"heading": "Project Cover",
+					"updateButton": "Change Cover",
+					"confirmModal": {
+						"heading": "Remove",
+						"message": "Are you sure you want to remove the project cover? This action cannot be undone."
+					},
+					"successUpdateMessage": "Project cover updated successfully!",
+					"errorUpdateMessage": "Something went wrong while updating the project cover. Please try again.",
+					"successRemoveMessage": "Project cover removed successfully!",
+					"errorRemoveMessage": "Something went wrong while removing the project cover. Please try again."
+				},
+				"info": {
+					"heading": "Chenge Project Information",
+					"projectNamePlaceholder": "Project name",
+					"projectDescriptionPlaceholder": "Description",
+					"submitButton": "Save Changes",
+					"successMessage": "Project information updated successfully",
+					"errorMessage": "Error updating project information"
+				},
+				"delete": {
+					"heading": "Delete Project",
+					"description": "This action is irreversible. All project data will be permanently deleted.",
+					"deleteButton": "Delete Project",
+					"confirmModal": {
+						"heading": "Delete Project",
+						"message": "This action cannot be undone. To confirm the deletion, please enter",
+						"deleteLabel": "Project Name",
+						"cancelButton": "Cancel",
+						"confirmButton": "Delete"
+					},
+					"successMessage": "Project deleted successfully",
+					"errorMessage": "Error deleting the project"
+				}
+			}
 		}
 	},
 	"auth": {

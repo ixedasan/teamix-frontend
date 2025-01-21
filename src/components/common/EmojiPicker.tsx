@@ -12,11 +12,16 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/Popover'
 interface IEmojiPicker {
 	onChange: (value: string) => void
 	isDisabled?: boolean
+	value?: string
 }
 
-export function EmojiPicker({ onChange, isDisabled }: IEmojiPicker) {
+export function EmojiPicker({ onChange, isDisabled, value }: IEmojiPicker) {
 	const { theme } = useTheme()
 	const [emoji, setEmoji] = useState('')
+
+	if (value && !emoji) {
+		setEmoji(value)
+	}
 
 	return (
 		<Popover>

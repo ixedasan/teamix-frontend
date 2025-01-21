@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/Card'
 import { FindUserProjectsListQuery, Role } from '@/graphql/generated/output'
 import { useCurrentUser } from '@/hooks/use-current-user'
+import { getMediaSource } from '@/utils/get-media-source'
 
 interface IProjectCard {
 	project: FindUserProjectsListQuery['getAllUserProjects'][0]
@@ -27,8 +28,9 @@ export function ProjectCard({ project }: IProjectCard) {
 				<div className="relative h-24 overflow-hidden rounded-md bg-gradient-to-r from-primary/70 to-chart-4/80">
 					{project.cover && (
 						<Image
-							src={project.cover}
+							src={getMediaSource(project.cover || '')}
 							alt={project.name}
+							fill
 							className="h-full w-full object-cover opacity-80 transition-transform duration-300 group-hover:scale-105"
 						/>
 					)}
