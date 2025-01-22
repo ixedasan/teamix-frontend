@@ -641,7 +641,9 @@ export type Subscription = {
   __typename?: 'Subscription';
   commentAdded: CommentModel;
   documentUpdated: DocumentModel;
+  taskAdded: TaskModel;
   taskChanged: TaskModel;
+  taskDeleted: TaskModel;
 };
 
 
@@ -655,7 +657,17 @@ export type SubscriptionDocumentUpdatedArgs = {
 };
 
 
+export type SubscriptionTaskAddedArgs = {
+  projectId: Scalars['String']['input'];
+};
+
+
 export type SubscriptionTaskChangedArgs = {
+  projectId: Scalars['String']['input'];
+};
+
+
+export type SubscriptionTaskDeletedArgs = {
   projectId: Scalars['String']['input'];
 };
 
@@ -933,7 +945,7 @@ export type UpdateSocialLinkMutation = { __typename?: 'Mutation', updateSocialLi
 export type FindProjectByIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProjectByIdQuery = { __typename?: 'Query', findProjectById: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null, description?: string | null, cover?: string | null, members: Array<{ __typename?: 'MemberModel', id: string, userId: string, role: Role, user: { __typename?: 'UserModel', username: string, displayName: string, avatar?: string | null } }> } };
+export type FindProjectByIdQuery = { __typename?: 'Query', findProjectById: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null, description?: string | null, cover?: string | null, members: Array<{ __typename?: 'MemberModel', id: string, userId: string, role: Role, createdAt: any, user: { __typename?: 'UserModel', username: string, displayName: string, avatar?: string | null, email: string } }> } };
 
 export type FindUserProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1774,8 +1786,10 @@ export const FindProjectByIdDocument = gql`
         username
         displayName
         avatar
+        email
       }
       role
+      createdAt
     }
   }
 }

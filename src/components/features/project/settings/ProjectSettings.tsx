@@ -7,6 +7,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { ChangeProjectCoverForm } from './general/ChangeProjectCoverForm'
 import { ChangeProjectInfoForm } from './general/ChangeProjectInfoForm'
 import { DeleteProjectForm } from './general/DeleteProjectForm'
+import { ProjectMembersTable } from './members/ProjectMembersTable'
 
 export function ProjectSettings() {
 	const t = useTranslations('projects.settings')
@@ -45,11 +46,10 @@ export function ProjectSettings() {
 						<ChangeProjectInfoForm />
 						<DeleteProjectForm />
 					</TabsContent>
-
-					<TabsContent value="members">members</TabsContent>
-
+					<TabsContent value="members">
+						<ProjectMembersTable />
+					</TabsContent>
 					<TabsContent value="labels">labels</TabsContent>
-
 					<TabsContent value="plans">plans</TabsContent>
 				</div>
 			</Tabs>

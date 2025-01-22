@@ -12,8 +12,10 @@ query FindProjectById {
 				username
 				displayName
 				avatar
+				email
 			}
 			role
+			createdAt
 		}
 	}
 }
