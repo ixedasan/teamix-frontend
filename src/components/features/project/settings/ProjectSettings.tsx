@@ -8,6 +8,8 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { ChangeProjectCoverForm } from './general/ChangeProjectCoverForm'
 import { ChangeProjectInfoForm } from './general/ChangeProjectInfoForm'
 import { DeleteProjectForm } from './general/DeleteProjectForm'
+import { CreateLabelForm } from './labels/CreateLabelForm'
+import { LabelsList } from './labels/LabelsList'
 import { InviteMember } from './members/InviteMember'
 import { ProjectMembersTable } from './members/ProjectMembersTable'
 
@@ -56,7 +58,14 @@ export function ProjectSettings() {
 						/>
 						<ProjectMembersTable />
 					</TabsContent>
-					<TabsContent value="labels">labels</TabsContent>
+					<TabsContent value="labels">
+						<CardContainer
+							heading="Labels"
+							rightContent={<CreateLabelForm />}
+						/>
+
+						<LabelsList />
+					</TabsContent>
 					<TabsContent value="plans">plans</TabsContent>
 				</div>
 			</Tabs>

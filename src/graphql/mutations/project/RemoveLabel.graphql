@@ -1,0 +1,3 @@
+mutation RemoveLabel($id: String!) {
+	deleteTaskLabel(labelId: $id)
+}

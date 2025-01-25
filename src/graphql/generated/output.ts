@@ -846,6 +846,13 @@ export type ChangeProjectInfoMutationVariables = Exact<{
 
 export type ChangeProjectInfoMutation = { __typename?: 'Mutation', changeProjectInfo: boolean };
 
+export type CreateLabelMutationVariables = Exact<{
+  data: CreateLabelInput;
+}>;
+
+
+export type CreateLabelMutation = { __typename?: 'Mutation', createTaskLabel: boolean };
+
 export type CreateProjectMutationVariables = Exact<{
   data: ProjectInput;
 }>;
@@ -864,6 +871,13 @@ export type InviteMemberMutationVariables = Exact<{
 
 
 export type InviteMemberMutation = { __typename?: 'Mutation', inviteProjectMember: boolean };
+
+export type RemoveLabelMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type RemoveLabelMutation = { __typename?: 'Mutation', deleteTaskLabel: boolean };
 
 export type RemoveProjectCoverMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -973,7 +987,7 @@ export type UpdateSocialLinkMutation = { __typename?: 'Mutation', updateSocialLi
 export type FindProjectByIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProjectByIdQuery = { __typename?: 'Query', findProjectById: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null, description?: string | null, cover?: string | null, members: Array<{ __typename?: 'MemberModel', id: string, userId: string, projectId: string, role: Role, createdAt: any, user: { __typename?: 'UserModel', username: string, displayName: string, avatar?: string | null, email: string } }> } };
+export type FindProjectByIdQuery = { __typename?: 'Query', findProjectById: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null, description?: string | null, cover?: string | null, members: Array<{ __typename?: 'MemberModel', id: string, userId: string, projectId: string, role: Role, createdAt: any, user: { __typename?: 'UserModel', username: string, displayName: string, avatar?: string | null, email: string } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
 export type FindUserProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1330,6 +1344,37 @@ export function useChangeProjectInfoMutation(baseOptions?: Apollo.MutationHookOp
 export type ChangeProjectInfoMutationHookResult = ReturnType<typeof useChangeProjectInfoMutation>;
 export type ChangeProjectInfoMutationResult = Apollo.MutationResult<ChangeProjectInfoMutation>;
 export type ChangeProjectInfoMutationOptions = Apollo.BaseMutationOptions<ChangeProjectInfoMutation, ChangeProjectInfoMutationVariables>;
+export const CreateLabelDocument = gql`
+    mutation CreateLabel($data: CreateLabelInput!) {
+  createTaskLabel(input: $data)
+}
+    `;
+export type CreateLabelMutationFn = Apollo.MutationFunction<CreateLabelMutation, CreateLabelMutationVariables>;
+
+/**
+ * __useCreateLabelMutation__
+ *
+ * To run a mutation, you first call `useCreateLabelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateLabelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createLabelMutation, { data, loading, error }] = useCreateLabelMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateLabelMutation(baseOptions?: Apollo.MutationHookOptions<CreateLabelMutation, CreateLabelMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateLabelMutation, CreateLabelMutationVariables>(CreateLabelDocument, options);
+      }
+export type CreateLabelMutationHookResult = ReturnType<typeof useCreateLabelMutation>;
+export type CreateLabelMutationResult = Apollo.MutationResult<CreateLabelMutation>;
+export type CreateLabelMutationOptions = Apollo.BaseMutationOptions<CreateLabelMutation, CreateLabelMutationVariables>;
 export const CreateProjectDocument = gql`
     mutation CreateProject($data: ProjectInput!) {
   createProject(data: $data) {
@@ -1424,6 +1469,37 @@ export function useInviteMemberMutation(baseOptions?: Apollo.MutationHookOptions
 export type InviteMemberMutationHookResult = ReturnType<typeof useInviteMemberMutation>;
 export type InviteMemberMutationResult = Apollo.MutationResult<InviteMemberMutation>;
 export type InviteMemberMutationOptions = Apollo.BaseMutationOptions<InviteMemberMutation, InviteMemberMutationVariables>;
+export const RemoveLabelDocument = gql`
+    mutation RemoveLabel($id: String!) {
+  deleteTaskLabel(labelId: $id)
+}
+    `;
+export type RemoveLabelMutationFn = Apollo.MutationFunction<RemoveLabelMutation, RemoveLabelMutationVariables>;
+
+/**
+ * __useRemoveLabelMutation__
+ *
+ * To run a mutation, you first call `useRemoveLabelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveLabelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeLabelMutation, { data, loading, error }] = useRemoveLabelMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemoveLabelMutation(baseOptions?: Apollo.MutationHookOptions<RemoveLabelMutation, RemoveLabelMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveLabelMutation, RemoveLabelMutationVariables>(RemoveLabelDocument, options);
+      }
+export type RemoveLabelMutationHookResult = ReturnType<typeof useRemoveLabelMutation>;
+export type RemoveLabelMutationResult = Apollo.MutationResult<RemoveLabelMutation>;
+export type RemoveLabelMutationOptions = Apollo.BaseMutationOptions<RemoveLabelMutation, RemoveLabelMutationVariables>;
 export const RemoveProjectCoverDocument = gql`
     mutation RemoveProjectCover {
   removeProjectCover
@@ -1943,6 +2019,11 @@ export const FindProjectByIdDocument = gql`
       }
       role
       createdAt
+    }
+    labels {
+      id
+      name
+      color
     }
   }
 }

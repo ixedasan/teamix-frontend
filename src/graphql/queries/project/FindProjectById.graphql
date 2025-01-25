@@ -18,5 +18,10 @@ query FindProjectById {
 			role
 			createdAt
 		}
+		labels {
+			id
+			name
+			color
+		}
 	}
 }

@@ -297,6 +297,26 @@
 					"successMessage": "Member removed successfully",
 					"errorMessage": "Error removing the member"
 				}
+			},
+			"labels": {
+				"heading": "Labels",
+				"create": {
+					"heading": "Create Label",
+					"description": "Create a new label for your project. You can use labels to classify tasks and organize your workflow.",
+					"namePlaceholder": "Label name",
+					"cancelButton": "Cancel",
+					"submitButton": "Create",
+					"successMessage": "Label created successfully",
+					"errorMessage": "Error creating the label"
+				},
+				"remove": {
+					"heading": "Delete Label",
+					"message": "Are you sure you want to delete this label? This action will remove the label from all tasks it is attached to.",
+					"select": "Actions",
+					"removeItem": "Delete",
+					"successMessage": "Label deleted successfully",
+					"errorMessage": "Error deleting the label"
+				}
 			}
 		}
 	},
