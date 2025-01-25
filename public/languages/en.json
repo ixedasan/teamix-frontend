@@ -255,6 +255,48 @@
 					"successMessage": "Project deleted successfully",
 					"errorMessage": "Error deleting the project"
 				}
+			},
+			"member": {
+				"heading": "Invite Members",
+				"description": "Invite other users to your project.",
+				"invite": {
+					"heading": "Add colleagues, clients, and consultants",
+					"description": "Enter the email address and select a role for each invited user.",
+					"roleOptions": {
+						"admin": "Admin",
+						"member": "Member",
+						"viewer": "Viewer"
+					},
+					"submitButton": "Invite",
+					"cancelButton": "Cancel",
+					"successMessage": "Invitation sent successfully",
+					"errorMessage": "Error inviting the user"
+				},
+				"table": {
+					"columns": {
+						"user": "User",
+						"email": "Email",
+						"role": "Role",
+						"joined": "Joined"
+					},
+					"search": {
+						"placeholder": "Search..."
+					},
+					"filters": {
+						"role": "Role",
+						"view": "View"
+					},
+					"noMembers": "No members found",
+					"alerError": "Error loading members"
+				},
+				"delete": {
+					"select": "Actions",
+					"heading": "Remove Member",
+					"message": "Are you sure you want to remove this member from the project?",
+					"removeButton": "Remove",
+					"successMessage": "Member removed successfully",
+					"errorMessage": "Error removing the member"
+				}
 			}
 		}
 	},

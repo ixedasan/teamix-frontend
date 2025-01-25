@@ -2,18 +2,20 @@ import { TabsContent } from '@radix-ui/react-tabs'
 import { CreditCard, Settings, Tag, Users } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
+import { CardContainer } from '@/components/common/CardContainer'
 import { Heading } from '@/components/common/Heading'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { ChangeProjectCoverForm } from './general/ChangeProjectCoverForm'
 import { ChangeProjectInfoForm } from './general/ChangeProjectInfoForm'
 import { DeleteProjectForm } from './general/DeleteProjectForm'
+import { InviteMember } from './members/InviteMember'
 import { ProjectMembersTable } from './members/ProjectMembersTable'
 
 export function ProjectSettings() {
 	const t = useTranslations('projects.settings')
 
 	return (
-		<div className="mx-auto w-full max-w-4xl p-6">
+		<div className="mx-auto w-full max-w-5xl p-6">
 			<div className="mb-6">
 				<Heading
 					title={t('heading')}
@@ -47,6 +49,11 @@ export function ProjectSettings() {
 						<DeleteProjectForm />
 					</TabsContent>
 					<TabsContent value="members">
+						<CardContainer
+							heading={t('member.heading')}
+							description={t('member.description')}
+							rightContent={<InviteMember />}
+						/>
 						<ProjectMembersTable />
 					</TabsContent>
 					<TabsContent value="labels">labels</TabsContent>

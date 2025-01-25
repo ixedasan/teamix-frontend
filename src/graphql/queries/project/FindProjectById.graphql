@@ -8,6 +8,7 @@ query FindProjectById {
 		members {
 			id
 			userId
+			projectId
 			user {
 				username
 				displayName

@@ -1,0 +1,3 @@
+mutation AcceptProjectInvitation($token: String!) {
+	acceptProjectInvitation(token: $token)
+}

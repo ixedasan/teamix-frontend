@@ -2,7 +2,7 @@
 
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Table } from '@tanstack/react-table'
-import { MoveHorizontal, ScanEye } from 'lucide-react'
+import { ScanEye } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
 import {
@@ -15,10 +15,12 @@ import {
 
 interface DataTableViewOptionsProps<TData> {
 	table: Table<TData>
+	title: string
 }
 
 export function DataTableViewOptions<TData>({
-	table
+	table,
+	title
 }: DataTableViewOptionsProps<TData>) {
 	return (
 		<DropdownMenu>
@@ -28,8 +30,8 @@ export function DataTableViewOptions<TData>({
 					size="sm"
 					className="ml-auto hidden h-8 lg:flex"
 				>
-					<ScanEye className="mr-2 h-4 w-4" />
-					View
+					<ScanEye className="h-4 w-4" />
+					{title}
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="w-[150px]">

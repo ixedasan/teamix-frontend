@@ -1,0 +1,3 @@
+mutation ChangeMemberRole($data: ChangeRoleInput!) {
+	changeMemberRole(data: $data)
+}
