@@ -515,11 +515,11 @@ export type ProjectModel = {
   labels: Array<TaskLabelModel>;
   members: Array<MemberModel>;
   name: Scalars['String']['output'];
-  plan: ProjectStatus;
+  plan: ProjectPlan;
   updatedAt: Scalars['DateTime']['output'];
 };
 
-export enum ProjectStatus {
+export enum ProjectPlan {
   Enterprise = 'ENTERPRISE',
   Free = 'FREE',
   Pro = 'PRO'
@@ -891,6 +891,11 @@ export type RemoveProjectMemberMutationVariables = Exact<{
 
 export type RemoveProjectMemberMutation = { __typename?: 'Mutation', removeProjectMember: boolean };
 
+export type UpgrageProjectPlanMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UpgrageProjectPlanMutation = { __typename?: 'Mutation', makePayment: { __typename?: 'MakePaymentModel', url: string } };
+
 export type ChangeEmailMutationVariables = Exact<{
   data: ChangeEmailInput;
 }>;
@@ -987,7 +992,7 @@ export type UpdateSocialLinkMutation = { __typename?: 'Mutation', updateSocialLi
 export type FindProjectByIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProjectByIdQuery = { __typename?: 'Query', findProjectById: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null, description?: string | null, cover?: string | null, members: Array<{ __typename?: 'MemberModel', id: string, userId: string, projectId: string, role: Role, createdAt: any, user: { __typename?: 'UserModel', username: string, displayName: string, avatar?: string | null, email: string } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+export type FindProjectByIdQuery = { __typename?: 'Query', findProjectById: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null, description?: string | null, cover?: string | null, plan: ProjectPlan, members: Array<{ __typename?: 'MemberModel', id: string, userId: string, projectId: string, role: Role, createdAt: any, user: { __typename?: 'UserModel', username: string, displayName: string, avatar?: string | null, email: string } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
 export type FindUserProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1561,6 +1566,38 @@ export function useRemoveProjectMemberMutation(baseOptions?: Apollo.MutationHook
 export type RemoveProjectMemberMutationHookResult = ReturnType<typeof useRemoveProjectMemberMutation>;
 export type RemoveProjectMemberMutationResult = Apollo.MutationResult<RemoveProjectMemberMutation>;
 export type RemoveProjectMemberMutationOptions = Apollo.BaseMutationOptions<RemoveProjectMemberMutation, RemoveProjectMemberMutationVariables>;
+export const UpgrageProjectPlanDocument = gql`
+    mutation UpgrageProjectPlan {
+  makePayment {
+    url
+  }
+}
+    `;
+export type UpgrageProjectPlanMutationFn = Apollo.MutationFunction<UpgrageProjectPlanMutation, UpgrageProjectPlanMutationVariables>;
+
+/**
+ * __useUpgrageProjectPlanMutation__
+ *
+ * To run a mutation, you first call `useUpgrageProjectPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpgrageProjectPlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [upgrageProjectPlanMutation, { data, loading, error }] = useUpgrageProjectPlanMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUpgrageProjectPlanMutation(baseOptions?: Apollo.MutationHookOptions<UpgrageProjectPlanMutation, UpgrageProjectPlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpgrageProjectPlanMutation, UpgrageProjectPlanMutationVariables>(UpgrageProjectPlanDocument, options);
+      }
+export type UpgrageProjectPlanMutationHookResult = ReturnType<typeof useUpgrageProjectPlanMutation>;
+export type UpgrageProjectPlanMutationResult = Apollo.MutationResult<UpgrageProjectPlanMutation>;
+export type UpgrageProjectPlanMutationOptions = Apollo.BaseMutationOptions<UpgrageProjectPlanMutation, UpgrageProjectPlanMutationVariables>;
 export const ChangeEmailDocument = gql`
     mutation ChangeEmail($data: ChangeEmailInput!) {
   changeEmail(data: $data)
@@ -2007,6 +2044,7 @@ export const FindProjectByIdDocument = gql`
     icon
     description
     cover
+    plan
     members {
       id
       userId

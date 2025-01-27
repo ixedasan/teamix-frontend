@@ -12,6 +12,7 @@ import { CreateLabelForm } from './labels/CreateLabelForm'
 import { LabelsList } from './labels/LabelsList'
 import { InviteMember } from './members/InviteMember'
 import { ProjectMembersTable } from './members/ProjectMembersTable'
+import { PlanList } from './plan/PlanList'
 
 export function ProjectSettings() {
 	const t = useTranslations('projects.settings')
@@ -66,7 +67,9 @@ export function ProjectSettings() {
 
 						<LabelsList />
 					</TabsContent>
-					<TabsContent value="plans">plans</TabsContent>
+					<TabsContent value="plans">
+						<PlanList />
+					</TabsContent>
 				</div>
 			</Tabs>
 		</div>

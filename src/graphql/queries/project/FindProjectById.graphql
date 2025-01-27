@@ -5,6 +5,7 @@ query FindProjectById {
 		icon
 		description
 		cover
+		plan
 		members {
 			id
 			userId
