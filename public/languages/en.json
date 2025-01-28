@@ -131,7 +131,9 @@
 			"theme": {
 				"heading": "Change Theme",
 				"description": "You can choose a dark or light theme for the website interface",
-				"activeLabel": "Active"
+				"activeLabel": "Active",
+				"dark": "Dark",
+				"light": "Light"
 			},
 			"language": {
 				"heading": "Website language",
@@ -189,6 +191,135 @@
 			}
 		}
 	},
+	"projects": {
+		"heading": "Projects",
+		"hello": "Hello",
+		"createButton": "Create Project",
+		"noData": "No projects found",
+		"noDataSpan": "Create a new project to start working on it. You can also invite other users to collaborate on the project.",
+		"toggler": {
+			"gridView": "Grid View",
+			"listView": "List View"
+		},
+		"create": {
+			"heading": "Create Project",
+			"description": "Create a new project and start working with your team. Set up everything you need for effective collaboration.",
+			"projectNamePlaceholder": "Project name",
+			"projectDescriptionPlaceholder": "Description",
+			"submitButton": "Create",
+			"cancelButton": "Cancel",
+			"successMessage": "Project created successfully",
+			"errorMessage": "Error creating project"
+		},
+		"settings": {
+			"heading": "Project Settings",
+			"description": "Configure your project. Change the name, description, add members, and adjust other settings.",
+			"header": {
+				"general": "General",
+				"members": "Members",
+				"labels": "Labels",
+				"plan": "Plan"
+			},
+			"general": {
+				"cover": {
+					"heading": "Project Cover",
+					"updateButton": "Change Cover",
+					"confirmModal": {
+						"heading": "Remove",
+						"message": "Are you sure you want to remove the project cover? This action cannot be undone."
+					},
+					"successUpdateMessage": "Project cover updated successfully!",
+					"errorUpdateMessage": "Something went wrong while updating the project cover. Please try again.",
+					"successRemoveMessage": "Project cover removed successfully!",
+					"errorRemoveMessage": "Something went wrong while removing the project cover. Please try again."
+				},
+				"info": {
+					"heading": "Chenge Project Information",
+					"projectNamePlaceholder": "Project name",
+					"projectDescriptionPlaceholder": "Description",
+					"submitButton": "Save Changes",
+					"successMessage": "Project information updated successfully",
+					"errorMessage": "Error updating project information"
+				},
+				"delete": {
+					"heading": "Delete Project",
+					"description": "This action is irreversible. All project data will be permanently deleted.",
+					"deleteButton": "Delete Project",
+					"confirmModal": {
+						"heading": "Delete Project",
+						"message": "This action cannot be undone. To confirm the deletion, please enter",
+						"deleteLabel": "Project Name",
+						"cancelButton": "Cancel",
+						"confirmButton": "Delete"
+					},
+					"successMessage": "Project deleted successfully",
+					"errorMessage": "Error deleting the project"
+				}
+			},
+			"member": {
+				"heading": "Invite Members",
+				"description": "Invite other users to your project.",
+				"invite": {
+					"heading": "Add colleagues, clients, and consultants",
+					"description": "Enter the email address and select a role for each invited user.",
+					"roleOptions": {
+						"admin": "Admin",
+						"member": "Member",
+						"viewer": "Viewer"
+					},
+					"submitButton": "Invite",
+					"cancelButton": "Cancel",
+					"successMessage": "Invitation sent successfully",
+					"errorMessage": "Error inviting the user"
+				},
+				"table": {
+					"columns": {
+						"user": "User",
+						"email": "Email",
+						"role": "Role",
+						"joined": "Joined"
+					},
+					"search": {
+						"placeholder": "Search..."
+					},
+					"filters": {
+						"role": "Role",
+						"view": "View"
+					},
+					"noMembers": "No members found",
+					"alerError": "Error loading members"
+				},
+				"delete": {
+					"select": "Actions",
+					"heading": "Remove Member",
+					"message": "Are you sure you want to remove this member from the project?",
+					"removeButton": "Remove",
+					"successMessage": "Member removed successfully",
+					"errorMessage": "Error removing the member"
+				}
+			},
+			"labels": {
+				"heading": "Labels",
+				"create": {
+					"heading": "Create Label",
+					"description": "Create a new label for your project. You can use labels to classify tasks and organize your workflow.",
+					"namePlaceholder": "Label name",
+					"cancelButton": "Cancel",
+					"submitButton": "Create",
+					"successMessage": "Label created successfully",
+					"errorMessage": "Error creating the label"
+				},
+				"remove": {
+					"heading": "Delete Label",
+					"message": "Are you sure you want to delete this label? This action will remove the label from all tasks it is attached to.",
+					"select": "Actions",
+					"removeItem": "Delete",
+					"successMessage": "Label deleted successfully",
+					"errorMessage": "Error deleting the label"
+				}
+			}
+		}
+	},
 	"auth": {
 		"register": {
 			"head": "Sign up",
@@ -241,6 +372,74 @@
 			"successMessage": "Password successfully changed",
 			"errorMessage": "Error when setting a new password"
 		}
+	},
+	"contactSales": {
+		"badge": "Enterprise Solutions",
+		"title": "Let's Scale Together",
+		"subtitle": "Transform your business with our enterprise-grade solutions tailored to your unique challenges and goals",
+		"featuresTitle": "Enterprise Features",
+		"faqsTitle": "Frequently Asked Questions",
+		"contact": {
+			"heading": "Contact Sales",
+			"nameLabel": "Full Name",
+			"emailLabel": "Email",
+			"companyLabel": "Company Name",
+			"messageLabel": "Message",
+			"messagePlaceholder": "Tell us about your needs and challenges",
+			"submitButton": "Get Started",
+			"successMessage": "The message has been sent successfully. Our manager will contact you shortly.",
+			"errorMessage": "Error sending the message"
+		},
+		"features": [
+			{
+				"icon": "Users",
+				"title": "Unlimited Users",
+				"description": "Scale your team without limitations"
+			},
+			{
+				"icon": "MessageSquare",
+				"title": "Dedicated Support",
+				"description": "24/7 priority technical assistance"
+			},
+			{
+				"icon": "Shield",
+				"title": "Enterprise Security",
+				"description": "Advanced security and compliance"
+			},
+			{
+				"icon": "BarChart3",
+				"title": "Advanced Analytics",
+				"description": "Deep insights into your data"
+			},
+			{
+				"icon": "Clock",
+				"title": "99.99% Uptime",
+				"description": "Guaranteed reliability"
+			},
+			{
+				"icon": "Zap",
+				"title": "Performance Optimization",
+				"description": "Tailored solutions for peak efficiency"
+			}
+		],
+		"faqs": [
+			{
+				"question": "What does the Enterprise plan include?",
+				"answer": "The Enterprise plan includes all the features of the Pro plan, as well as additional capabilities such as a dedicated account manager, priority support, customizable integrations, and advanced analytics. We also offer tailored solutions to meet your specific needs."
+			},
+			{
+				"question": "How does the process of upgrading to the Enterprise plan work?",
+				"answer": "Once you contact us, our customer success manager will conduct a detailed consultation to understand your needs. Then we will create a personalized proposal and migration plan. Our team will guide you through every step of the process to ensure a seamless transition."
+			},
+			{
+				"question": "What level of support is provided for Enterprise clients?",
+				"answer": "Enterprise clients receive 24/7 priority support with guaranteed response times. You will have a dedicated account manager who will serve as your main point of contact for all questions and requests."
+			},
+			{
+				"question": "Can the Enterprise plan be customized for our specific needs?",
+				"answer": "Our Enterprise plan is designed to be flexible and adaptable. We work closely with each client to understand their unique requirements and tailor our solutions accordingly. This may include custom integrations, specific security protocols, or bespoke features developed just for your organization."
+			}
+		]
 	},
 	"components": {
 		"confirmModal": {

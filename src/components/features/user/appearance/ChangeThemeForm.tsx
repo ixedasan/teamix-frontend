@@ -74,14 +74,14 @@ export function ChangeThemeForm() {
 			rightContent={
 				<div className="flex gap-2">
 					<ThemeCard
-						themeName="Светлая"
+						themeName={t('light')}
 						icon={SunIcon}
 						isActive={theme === 'light'}
 						onClick={() => setTheme('light')}
 						activeLabel={t('activeLabel')}
 					/>
 					<ThemeCard
-						themeName="Темная"
+						themeName={t('dark')}
 						icon={MoonIcon}
 						isActive={theme === 'dark'}
 						onClick={() => setTheme('dark')}

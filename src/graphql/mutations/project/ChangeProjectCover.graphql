@@ -1,0 +1,3 @@
+mutation ChangeProjectCover($data: Upload!) {
+	changeProjectCover(cover: $data)
+}

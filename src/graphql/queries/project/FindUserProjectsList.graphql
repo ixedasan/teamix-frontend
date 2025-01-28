@@ -1,0 +1,18 @@
+query FindUserProjectsList {
+	getAllUserProjects {
+		id
+		name
+		icon
+		description
+		cover
+		members {
+			user {
+				id
+				username
+				displayName
+				avatar
+			}
+			role
+		}
+	}
+}

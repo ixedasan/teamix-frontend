@@ -1,0 +1,28 @@
+query FindProjectById {
+	findProjectById {
+		id
+		name
+		icon
+		description
+		cover
+		plan
+		members {
+			id
+			userId
+			projectId
+			user {
+				username
+				displayName
+				avatar
+				email
+			}
+			role
+			createdAt
+		}
+		labels {
+			id
+			name
+			color
+		}
+	}
+}

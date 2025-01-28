@@ -1,0 +1,3 @@
+mutation ChangeProjectInfo($data: ProjectInput!) {
+	changeProjectInfo(data: $data)
+}

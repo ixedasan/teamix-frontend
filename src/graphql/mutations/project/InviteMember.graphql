@@ -1,0 +1,3 @@
+mutation InviteMember($data: InviteMemberInput!) {
+	inviteProjectMember(data: $data)
+}
