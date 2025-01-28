@@ -10,7 +10,8 @@ const ThemeSwitcher = () => {
 
 	return (
 		<Button
-			variant={'ghost'}
+			variant="ghost"
+			size="icon"
 			onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
 		>
 			{theme === 'dark' ? <SunIcon /> : <MoonIcon />}

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 
-import { ColorSwitcher } from '@/components/common/ColorSwitcher'
+import { ColorSwitcher } from '@/components/common/ColorThemeSwitcher'
 import ApolloClientProvider from '@/providers/ApolloClientProvider'
 import { ThemeProvider } from '@/providers/ThemeProvicer'
 import { ToasterProvider } from '@/providers/ToastProvider'

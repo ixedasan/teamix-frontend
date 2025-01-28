@@ -19,12 +19,8 @@ import {
 	ChangeLanguageSchema,
 	TypeChangeLanguageSchema
 } from '@/schemas/user/change-language.schema'
+import { languagesName } from '@/lib/i18n/config'
 import { setLanguage } from '@/lib/i18n/language'
-
-const languages = {
-	en: 'English',
-	ua: 'Українська'
-}
 
 export function ChangeLanguageForm() {
 	const t = useTranslations('settings.appearance.language')
@@ -70,7 +66,7 @@ export function ChangeLanguageForm() {
 									<SelectValue placeholder={t('selectPlaceholder')} />
 								</SelectTrigger>
 								<SelectContent>
-									{Object.entries(languages).map(([code, name]) => (
+									{Object.entries(languagesName).map(([code, name]) => (
 										<SelectItem key={code} value={code} disabled={isPending}>
 											{name}
 										</SelectItem>
