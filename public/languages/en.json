@@ -373,6 +373,74 @@
 			"errorMessage": "Error when setting a new password"
 		}
 	},
+	"contactSales": {
+		"badge": "Enterprise Solutions",
+		"title": "Let's Scale Together",
+		"subtitle": "Transform your business with our enterprise-grade solutions tailored to your unique challenges and goals",
+		"featuresTitle": "Enterprise Features",
+		"faqsTitle": "Frequently Asked Questions",
+		"contact": {
+			"heading": "Contact Sales",
+			"nameLabel": "Full Name",
+			"emailLabel": "Email",
+			"companyLabel": "Company Name",
+			"messageLabel": "Message",
+			"messagePlaceholder": "Tell us about your needs and challenges",
+			"submitButton": "Get Started",
+			"successMessage": "The message has been sent successfully. Our manager will contact you shortly.",
+			"errorMessage": "Error sending the message"
+		},
+		"features": [
+			{
+				"icon": "Users",
+				"title": "Unlimited Users",
+				"description": "Scale your team without limitations"
+			},
+			{
+				"icon": "MessageSquare",
+				"title": "Dedicated Support",
+				"description": "24/7 priority technical assistance"
+			},
+			{
+				"icon": "Shield",
+				"title": "Enterprise Security",
+				"description": "Advanced security and compliance"
+			},
+			{
+				"icon": "BarChart3",
+				"title": "Advanced Analytics",
+				"description": "Deep insights into your data"
+			},
+			{
+				"icon": "Clock",
+				"title": "99.99% Uptime",
+				"description": "Guaranteed reliability"
+			},
+			{
+				"icon": "Zap",
+				"title": "Performance Optimization",
+				"description": "Tailored solutions for peak efficiency"
+			}
+		],
+		"faqs": [
+			{
+				"question": "What does the Enterprise plan include?",
+				"answer": "The Enterprise plan includes all the features of the Pro plan, as well as additional capabilities such as a dedicated account manager, priority support, customizable integrations, and advanced analytics. We also offer tailored solutions to meet your specific needs."
+			},
+			{
+				"question": "How does the process of upgrading to the Enterprise plan work?",
+				"answer": "Once you contact us, our customer success manager will conduct a detailed consultation to understand your needs. Then we will create a personalized proposal and migration plan. Our team will guide you through every step of the process to ensure a seamless transition."
+			},
+			{
+				"question": "What level of support is provided for Enterprise clients?",
+				"answer": "Enterprise clients receive 24/7 priority support with guaranteed response times. You will have a dedicated account manager who will serve as your main point of contact for all questions and requests."
+			},
+			{
+				"question": "Can the Enterprise plan be customized for our specific needs?",
+				"answer": "Our Enterprise plan is designed to be flexible and adaptable. We work closely with each client to understand their unique requirements and tailor our solutions accordingly. This may include custom integrations, specific security protocols, or bespoke features developed just for your organization."
+			}
+		]
+	},
 	"components": {
 		"confirmModal": {
 			"cancel": "Cancel",
