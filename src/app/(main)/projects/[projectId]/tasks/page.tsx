@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 
+import { TaskPageContent } from '@/components/features/task/TaskPageContent'
 import { NO_INDEX_PAGE } from '@/constants/seo.constants'
 
 export const metadata: Metadata = {
@@ -8,5 +9,5 @@ export const metadata: Metadata = {
 }
 
 export default async function TasksPage() {
-	return <div>d</div>
+	return <TaskPageContent />
 }
