@@ -2,5 +2,6 @@ mutation ChangeTaskStatus($data: ChangeStatusInput!) {
 	changeTaskStatus(input: $data) {
 		id
 		status
+		position
 	}
 }

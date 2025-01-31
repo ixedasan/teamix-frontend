@@ -4,12 +4,14 @@ fragment Task on TaskModel {
 	description
 	status
 	priority
+	position
 	startDate
 	dueDate
 	assignees {
 		id
 		user {
 			id
+			username
 			displayName
 			avatar
 		}

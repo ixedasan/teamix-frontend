@@ -1,8 +1,14 @@
 import { useCallback } from 'react'
-import { useApolloClient, useQuery, useSubscription } from '@apollo/client'
+import {
+	Reference,
+	useApolloClient,
+	useQuery,
+	useSubscription
+} from '@apollo/client'
 
 import {
 	FindAllTasksDocument,
+	FindAllTasksQuery,
 	TaskAddedDocument,
 	TaskChangedDocument,
 	TaskDeletedDocument,
@@ -14,51 +20,77 @@ export const useTasks = (projectId: string) => {
 	const client = useApolloClient()
 
 	const { data, loading, error } = useQuery(FindAllTasksDocument, {
+		variables: { projectId },
 		fetchPolicy: 'network-only',
 		nextFetchPolicy: 'cache-first'
 	})
 
 	const updateCache = useCallback(
 		(action: 'add' | 'update' | 'delete', task: TaskFragment) => {
-			const cacheId = client.cache.identify(task)
-			const query = {
-				query: FindAllTasksDocument,
-				variables: { projectId }
-			}
-
 			client.cache.modify({
 				fields: {
-					findAllTasks(existingTasks = [], { readField }) {
+					findAllTasks(
+						existingTasks: Reference[] = [],
+						{ readField, toReference }
+					) {
 						switch (action) {
-							case 'add':
-								const hasTask = existingTasks.some(
-									(ref: any) => readField('id', ref) === task.id
-								)
-								if (hasTask) return existingTasks
-								return [
-									...existingTasks,
-									client.cache.writeFragment({
-										fragment: TaskFragmentDoc,
-										data: task
-									})
-								]
-
-							case 'update':
-								return existingTasks.map((taskRef: any) => {
-									const taskId = readField('id', taskRef)
-									if (taskId === task.id) {
-										return client.cache.writeFragment({
-											fragment: TaskFragmentDoc,
-											data: task
-										})
-									}
-									return taskRef
+							case 'add': {
+								const taskRef = toReference({
+									__typename: 'TaskModel',
+									id: task.id
 								})
 
-							case 'delete':
-								return existingTasks.filter(
-									(taskRef: any) => readField('id', taskRef) !== task.id
+								if (!taskRef) return existingTasks
+
+								const hasTask = existingTasks.some(
+									ref => readField('id', ref) === task.id
 								)
+
+								if (hasTask) return existingTasks
+
+								client.writeFragment({
+									fragment: TaskFragmentDoc,
+									data: task
+								})
+
+								return [taskRef, ...existingTasks]
+							}
+
+							case 'update': {
+								const currentIndex = existingTasks.findIndex(
+									ref => readField('id', ref) === task.id
+								)
+
+								if (currentIndex === -1) return existingTasks
+
+								const taskRef = toReference({
+									__typename: 'TaskModel',
+									id: task.id
+								})
+
+								if (!taskRef) return existingTasks
+
+								client.writeFragment({
+									fragment: TaskFragmentDoc,
+									data: task
+								})
+
+								const filteredTasks = existingTasks.filter(
+									ref => readField('id', ref) !== task.id
+								)
+
+								return [
+									...filteredTasks.slice(0, task.position),
+									taskRef,
+									...filteredTasks.slice(task.position)
+								]
+							}
+
+							case 'delete': {
+								return existingTasks.filter(
+									ref => readField('id', ref) !== task.id
+								)
+							}
 
 							default:
 								return existingTasks
@@ -67,57 +99,56 @@ export const useTasks = (projectId: string) => {
 				}
 			})
 		},
-		[client, projectId]
+		[client]
 	)
+
+	const handleSubscriptionError = useCallback((error: Error, type: string) => {
+		console.error(`Task ${type} subscription error:`, error)
+	}, [])
 
 	useSubscription(TaskAddedDocument, {
 		variables: { projectId },
-		onData: ({ data, client: subscriptionClient }) => {
-			if (data.data?.taskAdded) {
-				const task = data.data.taskAdded
-				const existing = subscriptionClient
-					.readQuery({
-						query: FindAllTasksDocument,
-						variables: { projectId }
-					})
-					?.findAllTasks?.find(t => t.id === task.id)
+		onData: ({ data: subscriptionData }) => {
+			const task = subscriptionData.data?.taskAdded
+			if (!task) return
 
-				if (!existing) {
-					updateCache('add', task)
-				}
+			const queryData = client.readQuery<FindAllTasksQuery>({
+				query: FindAllTasksDocument,
+				variables: { projectId }
+			})
+
+			const existing = queryData?.findAllTasks?.some(t => t.id === task.id)
+			if (!existing) {
+				updateCache('add', task)
 			}
 		},
-		onError: error => {
-			console.error('Task added subscription error:', error)
-		}
+		onError: error => handleSubscriptionError(error, 'added')
 	})
 
 	useSubscription(TaskChangedDocument, {
 		variables: { projectId },
-		onData: ({ data }) => {
-			if (data.data?.taskChanged) {
-				updateCache('update', data.data.taskChanged)
+		onData: ({ data: subscriptionData }) => {
+			const task = subscriptionData.data?.taskChanged
+			if (task) {
+				updateCache('update', task)
 			}
 		},
-		onError: error => {
-			console.error('Task changed subscription error:', error)
-		}
+		onError: error => handleSubscriptionError(error, 'changed')
 	})
 
 	useSubscription(TaskDeletedDocument, {
 		variables: { projectId },
-		onData: ({ data }) => {
-			if (data.data?.taskDeleted) {
-				updateCache('delete', data.data.taskDeleted)
+		onData: ({ data: subscriptionData }) => {
+			const task = subscriptionData.data?.taskDeleted
+			if (task) {
+				updateCache('delete', task)
 			}
 		},
-		onError: error => {
-			console.error('Task deleted subscription error:', error)
-		}
+		onError: error => handleSubscriptionError(error, 'deleted')
 	})
 
 	return {
-		tasks: data?.findAllTasks || [],
+		tasks: data?.findAllTasks ?? [],
 		loading,
 		error
 	}
