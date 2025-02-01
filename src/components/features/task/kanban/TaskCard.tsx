@@ -3,24 +3,16 @@
 import { memo } from 'react'
 import { Draggable } from '@hello-pangea/dnd'
 
-import { UserAvatar } from '@/components/common/UserAvatar'
+import { PrioritySelector } from '@/components/common/task/PriorytySelector'
+import { StatusSelector } from '@/components/common/task/StatusSelector'
 import { Card } from '@/components/ui/Card'
-import { Priority, type TaskFragment } from '@/graphql/generated/output'
+import { TaskFragment } from '@/graphql/generated/output'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import { PriorityBadge } from './PriorityBadge'
 import { cn } from '@/lib/utils'
 
 interface ITaskCard {
 	task: TaskFragment
 	index: number
-}
-
-const priorityColors: Record<Priority, string> = {
-	[Priority.None]: 'border-border',
-	[Priority.Low]: 'border-green-500',
-	[Priority.Medium]: 'border-yellow-500',
-	[Priority.High]: 'border-orange-500',
-	[Priority.Urgent]: 'border-red-500'
 }
 
 export const TaskCard = memo(
@@ -35,8 +27,7 @@ export const TaskCard = memo(
 						{...provided.draggableProps}
 						{...provided.dragHandleProps}
 						className={cn(
-							'relative border-l-4 p-4 transition-shadow',
-							priorityColors[task.priority],
+							'relative border-l-4 border-primary/40 p-4 transition-all hover:shadow-md',
 							snapshot.isDragging && 'shadow-lg ring-1 ring-border'
 						)}
 						style={{
@@ -47,21 +38,19 @@ export const TaskCard = memo(
 									: provided.draggableProps.style?.transform
 						}}
 					>
-						<div className="mb-2 flex items-start justify-between">
-							<p className="font-medium">{task.title}</p>
-							<PriorityBadge priority={task.priority} />
+						{/* Header section */}
+						<div className="mb-3 flex items-start justify-between gap-2">
+							<div className="flex-1">
+								<div className="mb-1 flex items-center gap-2">
+									<p className="line-clamp-2 font-medium">{task.title}</p>
+								</div>
+							</div>
 						</div>
 
-						{task.dueDate && (
-							<div className="mb-2 text-sm text-muted-foreground">
-								{new Date(task.dueDate).toLocaleDateString()}
-							</div>
-						)}
-
-						<div className="flex gap-2">
-							{task.assignees.map(assignee => (
-								<UserAvatar key={assignee.user.id} user={assignee.user} />
-							))}
+						{/* Main sections */}
+						<div className="flex flex-wrap items-center gap-2 pt-1.5 text-xs text-muted-foreground">
+							<StatusSelector task={task} className="w-14" />
+							<PrioritySelector task={task} />
 						</div>
 					</Card>
 				)}

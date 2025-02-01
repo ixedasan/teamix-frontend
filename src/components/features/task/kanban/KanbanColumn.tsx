@@ -22,7 +22,7 @@ const statusTitles: Record<TaskStatus, string> = {
 
 export function KanbanColumn({ tasks, status }: IKanbanColumn) {
 	return (
-		<div className="w-72 shrink-0">
+		<div className="w-96 shrink-0">
 			<div className="mb-4 flex items-center gap-2">
 				<h3 className="text-lg font-semibold">{statusTitles[status]}</h3>
 				<Badge variant="secondary">{tasks.length}</Badge>

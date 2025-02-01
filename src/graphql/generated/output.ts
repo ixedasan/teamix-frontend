@@ -434,7 +434,7 @@ export type MutationUpdateSocialLinkArgs = {
 
 
 export type MutationUpdateTaskArgs = {
-  input: TaskInput;
+  input: UpdateTaskInput;
   taskId: Scalars['String']['input'];
 };
 
@@ -756,6 +756,18 @@ export type TotpModel = {
   secret: Scalars['String']['output'];
 };
 
+export type UpdateTaskInput = {
+  assigneeId?: InputMaybe<Scalars['ID']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  dueDate?: InputMaybe<Scalars['DateTime']['input']>;
+  labelsIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+  position?: InputMaybe<Scalars['Float']['input']>;
+  priority?: InputMaybe<Priority>;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  status?: InputMaybe<TaskStatus>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UserModel = {
   __typename?: 'UserModel';
   avatar?: Maybe<Scalars['String']['output']>;
@@ -924,7 +936,7 @@ export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask: { __type
 
 export type UpdateTaskMutationVariables = Exact<{
   id: Scalars['String']['input'];
-  data: TaskInput;
+  data: UpdateTaskInput;
 }>;
 
 
@@ -1785,7 +1797,7 @@ export type DeleteTaskMutationHookResult = ReturnType<typeof useDeleteTaskMutati
 export type DeleteTaskMutationResult = Apollo.MutationResult<DeleteTaskMutation>;
 export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<DeleteTaskMutation, DeleteTaskMutationVariables>;
 export const UpdateTaskDocument = gql`
-    mutation UpdateTask($id: String!, $data: TaskInput!) {
+    mutation UpdateTask($id: String!, $data: UpdateTaskInput!) {
   updateTask(taskId: $id, input: $data) {
     ...Task
   }
