@@ -26,10 +26,11 @@ import {
 	PopoverTrigger
 } from '@/components/ui/Popover'
 import {
-	Priority,
-	useUpdateTaskMutation,
-	type TaskFragment
-} from '@/graphql/generated/output'
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger
+} from '@/components/ui/Tooltip'
+import { Priority } from '@/graphql/generated/output'
 import { cn } from '@/lib/utils'
 
 const priorityMap = {
@@ -61,50 +62,88 @@ const priorityMap = {
 }
 
 interface IPrioritySelector {
-	task: TaskFragment
+	value?: Priority
+	disabled?: boolean
+	onChange: (priority: Priority) => void
+	triggerVariant?: 'default' | 'compact' | 'icon-only'
+	className?: string
+	showTooltip?: boolean
 }
 
-export function PrioritySelector({ task }: IPrioritySelector) {
+export function PrioritySelector({
+	value = Priority.None,
+	disabled = false,
+	onChange,
+	triggerVariant = 'default',
+	className,
+	showTooltip = true
+}: IPrioritySelector) {
 	const [open, setOpen] = useState(false)
-	const [isUpdating, setIsUpdating] = useState(false)
-	const [updateTask] = useUpdateTaskMutation()
+	const selectedPriority = priorityMap[value]
 
-	const selectedPriority = priorityMap[task.priority ?? Priority.None]
-
-	const handlePriorityChange = async (newPriority: Priority) => {
-		try {
-			setIsUpdating(true)
-			await updateTask({
-				variables: {
-					id: task.id,
-					data: { priority: newPriority }
-				}
-			})
-		} finally {
-			setIsUpdating(false)
-			setOpen(false)
-		}
+	const handlePriorityChange = (newPriority: Priority) => {
+		onChange(newPriority)
+		setOpen(false)
 	}
 
-	return (
-		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger asChild>
-				<Button
-					variant="outline"
-					role="combobox"
-					aria-expanded={open}
-					className="w-52 justify-between"
-					disabled={isUpdating}
-				>
+	const renderTriggerContent = () => {
+		switch (triggerVariant) {
+			case 'compact':
+				return (
+					<div className="flex items-center gap-1.5">
+						{selectedPriority.icon}
+						<span className={cn('truncate text-xs', selectedPriority.color)}>
+							{selectedPriority.label}
+						</span>
+						<ChevronDown className="h-3 w-3 shrink-0 opacity-50" />
+					</div>
+				)
+			case 'icon-only':
+				return selectedPriority.icon
+			default:
+				return (
 					<div className="flex items-center gap-2">
 						{selectedPriority.icon}
 						<span className={selectedPriority.color}>
 							{selectedPriority.label}
 						</span>
+						<ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 					</div>
-					<ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-				</Button>
-			</PopoverTrigger>
+				)
+		}
+	}
+
+	const trigger = (
+		<Button
+			variant="outline"
+			role="combobox"
+			aria-expanded={open}
+			className={cn(
+				'justify-between',
+				triggerVariant === 'icon-only' && 'h-6 w-6 p-0.5',
+				triggerVariant === 'compact' && 'h-7 px-2',
+				className
+			)}
+			disabled={disabled}
+		>
+			{renderTriggerContent()}
+		</Button>
+	)
+
+	return (
+		<Popover open={open} onOpenChange={setOpen}>
+			{showTooltip && triggerVariant !== 'default' ? (
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<PopoverTrigger asChild>{trigger}</PopoverTrigger>
+					</TooltipTrigger>
+					<TooltipContent>
+						<p>Priority: {selectedPriority.label}</p>
+					</TooltipContent>
+				</Tooltip>
+			) : (
+				<PopoverTrigger asChild>{trigger}</PopoverTrigger>
+			)}
 			<PopoverContent className="w-52 p-0">
 				<Command>
 					<CommandInput placeholder="Search priority..." />
@@ -125,7 +164,7 @@ export function PrioritySelector({ task }: IPrioritySelector) {
 									<Check
 										className={cn(
 											'ml-auto h-4 w-4 opacity-0',
-											task.priority === priorityKey && 'opacity-100'
+											value === priorityKey && 'opacity-100'
 										)}
 									/>
 								</CommandItem>

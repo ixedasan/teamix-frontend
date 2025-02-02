@@ -116,8 +116,8 @@ export function KanbanBoard({ tasks }: IKanbanBoard) {
 
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
-			<div className="container p-4">
-				<div className="flex h-screen w-full flex-1 gap-6 overflow-auto">
+			<div className="p-4">
+				<div className="flex flex-1 gap-6">
 					{statuses.map((status, index) => (
 						<motion.div
 							key={status}

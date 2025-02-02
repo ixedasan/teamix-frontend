@@ -18,10 +18,11 @@ import {
 	PopoverTrigger
 } from '@/components/ui/Popover'
 import {
-	TaskStatus,
-	useChangeTaskStatusMutation,
-	type TaskFragment
-} from '@/graphql/generated/output'
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger
+} from '@/components/ui/Tooltip'
+import { TaskStatus } from '@/graphql/generated/output'
 import { cn } from '@/lib/utils'
 
 const statusMap = {
@@ -53,52 +54,84 @@ const statusMap = {
 }
 
 interface IStatusSelector {
-	task: TaskFragment
+	value?: TaskStatus
+	disabled?: boolean
+	onChange: (status: TaskStatus) => void
+	triggerVariant?: 'default' | 'compact' | 'icon-only'
+	className?: string
+	showTooltip?: boolean
 }
 
-export function StatusSelector({ task }: IStatusSelector) {
+export function StatusSelector({
+	value = TaskStatus.Backlog,
+	disabled = false,
+	onChange,
+	triggerVariant = 'default',
+	className,
+	showTooltip = true
+}: IStatusSelector) {
 	const [open, setOpen] = useState(false)
-	const [isChanging, setIsChanging] = useState(false)
-	const [changeStatus] = useChangeTaskStatusMutation()
+	const selectedStatus = statusMap[value]
 
-	const selectedStatus = statusMap[task.status]
-
-	const handleStatusChange = async (newStatus: TaskStatus) => {
-		try {
-			setIsChanging(true)
-			await changeStatus({
-				variables: { data: { taskId: task.id, status: newStatus } },
-				optimisticResponse: {
-					__typename: 'Mutation',
-					changeTaskStatus: {
-						...task,
-						status: newStatus
-					}
-				}
-			})
-		} finally {
-			setIsChanging(false)
-			setOpen(false)
-		}
+	const handleStatusChange = (newStatus: TaskStatus) => {
+		onChange(newStatus)
+		setOpen(false)
 	}
 
-	return (
-		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger asChild>
-				<Button
-					variant="outline"
-					role="combobox"
-					aria-expanded={open}
-					className="w-52 justify-between"
-					disabled={isChanging}
-				>
+	const renderTriggerContent = () => {
+		switch (triggerVariant) {
+			case 'compact':
+				return (
+					<div className="flex items-center gap-1.5">
+						{selectedStatus.icon}
+						<span className="truncate text-xs">{selectedStatus.label}</span>
+						<ChevronDown className="h-3 w-3 shrink-0 opacity-50" />
+					</div>
+				)
+			case 'icon-only':
+				return selectedStatus.icon
+			default:
+				return (
 					<div className="flex items-center gap-2">
 						{selectedStatus.icon}
 						<span>{selectedStatus.label}</span>
+						<ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 					</div>
-					<ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-				</Button>
-			</PopoverTrigger>
+				)
+		}
+	}
+
+	const trigger = (
+		<Button
+			variant="outline"
+			role="combobox"
+			aria-expanded={open}
+			className={cn(
+				'justify-between',
+				triggerVariant === 'icon-only' && 'h-6 w-6 p-0.5',
+				triggerVariant === 'compact' && 'h-7 px-2',
+				className
+			)}
+			disabled={disabled}
+		>
+			{renderTriggerContent()}
+		</Button>
+	)
+
+	return (
+		<Popover open={open} onOpenChange={setOpen}>
+			{showTooltip && triggerVariant !== 'default' ? (
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<PopoverTrigger asChild>{trigger}</PopoverTrigger>
+					</TooltipTrigger>
+					<TooltipContent>
+						<p>Status: {selectedStatus.label}</p>
+					</TooltipContent>
+				</Tooltip>
+			) : (
+				<PopoverTrigger asChild>{trigger}</PopoverTrigger>
+			)}
 			<PopoverContent className="w-52 p-0">
 				<Command>
 					<CommandInput placeholder="Search status..." />
@@ -119,7 +152,7 @@ export function StatusSelector({ task }: IStatusSelector) {
 									<Check
 										className={cn(
 											'ml-auto h-4 w-4',
-											task.status === statusKey ? 'opacity-100' : 'opacity-0'
+											value === statusKey ? 'opacity-100' : 'opacity-0'
 										)}
 									/>
 								</CommandItem>
