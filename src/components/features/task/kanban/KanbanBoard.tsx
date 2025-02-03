@@ -6,6 +6,7 @@ import { DragDropContext, DropResult } from '@hello-pangea/dnd'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
+import { ScrollArea, ScrollBar } from '@/components/ui/ScrollArea'
 import {
 	TaskFragmentDoc,
 	TaskStatus,
@@ -116,23 +117,26 @@ export function KanbanBoard({ tasks }: IKanbanBoard) {
 
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
-			<div className="p-4">
-				<div className="flex flex-1 gap-6">
-					{statuses.map((status, index) => (
-						<motion.div
-							key={status}
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ delay: index * 0.1 }}
-							className="flex-shrink-0"
-						>
-							<KanbanColumn
-								status={status}
-								tasks={tasks.filter(t => t.status === status)}
-							/>
-						</motion.div>
-					))}
-				</div>
+			<div className="container flex">
+				<ScrollArea className="w-full flex-1">
+					<div className="flex gap-6 p-4" style={{ minWidth: 'max-content' }}>
+						{statuses.map((status, index) => (
+							<motion.div
+								key={status}
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: index * 0.1 }}
+								className="flex-shrink-0"
+							>
+								<KanbanColumn
+									status={status}
+									tasks={tasks.filter(t => t.status === status)}
+								/>
+							</motion.div>
+						))}
+					</div>
+					<ScrollBar orientation="horizontal" />
+				</ScrollArea>
 			</div>
 		</DragDropContext>
 	)
