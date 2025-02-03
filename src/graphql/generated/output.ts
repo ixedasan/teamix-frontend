@@ -167,8 +167,8 @@ export type MemberModel = {
 export type Mutation = {
   __typename?: 'Mutation';
   acceptProjectInvitation: Scalars['Boolean']['output'];
-  addLabelToTask: Scalars['Boolean']['output'];
-  assignTask: Scalars['Boolean']['output'];
+  addLabelToTask: TaskModel;
+  assignTask: TaskModel;
   changeDocument: DocumentModel;
   changeEmail: Scalars['Boolean']['output'];
   changeMemberRole: Scalars['Boolean']['output'];
@@ -184,7 +184,7 @@ export type Mutation = {
   createProject: ProjectModel;
   createSocialLink: Scalars['Boolean']['output'];
   createTask: TaskModel;
-  createTaskLabel: Scalars['Boolean']['output'];
+  createTaskLabel: TaskLabelModel;
   createTaskLink: Scalars['Boolean']['output'];
   createUser: Scalars['Boolean']['output'];
   deleteComment: Scalars['Boolean']['output'];
@@ -202,7 +202,7 @@ export type Mutation = {
   logoutUser: Scalars['Boolean']['output'];
   makePayment: MakePaymentModel;
   newPassword: Scalars['Boolean']['output'];
-  removeLabelFromTask: Scalars['Boolean']['output'];
+  removeLabelFromTask: TaskModel;
   removeProfileAvatar: Scalars['Boolean']['output'];
   removeProjectCover: Scalars['Boolean']['output'];
   removeProjectMember: Scalars['Boolean']['output'];
@@ -212,7 +212,7 @@ export type Mutation = {
   resetPassword: Scalars['Boolean']['output'];
   sendComment: CommentModel;
   setCurrentProject: Scalars['Boolean']['output'];
-  unassignTask: Scalars['Boolean']['output'];
+  unassignTask: TaskModel;
   updateSocialLink: Scalars['Boolean']['output'];
   updateTask: TaskModel;
   updateTaskLink: Scalars['Boolean']['output'];
@@ -793,7 +793,7 @@ export type VerificationInput = {
   token: Scalars['String']['input'];
 };
 
-export type TaskFragment = { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> };
+export type TaskFragment = { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> };
 
 export type CreateUserMutationVariables = Exact<{
   data: CreateUserInput;
@@ -868,7 +868,7 @@ export type CreateLabelMutationVariables = Exact<{
 }>;
 
 
-export type CreateLabelMutation = { __typename?: 'Mutation', createTaskLabel: boolean };
+export type CreateLabelMutation = { __typename?: 'Mutation', createTaskLabel: { __typename?: 'TaskLabelModel', id: string } };
 
 export type CreateProjectMutationVariables = Exact<{
   data: ProjectInput;
@@ -913,6 +913,22 @@ export type UpgrageProjectPlanMutationVariables = Exact<{ [key: string]: never; 
 
 export type UpgrageProjectPlanMutation = { __typename?: 'Mutation', makePayment: { __typename?: 'MakePaymentModel', url: string } };
 
+export type AddLabelToTaskMutationVariables = Exact<{
+  taskId: Scalars['String']['input'];
+  labelId: Scalars['String']['input'];
+}>;
+
+
+export type AddLabelToTaskMutation = { __typename?: 'Mutation', addLabelToTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+
+export type AssingTaskMutationVariables = Exact<{
+  taskId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+}>;
+
+
+export type AssingTaskMutation = { __typename?: 'Mutation', assignTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+
 export type ChangeTaskStatusMutationVariables = Exact<{
   data: ChangeStatusInput;
 }>;
@@ -925,7 +941,7 @@ export type CreateTaskMutationVariables = Exact<{
 }>;
 
 
-export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
 export type DeleteTaskMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -934,13 +950,29 @@ export type DeleteTaskMutationVariables = Exact<{
 
 export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask: { __typename?: 'TaskModel', id: string } };
 
+export type RemoveLabelFromTaskMutationVariables = Exact<{
+  taskId: Scalars['String']['input'];
+  labelId: Scalars['String']['input'];
+}>;
+
+
+export type RemoveLabelFromTaskMutation = { __typename?: 'Mutation', removeLabelFromTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+
+export type UnassignTaskMutationVariables = Exact<{
+  taskId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+}>;
+
+
+export type UnassignTaskMutation = { __typename?: 'Mutation', unassignTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+
 export type UpdateTaskMutationVariables = Exact<{
   id: Scalars['String']['input'];
   data: UpdateTaskInput;
 }>;
 
 
-export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
 export type ChangeEmailMutationVariables = Exact<{
   data: ChangeEmailInput;
@@ -1053,7 +1085,7 @@ export type FindUserProjectsListQuery = { __typename?: 'Query', getAllUserProjec
 export type FindAllTasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllTasksQuery = { __typename?: 'Query', findAllTasks: Array<{ __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> }> };
+export type FindAllTasksQuery = { __typename?: 'Query', findAllTasks: Array<{ __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> }> };
 
 export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1085,21 +1117,21 @@ export type TaskAddedSubscriptionVariables = Exact<{
 }>;
 
 
-export type TaskAddedSubscription = { __typename?: 'Subscription', taskAdded: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+export type TaskAddedSubscription = { __typename?: 'Subscription', taskAdded: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
 export type TaskChangedSubscriptionVariables = Exact<{
   projectId: Scalars['String']['input'];
 }>;
 
 
-export type TaskChangedSubscription = { __typename?: 'Subscription', taskChanged: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+export type TaskChangedSubscription = { __typename?: 'Subscription', taskChanged: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
 export type TaskDeletedSubscriptionVariables = Exact<{
   projectId: Scalars['String']['input'];
 }>;
 
 
-export type TaskDeletedSubscription = { __typename?: 'Subscription', taskDeleted: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+export type TaskDeletedSubscription = { __typename?: 'Subscription', taskDeleted: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
 export const TaskFragmentDoc = gql`
     fragment Task on TaskModel {
@@ -1113,6 +1145,7 @@ export const TaskFragmentDoc = gql`
   dueDate
   assignees {
     id
+    userId
     user {
       id
       username
@@ -1448,7 +1481,9 @@ export type ChangeProjectInfoMutationResult = Apollo.MutationResult<ChangeProjec
 export type ChangeProjectInfoMutationOptions = Apollo.BaseMutationOptions<ChangeProjectInfoMutation, ChangeProjectInfoMutationVariables>;
 export const CreateLabelDocument = gql`
     mutation CreateLabel($data: CreateLabelInput!) {
-  createTaskLabel(input: $data)
+  createTaskLabel(input: $data) {
+    id
+  }
 }
     `;
 export type CreateLabelMutationFn = Apollo.MutationFunction<CreateLabelMutation, CreateLabelMutationVariables>;
@@ -1695,6 +1730,74 @@ export function useUpgrageProjectPlanMutation(baseOptions?: Apollo.MutationHookO
 export type UpgrageProjectPlanMutationHookResult = ReturnType<typeof useUpgrageProjectPlanMutation>;
 export type UpgrageProjectPlanMutationResult = Apollo.MutationResult<UpgrageProjectPlanMutation>;
 export type UpgrageProjectPlanMutationOptions = Apollo.BaseMutationOptions<UpgrageProjectPlanMutation, UpgrageProjectPlanMutationVariables>;
+export const AddLabelToTaskDocument = gql`
+    mutation AddLabelToTask($taskId: String!, $labelId: String!) {
+  addLabelToTask(taskId: $taskId, labelId: $labelId) {
+    ...Task
+  }
+}
+    ${TaskFragmentDoc}`;
+export type AddLabelToTaskMutationFn = Apollo.MutationFunction<AddLabelToTaskMutation, AddLabelToTaskMutationVariables>;
+
+/**
+ * __useAddLabelToTaskMutation__
+ *
+ * To run a mutation, you first call `useAddLabelToTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddLabelToTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addLabelToTaskMutation, { data, loading, error }] = useAddLabelToTaskMutation({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *      labelId: // value for 'labelId'
+ *   },
+ * });
+ */
+export function useAddLabelToTaskMutation(baseOptions?: Apollo.MutationHookOptions<AddLabelToTaskMutation, AddLabelToTaskMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddLabelToTaskMutation, AddLabelToTaskMutationVariables>(AddLabelToTaskDocument, options);
+      }
+export type AddLabelToTaskMutationHookResult = ReturnType<typeof useAddLabelToTaskMutation>;
+export type AddLabelToTaskMutationResult = Apollo.MutationResult<AddLabelToTaskMutation>;
+export type AddLabelToTaskMutationOptions = Apollo.BaseMutationOptions<AddLabelToTaskMutation, AddLabelToTaskMutationVariables>;
+export const AssingTaskDocument = gql`
+    mutation AssingTask($taskId: String!, $userId: String!) {
+  assignTask(taskId: $taskId, userId: $userId) {
+    ...Task
+  }
+}
+    ${TaskFragmentDoc}`;
+export type AssingTaskMutationFn = Apollo.MutationFunction<AssingTaskMutation, AssingTaskMutationVariables>;
+
+/**
+ * __useAssingTaskMutation__
+ *
+ * To run a mutation, you first call `useAssingTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAssingTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [assingTaskMutation, { data, loading, error }] = useAssingTaskMutation({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useAssingTaskMutation(baseOptions?: Apollo.MutationHookOptions<AssingTaskMutation, AssingTaskMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AssingTaskMutation, AssingTaskMutationVariables>(AssingTaskDocument, options);
+      }
+export type AssingTaskMutationHookResult = ReturnType<typeof useAssingTaskMutation>;
+export type AssingTaskMutationResult = Apollo.MutationResult<AssingTaskMutation>;
+export type AssingTaskMutationOptions = Apollo.BaseMutationOptions<AssingTaskMutation, AssingTaskMutationVariables>;
 export const ChangeTaskStatusDocument = gql`
     mutation ChangeTaskStatus($data: ChangeStatusInput!) {
   changeTaskStatus(input: $data) {
@@ -1796,6 +1899,74 @@ export function useDeleteTaskMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteTaskMutationHookResult = ReturnType<typeof useDeleteTaskMutation>;
 export type DeleteTaskMutationResult = Apollo.MutationResult<DeleteTaskMutation>;
 export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<DeleteTaskMutation, DeleteTaskMutationVariables>;
+export const RemoveLabelFromTaskDocument = gql`
+    mutation RemoveLabelFromTask($taskId: String!, $labelId: String!) {
+  removeLabelFromTask(taskId: $taskId, labelId: $labelId) {
+    ...Task
+  }
+}
+    ${TaskFragmentDoc}`;
+export type RemoveLabelFromTaskMutationFn = Apollo.MutationFunction<RemoveLabelFromTaskMutation, RemoveLabelFromTaskMutationVariables>;
+
+/**
+ * __useRemoveLabelFromTaskMutation__
+ *
+ * To run a mutation, you first call `useRemoveLabelFromTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveLabelFromTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeLabelFromTaskMutation, { data, loading, error }] = useRemoveLabelFromTaskMutation({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *      labelId: // value for 'labelId'
+ *   },
+ * });
+ */
+export function useRemoveLabelFromTaskMutation(baseOptions?: Apollo.MutationHookOptions<RemoveLabelFromTaskMutation, RemoveLabelFromTaskMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveLabelFromTaskMutation, RemoveLabelFromTaskMutationVariables>(RemoveLabelFromTaskDocument, options);
+      }
+export type RemoveLabelFromTaskMutationHookResult = ReturnType<typeof useRemoveLabelFromTaskMutation>;
+export type RemoveLabelFromTaskMutationResult = Apollo.MutationResult<RemoveLabelFromTaskMutation>;
+export type RemoveLabelFromTaskMutationOptions = Apollo.BaseMutationOptions<RemoveLabelFromTaskMutation, RemoveLabelFromTaskMutationVariables>;
+export const UnassignTaskDocument = gql`
+    mutation UnassignTask($taskId: String!, $userId: String!) {
+  unassignTask(taskId: $taskId, userId: $userId) {
+    ...Task
+  }
+}
+    ${TaskFragmentDoc}`;
+export type UnassignTaskMutationFn = Apollo.MutationFunction<UnassignTaskMutation, UnassignTaskMutationVariables>;
+
+/**
+ * __useUnassignTaskMutation__
+ *
+ * To run a mutation, you first call `useUnassignTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnassignTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unassignTaskMutation, { data, loading, error }] = useUnassignTaskMutation({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUnassignTaskMutation(baseOptions?: Apollo.MutationHookOptions<UnassignTaskMutation, UnassignTaskMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UnassignTaskMutation, UnassignTaskMutationVariables>(UnassignTaskDocument, options);
+      }
+export type UnassignTaskMutationHookResult = ReturnType<typeof useUnassignTaskMutation>;
+export type UnassignTaskMutationResult = Apollo.MutationResult<UnassignTaskMutation>;
+export type UnassignTaskMutationOptions = Apollo.BaseMutationOptions<UnassignTaskMutation, UnassignTaskMutationVariables>;
 export const UpdateTaskDocument = gql`
     mutation UpdateTask($id: String!, $data: UpdateTaskInput!) {
   updateTask(taskId: $id, input: $data) {

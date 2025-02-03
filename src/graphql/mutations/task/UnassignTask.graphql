@@ -1,0 +1,5 @@
+mutation UnassignTask($taskId: String!, $userId: String!) {
+	unassignTask(taskId: $taskId, userId: $userId) {
+		...Task
+	}
+}
