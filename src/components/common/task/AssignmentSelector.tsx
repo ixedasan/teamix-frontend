@@ -71,10 +71,10 @@ export function AssigneeSelector({
 	}
 
 	const renderTriggerContent = () => {
-		const hasAssignees = currentAssignees.length > 0
+		const hasAssignees = currentAssignees?.length > 0
 		const maxAvatars = triggerVariant === 'compact' ? 2 : 3
-		const visibleAssignees = currentAssignees.slice(0, maxAvatars)
-		const remainingCount = currentAssignees.length - maxAvatars
+		const visibleAssignees = currentAssignees?.slice(0, maxAvatars)
+		const remainingCount = currentAssignees?.length - maxAvatars
 
 		const avatarGroup = (size: number) => (
 			<div className="flex -space-x-2">
@@ -109,9 +109,9 @@ export function AssigneeSelector({
 					{hasAssignees ? avatarGroup(5) : <User className="h-4 w-4" />}
 					<span className="text-xs">
 						{hasAssignees
-							? currentAssignees.length === 1
+							? currentAssignees?.length === 1
 								? getAssigneeDisplay(currentAssignees[0])
-								: `${currentAssignees.length} assigned`
+								: `${currentAssignees?.length} assigned`
 							: 'Assign'}
 					</span>
 					<ChevronDown className="h-3 w-3 opacity-50" />
@@ -121,15 +121,19 @@ export function AssigneeSelector({
 
 		// Default variant
 		return (
-			<div className="flex items-center gap-2">
-				{hasAssignees ? avatarGroup(6) : <UserPlus className="h-4 w-4" />}
-				<span className="truncate">
-					{hasAssignees
-						? currentAssignees.length === 1
-							? getAssigneeDisplay(currentAssignees[0])
-							: `${currentAssignees.length} assignee${currentAssignees.length > 1 ? 's' : ''}`
-						: 'Assign'}
-				</span>
+			<div className="flex w-full items-center justify-between">
+				<div className="flex items-center gap-2">
+					{hasAssignees ? avatarGroup(6) : <UserPlus className="h-4 w-4" />}
+					<span className="truncate">
+						{hasAssignees
+							? currentAssignees.length <= 3
+								? currentAssignees.map(getAssigneeDisplay).join(', ')
+								: `${currentAssignees.slice(0, 3).map(getAssigneeDisplay).join(', ')} +${
+										currentAssignees.length - 3
+									}`
+							: 'Assign'}
+					</span>
+				</div>
 				<ChevronDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
 			</div>
 		)
@@ -144,6 +148,7 @@ export function AssigneeSelector({
 				'justify-between',
 				triggerVariant === 'icon-only' && 'h-8 w-8 rounded-full p-0',
 				triggerVariant === 'compact' && 'h-8 px-2',
+				triggerVariant === 'default' && 'w-full',
 				className
 			)}
 			disabled={disabled}
@@ -161,7 +166,7 @@ export function AssigneeSelector({
 					</TooltipTrigger>
 					<TooltipContent>
 						<p>
-							{currentAssignees.length > 0
+							{currentAssignees?.length > 0
 								? currentAssignees.map(getAssigneeDisplay).join(', ')
 								: 'No assignees'}
 						</p>
@@ -170,14 +175,14 @@ export function AssigneeSelector({
 			) : (
 				<PopoverTrigger asChild>{trigger}</PopoverTrigger>
 			)}
-			<PopoverContent className="w-64 p-0">
+			<PopoverContent align="start" className="w-64 p-0">
 				<Command>
 					<CommandInput placeholder="Search members..." />
 					<CommandEmpty>No members found.</CommandEmpty>
 					<CommandGroup>
 						<CommandList>
 							{projectMembers.map(member => {
-								const isAssigned = currentAssignees.some(
+								const isAssigned = currentAssignees?.some(
 									a => a.userId === member.userId
 								)
 

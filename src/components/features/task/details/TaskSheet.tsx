@@ -20,6 +20,7 @@ import { useFindTaskByIdQuery } from '@/graphql/generated/output'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { useTaskSheet } from '@/store/task/task-sheet'
 import { TaskHeaderSection } from './section/TaskHeaderSection'
+import { QuickEditSection } from "./section/QuickEditSection"
 
 // const MetadataSection = dynamic(() => import('./sections/MetadataSection'))
 // const CommentsSection = dynamic(() => import('./sections/CommentsSection'))
@@ -57,7 +58,7 @@ export function TaskSheet() {
 						<TaskHeaderSection task={task!} isLoading={loading} />
 
 						{/* Quick editing */}
-						{/* <QuickEditSection task={task} /> */}
+						<QuickEditSection task={task!} isLoading={loading} />
 
 						{/* <MetadataSection task={task} /> */}
 
@@ -80,7 +81,7 @@ export function TaskSheet() {
 					<TaskHeaderSection task={task!} isLoading={loading} />
 
 					{/* Quick editing */}
-					{/* <QuickEditSection task={task} /> */}
+					<QuickEditSection task={task!} isLoading={loading} />
 
 					{/* <MetadataSection task={task} /> */}
 

@@ -69,8 +69,8 @@ export function CreateLabelDialog({
 			const { data } = await createLabel({
 				variables: {
 					data: {
-						name: values.name,
-						color: values.color
+						name: values?.name,
+						color: values?.color
 					}
 				},
 				refetchQueries: ['FindProjectById']

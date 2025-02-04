@@ -102,11 +102,13 @@ export function PrioritySelector({
 				return selectedPriority.icon
 			default:
 				return (
-					<div className="flex items-center gap-2">
-						{selectedPriority.icon}
-						<span className={selectedPriority.color}>
-							{selectedPriority.label}
-						</span>
+					<div className="flex w-full items-center justify-between">
+						<div className="flex items-center gap-2">
+							{selectedPriority.icon}
+							<span className={selectedPriority.color}>
+								{selectedPriority.label}
+							</span>
+						</div>
 						<ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 					</div>
 				)
@@ -122,6 +124,7 @@ export function PrioritySelector({
 				'justify-between',
 				triggerVariant === 'icon-only' && 'h-6 w-6 p-0.5',
 				triggerVariant === 'compact' && 'h-7 px-2',
+				triggerVariant === 'default' && 'w-full',
 				className
 			)}
 			disabled={disabled}
@@ -144,7 +147,7 @@ export function PrioritySelector({
 			) : (
 				<PopoverTrigger asChild>{trigger}</PopoverTrigger>
 			)}
-			<PopoverContent className="w-52 p-0">
+			<PopoverContent align="start" className="w-52 p-0">
 				<Command>
 					<CommandInput placeholder="Search priority..." />
 					<CommandEmpty>No priority found.</CommandEmpty>

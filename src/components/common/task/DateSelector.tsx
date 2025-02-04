@@ -23,6 +23,7 @@ interface DateSelectorProps {
 	onChange: (date?: Date | null) => void
 	disabled?: boolean
 	triggerVariant?: 'default' | 'compact' | 'icon-only'
+	contentAlignment?: 'start' | 'center' | 'end'
 	className?: string
 	showTooltip?: boolean
 	tooltipContent?: string
@@ -33,6 +34,7 @@ export function DateSelector({
 	onChange,
 	disabled = false,
 	triggerVariant = 'default',
+	contentAlignment = 'center',
 	className,
 	showTooltip = true,
 	tooltipContent = 'Selected date'
@@ -87,6 +89,7 @@ export function DateSelector({
 				'justify-between',
 				triggerVariant === 'icon-only' && 'h-6 w-6 p-0.5',
 				triggerVariant === 'compact' && 'h-7 px-2',
+				triggerVariant === 'default' && 'w-full',
 				!value && 'text-muted-foreground',
 				className
 			)}
@@ -114,7 +117,7 @@ export function DateSelector({
 			) : (
 				<PopoverTrigger asChild>{trigger}</PopoverTrigger>
 			)}
-			<PopoverContent className="w-auto p-0">
+			<PopoverContent align={contentAlignment} className="w-auto p-0">
 				<Calendar
 					mode="single"
 					selected={value ?? undefined}

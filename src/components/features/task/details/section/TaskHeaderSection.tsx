@@ -65,7 +65,7 @@ export function TaskHeaderSection({ task, isLoading }: ITaskHeaderSection) {
 								<SkeletonWrapper isLoading={isLoading}>
 									<FormControl>
 										<Input
-											className="border border-background bg-background text-base ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-0 focus-visible:outline-background focus-visible:ring-background disabled:cursor-not-allowed disabled:opacity-50 md:text-xl"
+											className="border border-background bg-background px-0 text-base ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-0 focus-visible:outline-background focus-visible:ring-background disabled:cursor-not-allowed disabled:opacity-50 md:text-2xl"
 											{...field}
 										/>
 									</FormControl>
@@ -82,7 +82,7 @@ export function TaskHeaderSection({ task, isLoading }: ITaskHeaderSection) {
 									<FormControl>
 										<TextareaAutosize
 											placeholder="Description"
-											className="flex min-h-[80px] w-full border border-background bg-background px-3 py-2 text-base placeholder:text-muted-foreground focus:outline-none focus:ring-0 md:text-sm"
+											className="flex min-h-[80px] w-full border border-background bg-background px-0 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-0 md:text-base"
 											{...field}
 										/>
 									</FormControl>

@@ -24,10 +24,10 @@ import {
 	TooltipTrigger
 } from '@/components/ui/Tooltip'
 import {
-	TaskFragment,
 	useAddLabelToTaskMutation,
 	useFindProjectByIdQuery,
-	useRemoveLabelFromTaskMutation
+	useRemoveLabelFromTaskMutation,
+	type TaskFragment
 } from '@/graphql/generated/output'
 import { CreateLabelDialog } from './CreateLabelDialog'
 import { cn } from '@/lib/utils'
@@ -62,7 +62,7 @@ export function LabelSelector({
 	const projectLabels = data?.findProjectById.labels || []
 
 	const handleLabelChange = async (labelId: string) => {
-		const isLabelSelected = currentLabels.some(l => l.id === labelId)
+		const isLabelSelected = currentLabels?.some(l => l.id === labelId)
 
 		if (isLabelSelected) {
 			await removeLabel({ variables: { taskId, labelId } })
@@ -72,20 +72,22 @@ export function LabelSelector({
 	}
 
 	const filteredLabels = projectLabels.filter(label =>
-		label.name.toLowerCase().includes(searchQuery.toLowerCase())
+		label?.name.toLowerCase().includes(searchQuery.toLowerCase())
 	)
 
 	const renderTriggerContent = () => {
 		if (triggerVariant === 'icon-only') {
-			return currentLabels.length > 0 ? (
+			return currentLabels?.length > 0 ? (
 				<div className="flex items-center gap-1">
-					{currentLabels.slice(0, 2).map(label => (
-						<div
-							key={label.id}
-							className="h-4 w-4 rounded-full border-2"
-							style={{ backgroundColor: label.color }}
-						/>
-					))}
+					{currentLabels
+						?.slice(0, 2)
+						.map(label => (
+							<div
+								key={label.id}
+								className="h-4 w-4 rounded-full border-2"
+								style={{ backgroundColor: label.color }}
+							/>
+						))}
 				</div>
 			) : (
 				<Tag className="h-4 w-4" />
@@ -95,7 +97,7 @@ export function LabelSelector({
 		if (triggerVariant === 'compact') {
 			return (
 				<div className="flex items-center gap-1.5">
-					{currentLabels.length > 0 ? (
+					{currentLabels?.length > 0 ? (
 						<div className="flex items-center gap-1">
 							{currentLabels.slice(0, 2).map(label => (
 								<div
@@ -109,10 +111,10 @@ export function LabelSelector({
 						<Tag className="h-4 w-4" />
 					)}
 					<span className="text-xs">
-						{currentLabels.length > 0
-							? currentLabels.length === 1
+						{currentLabels?.length > 0
+							? currentLabels?.length === 1
 								? currentLabels[0].name
-								: `${currentLabels.length} labels`
+								: `${currentLabels?.length} labels`
 							: 'Add labels'}
 					</span>
 					<ChevronDown className="h-3 w-3 opacity-50" />
@@ -120,23 +122,31 @@ export function LabelSelector({
 			)
 		}
 
+		// Default variant
 		return (
-			<div className="flex items-center gap-2">
-				{currentLabels.length > 0 ? (
-					<div className="flex items-center gap-1">
-						{currentLabels.slice(0, 3).map(label => (
+			<div className="flex w-full flex-wrap items-center justify-between">
+				<div className="flex items-center gap-2">
+					{currentLabels?.length > 0 ? (
+						currentLabels.map(label => (
 							<div
 								key={label.id}
-								className="h-4 w-4 rounded-full"
-								style={{ backgroundColor: label.color }}
-							/>
-						))}
-					</div>
-				) : (
-					<Tags className="h-4 w-4" />
-				)}
-				<span>{currentLabels.length > 0 ? 'Labels' : 'Add labels'}</span>
-				<ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+								className="flex shrink-0 items-center gap-1.5 rounded-md bg-accent/30 px-2 py-1"
+							>
+								<div
+									className="h-3 w-3 rounded-full border border-white/30"
+									style={{ backgroundColor: label.color }}
+								/>
+								<span className="text-sm">{label.name}</span>
+							</div>
+						))
+					) : (
+						<>
+							<Tags className="h-4 w-4" />
+							<span>Add labels</span>
+						</>
+					)}
+				</div>
+				<ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
 			</div>
 		)
 	}
@@ -147,9 +157,10 @@ export function LabelSelector({
 			role="combobox"
 			aria-expanded={open}
 			className={cn(
-				'justify-between',
+				'justify-between gap-2',
 				triggerVariant === 'icon-only' && 'h-8 w-8 rounded-full p-0',
 				triggerVariant === 'compact' && 'h-8 px-2',
+				triggerVariant === 'default' && 'w-full',
 				className
 			)}
 			disabled={disabled}
@@ -168,7 +179,7 @@ export function LabelSelector({
 						</TooltipTrigger>
 						<TooltipContent>
 							<p>
-								{currentLabels.length > 0
+								{currentLabels?.length > 0
 									? currentLabels.map(l => l.name).join(', ')
 									: 'No labels'}
 							</p>
@@ -177,7 +188,7 @@ export function LabelSelector({
 				) : (
 					<PopoverTrigger asChild>{trigger}</PopoverTrigger>
 				)}
-				<PopoverContent className="w-64 p-0">
+				<PopoverContent align="start" className="w-72 p-0">
 					<Command shouldFilter={false}>
 						<CommandInput
 							placeholder="Search labels..."
@@ -205,7 +216,7 @@ export function LabelSelector({
 						<CommandGroup>
 							<CommandList>
 								{filteredLabels.map(label => {
-									const isSelected = currentLabels.some(l => l.id === label.id)
+									const isSelected = currentLabels?.some(l => l.id === label.id)
 
 									return (
 										<CommandItem
