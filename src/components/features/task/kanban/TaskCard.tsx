@@ -19,6 +19,7 @@ import {
 	useUpdateTaskMutation
 } from '@/graphql/generated/output'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { useTaskSheet } from '@/store/task/task-sheet'
 import { cn } from '@/lib/utils'
 
 interface ITaskCard {
@@ -112,6 +113,7 @@ export function TaskCard({ task, index }: ITaskCard) {
 									? 'none'
 									: provided.draggableProps.style?.transform
 						}}
+						onClick={() => useTaskSheet.getState().open(task.id)}
 					>
 						<div className="mb-3 flex items-start justify-between gap-2">
 							<div className="flex-1">

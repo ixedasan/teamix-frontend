@@ -20,7 +20,7 @@ export default async function SidebarWrapper({
 			<AppSidebar />
 			<SidebarInset>
 				{header}
-				<div className="flex flex-1 overflow-hidden">{children}</div>
+				<div className="flex flex-1">{children}</div>
 			</SidebarInset>
 		</SidebarProvider>
 	)

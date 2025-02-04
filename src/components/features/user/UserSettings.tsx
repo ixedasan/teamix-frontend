@@ -27,7 +27,7 @@ export function UserSettings() {
 	const t = useTranslations('settings')
 
 	return (
-		<div className="mx-auto w-full max-w-5xl">
+		<div className="mx-auto w-full max-w-5xl p-4">
 			<Heading
 				title={t('header.heading')}
 				description={t('header.description')}

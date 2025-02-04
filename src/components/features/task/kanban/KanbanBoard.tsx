@@ -116,28 +116,26 @@ export function KanbanBoard({ tasks }: IKanbanBoard) {
 	)
 
 	return (
-		<DragDropContext onDragEnd={onDragEnd}>
-			<div className="container flex">
-				<ScrollArea className="w-full flex-1">
-					<div className="flex gap-6 p-4" style={{ minWidth: 'max-content' }}>
-						{statuses.map((status, index) => (
-							<motion.div
-								key={status}
-								initial={{ opacity: 0, y: 20 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ delay: index * 0.1 }}
-								className="flex-shrink-0"
-							>
-								<KanbanColumn
-									status={status}
-									tasks={tasks.filter(t => t.status === status)}
-								/>
-							</motion.div>
-						))}
-					</div>
-					<ScrollBar orientation="horizontal" />
-				</ScrollArea>
-			</div>
-		</DragDropContext>
+		<ScrollArea className="h-[calc(100svh-70px)] w-full overflow-x-auto overflow-y-hidden">
+			<DragDropContext onDragEnd={onDragEnd}>
+				<div className="flex min-w-max gap-6 p-4">
+					{statuses.map((status, index) => (
+						<motion.div
+							key={status}
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ delay: index * 0.1 }}
+							className="flex-shrink-0"
+						>
+							<KanbanColumn
+								status={status}
+								tasks={tasks.filter(t => t.status === status)}
+							/>
+						</motion.div>
+					))}
+				</div>
+			</DragDropContext>
+			<ScrollBar orientation="horizontal" />
+		</ScrollArea>
 	)
 }

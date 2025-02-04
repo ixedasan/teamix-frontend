@@ -1087,6 +1087,13 @@ export type FindAllTasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FindAllTasksQuery = { __typename?: 'Query', findAllTasks: Array<{ __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> }> };
 
+export type FindTaskByIdQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type FindTaskByIdQuery = { __typename?: 'Query', findTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, createdAt: any, updatedAt: any, createdBy: { __typename?: 'UserModel', avatar?: string | null, displayName: string }, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }>, links: Array<{ __typename?: 'TaskLinkModel', id: string, title?: string | null, url: string }>, comments: Array<{ __typename?: 'CommentModel', id: string, content: string, createdAt: any, author: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }> } };
+
 export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2633,6 +2640,90 @@ export type FindAllTasksQueryHookResult = ReturnType<typeof useFindAllTasksQuery
 export type FindAllTasksLazyQueryHookResult = ReturnType<typeof useFindAllTasksLazyQuery>;
 export type FindAllTasksSuspenseQueryHookResult = ReturnType<typeof useFindAllTasksSuspenseQuery>;
 export type FindAllTasksQueryResult = Apollo.QueryResult<FindAllTasksQuery, FindAllTasksQueryVariables>;
+export const FindTaskByIdDocument = gql`
+    query FindTaskById($id: String!) {
+  findTask(taskId: $id) {
+    id
+    title
+    description
+    status
+    priority
+    position
+    startDate
+    dueDate
+    createdBy {
+      avatar
+      displayName
+    }
+    assignees {
+      id
+      userId
+      user {
+        id
+        username
+        displayName
+        avatar
+      }
+    }
+    labels {
+      id
+      name
+      color
+    }
+    links {
+      id
+      title
+      url
+    }
+    comments {
+      id
+      content
+      author {
+        id
+        username
+        displayName
+        avatar
+      }
+      createdAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useFindTaskByIdQuery__
+ *
+ * To run a query within a React component, call `useFindTaskByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindTaskByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindTaskByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindTaskByIdQuery(baseOptions: Apollo.QueryHookOptions<FindTaskByIdQuery, FindTaskByIdQueryVariables> & ({ variables: FindTaskByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindTaskByIdQuery, FindTaskByIdQueryVariables>(FindTaskByIdDocument, options);
+      }
+export function useFindTaskByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindTaskByIdQuery, FindTaskByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindTaskByIdQuery, FindTaskByIdQueryVariables>(FindTaskByIdDocument, options);
+        }
+export function useFindTaskByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindTaskByIdQuery, FindTaskByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindTaskByIdQuery, FindTaskByIdQueryVariables>(FindTaskByIdDocument, options);
+        }
+export type FindTaskByIdQueryHookResult = ReturnType<typeof useFindTaskByIdQuery>;
+export type FindTaskByIdLazyQueryHookResult = ReturnType<typeof useFindTaskByIdLazyQuery>;
+export type FindTaskByIdSuspenseQueryHookResult = ReturnType<typeof useFindTaskByIdSuspenseQuery>;
+export type FindTaskByIdQueryResult = Apollo.QueryResult<FindTaskByIdQuery, FindTaskByIdQueryVariables>;
 export const FindCurrentSessionDocument = gql`
     query FindCurrentSession {
   findCurrentSession {
