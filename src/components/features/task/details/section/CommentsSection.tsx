@@ -1,6 +1,10 @@
-'use client'
-
-import { useState, type ChangeEvent, type KeyboardEvent } from 'react'
+import {
+	useEffect,
+	useRef,
+	useState,
+	type ChangeEvent,
+	type KeyboardEvent
+} from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Send } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -22,9 +26,11 @@ import { CommentItem } from './CommentItem'
 export function CommentsSection({ taskId }: { taskId: string }) {
 	const { profile } = useCurrentUser()
 	const { comments } = useComments(taskId)
-
 	const [sendComment, { loading }] = useSendCommentMutation()
 	const [rows, setRows] = useState(1)
+
+	const [shouldAutoScroll, setShouldAutoScroll] = useState(false)
+	const commentsEndRef = useRef<HTMLDivElement>(null)
 
 	const form = useForm<TypeCommentSchema>({
 		resolver: zodResolver(CommentSchema),
@@ -32,6 +38,33 @@ export function CommentsSection({ taskId }: { taskId: string }) {
 			content: ''
 		}
 	})
+
+	// Check the scroll position of the modal window
+	useEffect(() => {
+		const handleModalScroll = () => {
+			const modalContent = commentsEndRef.current?.closest('.overflow-y-auto')
+			if (!modalContent) return
+
+			const { scrollTop, scrollHeight, clientHeight } = modalContent
+			const scrollPosition = scrollTop + clientHeight
+			const isNearBottom = scrollHeight - scrollPosition < 100
+
+			setShouldAutoScroll(isNearBottom)
+		}
+
+		const modalContent = commentsEndRef.current?.closest('.overflow-y-auto')
+		if (modalContent) {
+			modalContent.addEventListener('scroll', handleModalScroll)
+			return () => modalContent.removeEventListener('scroll', handleModalScroll)
+		}
+	}, [])
+
+	// Scroll to new comments if the user was at the bottom
+	useEffect(() => {
+		if (shouldAutoScroll && commentsEndRef.current) {
+			commentsEndRef.current.scrollIntoView({ behavior: 'auto' })
+		}
+	}, [comments, shouldAutoScroll])
 
 	const handleSubmit = async (data: TypeCommentSchema) => {
 		try {
@@ -45,6 +78,8 @@ export function CommentsSection({ taskId }: { taskId: string }) {
 			})
 			form.reset()
 			setRows(1)
+
+			commentsEndRef.current?.scrollIntoView({ behavior: 'auto' })
 		} catch {}
 	}
 
@@ -67,28 +102,30 @@ export function CommentsSection({ taskId }: { taskId: string }) {
 	if (!profile) return null
 
 	return (
-		<div className="space-y-6 pr-4 pt-12">
-			{comments.map(comment => (
-				<CommentItem
-					key={comment.id}
-					comment={comment}
-					userId={profile?.id}
-					taskId={taskId}
-					onError={message =>
-						toast('Error', {
-							description: message
-						})
-					}
-				/>
-			))}
-			<Card className="p-4">
+		<div className="pr-4 pt-12">
+			<div className="space-y-6">
+				{comments.map(comment => (
+					<CommentItem
+						key={comment.id}
+						comment={comment}
+						userId={profile?.id}
+						taskId={taskId}
+						onError={message =>
+							toast('Error', {
+								description: message
+							})
+						}
+					/>
+				))}
+				<div ref={commentsEndRef} />
+			</div>
+			<Card className="mt-4 p-4">
 				<CardContent className="p-0">
 					<form
 						onSubmit={form.handleSubmit(handleSubmit)}
 						className="relative flex items-center gap-4"
 					>
 						<UserAvatar user={profile} size="sm" />
-
 						<div className="flex-1 space-y-4">
 							<div className="relative flex items-center justify-between">
 								<Textarea
@@ -101,14 +138,13 @@ export function CommentsSection({ taskId }: { taskId: string }) {
 									onKeyDown={handleKeyDown}
 									disabled={loading}
 								/>
-
 								<Button
 									size="icon"
 									variant="link"
 									disabled={loading || !form.formState.isDirty}
 								>
 									<Send className="size-4" />
-									<span className="sr-only">Отправить</span>
+									<span className="sr-only">Send comment</span>
 								</Button>
 							</div>
 						</div>
