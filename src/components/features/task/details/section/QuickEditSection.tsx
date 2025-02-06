@@ -63,59 +63,55 @@ export function QuickEditSection({ task, isLoading }: IQuickEditSection) {
 	}
 
 	return (
-		<div className="flex flex-col space-y-2">
+		<div className="flex flex-col space-y-3">
 			<div className="flex w-full items-center gap-4 md:gap-8">
-				<span className="min-w-24 text-sm text-muted-foreground">Status</span>
+				<span className="min-w-24 text-muted-foreground">Status</span>
 				<StatusSelector
 					value={task?.status}
 					onChange={handleStatusChange}
-					disabled={isLoadingStatus}
+					disabled={isLoadingStatus || isLoading}
 				/>
 			</div>
 			<div className="flex w-full items-center gap-4 md:gap-8">
-				<span className="min-w-24 text-sm text-muted-foreground">Priority</span>
+				<span className="min-w-24 text-muted-foreground">Priority</span>
 				<PrioritySelector
 					value={task?.priority}
 					onChange={newPriority => handleUpdateChange('priority', newPriority)}
-					disabled={isUpdating}
+					disabled={isUpdating || isLoading}
 				/>
 			</div>
 			<div className="flex w-full items-center gap-4 md:gap-8">
-				<span className="min-w-24 text-sm text-muted-foreground">
-					Start Date
-				</span>
+				<span className="min-w-24 text-muted-foreground">Start Date</span>
 				<DateSelector
 					value={task?.startDate}
 					onChange={date => handleUpdateChange('startDate', date)}
-					disabled={isUpdating}
+					disabled={isUpdating || isLoading}
 					contentAlignment="start"
 				/>
 			</div>
 			<div className="flex w-full items-center gap-4 md:gap-8">
-				<span className="min-w-24 text-sm text-muted-foreground">Due Date</span>
+				<span className="min-w-24 text-muted-foreground">Due Date</span>
 				<DateSelector
 					value={task?.dueDate}
 					onChange={date => handleUpdateChange('dueDate', date)}
-					disabled={isUpdating}
+					disabled={isUpdating || isLoading}
 					contentAlignment="start"
 				/>
 			</div>
 			<div className="flex w-full items-center gap-4 md:gap-8">
-				<span className="min-w-24 text-sm text-muted-foreground">
-					Assignees
-				</span>
+				<span className="min-w-24 text-muted-foreground">Assignees</span>
 				<AssigneeSelector
 					taskId={task?.id}
 					currentAssignees={task?.assignees}
-					disabled={isUpdating}
+					disabled={isUpdating || isLoading}
 				/>
 			</div>
 			<div className="flex w-full items-center gap-4 md:gap-8">
-				<span className="min-w-24 text-sm text-muted-foreground">Labels</span>
+				<span className="min-w-24 text-muted-foreground">Labels</span>
 				<LabelSelector
 					taskId={task?.id}
 					currentLabels={task?.labels}
-					disabled={isUpdating}
+					disabled={isUpdating || isLoading}
 				/>
 			</div>
 		</div>

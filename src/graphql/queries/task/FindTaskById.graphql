@@ -32,17 +32,6 @@ query FindTaskById($id: String!) {
 			title
 			url
 		}
-		comments {
-			id
-			content
-			author {
-				id
-				username
-				displayName
-				avatar
-			}
-			createdAt
-		}
 		createdAt
 		updatedAt
 	}

@@ -1,6 +1,8 @@
 'use client'
 
 import { useCallback } from 'react'
+// import { CommentsSection } from './section/CommentsSection'
+import dynamic from 'next/dynamic'
 
 import {
 	Drawer,
@@ -19,11 +21,13 @@ import {
 import { useFindTaskByIdQuery } from '@/graphql/generated/output'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { useTaskSheet } from '@/store/task/task-sheet'
+import { QuickEditSection } from './section/QuickEditSection'
 import { TaskHeaderSection } from './section/TaskHeaderSection'
-import { QuickEditSection } from "./section/QuickEditSection"
 
-// const MetadataSection = dynamic(() => import('./sections/MetadataSection'))
-// const CommentsSection = dynamic(() => import('./sections/CommentsSection'))
+const CommentsSection = dynamic(
+	() => import('./section/CommentsSection').then(m => m.CommentsSection),
+	{ ssr: false }
+)
 
 export function TaskSheet() {
 	const isDesktop = useMediaQuery('(min-width: 768px)')
@@ -42,8 +46,7 @@ export function TaskSheet() {
 		},
 		[close]
 	)
-
-	if (!taskId) return null
+	if (!task) return null
 
 	if (isDesktop) {
 		return (
@@ -55,14 +58,14 @@ export function TaskSheet() {
 					</SheetHeader>
 					<div className="relative flex flex-col space-y-3 px-8 py-5">
 						{/* Main info */}
-						<TaskHeaderSection task={task!} isLoading={loading} />
+						<TaskHeaderSection task={task} isLoading={loading} />
 
 						{/* Quick editing */}
-						<QuickEditSection task={task!} isLoading={loading} />
+						<QuickEditSection task={task} isLoading={loading} />
 
 						{/* <MetadataSection task={task} /> */}
 
-						{/* <CommentsSection task={task} /> */}
+						<CommentsSection taskId={task.id} />
 					</div>
 				</SheetContent>
 			</Sheet>
@@ -78,14 +81,14 @@ export function TaskSheet() {
 				</DrawerHeader>
 				<div className="relative flex flex-col space-y-3 p-4">
 					{/* Main info */}
-					<TaskHeaderSection task={task!} isLoading={loading} />
+					<TaskHeaderSection task={task} isLoading={loading} />
 
 					{/* Quick editing */}
-					<QuickEditSection task={task!} isLoading={loading} />
+					<QuickEditSection task={task} isLoading={loading} />
 
 					{/* <MetadataSection task={task} /> */}
 
-					{/* <CommentsSection task={task} /> */}
+					<CommentsSection taskId={task.id} />
 				</div>
 			</DrawerContent>
 		</Drawer>

@@ -1,0 +1,12 @@
+fragment Comment on CommentModel {
+	id
+	content
+	createdAt
+	updatedAt
+	author {
+		id
+		username
+		displayName
+		avatar
+	}
+}

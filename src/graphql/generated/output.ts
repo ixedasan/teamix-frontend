@@ -91,6 +91,12 @@ export type CommentModel = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
+export type CommentSubscriptionPayload = {
+  __typename?: 'CommentSubscriptionPayload';
+  comment?: Maybe<CommentModel>;
+  mutation: MutationType;
+};
+
 export type CreateDocumentInput = {
   title: Scalars['String']['input'];
 };
@@ -213,6 +219,7 @@ export type Mutation = {
   sendComment: CommentModel;
   setCurrentProject: Scalars['Boolean']['output'];
   unassignTask: TaskModel;
+  updateComment: CommentModel;
   updateSocialLink: Scalars['Boolean']['output'];
   updateTask: TaskModel;
   updateTaskLink: Scalars['Boolean']['output'];
@@ -412,7 +419,7 @@ export type MutationResetPasswordArgs = {
 
 
 export type MutationSendCommentArgs = {
-  input: SendCommentInput;
+  data: SendCommentInput;
 };
 
 
@@ -424,6 +431,11 @@ export type MutationSetCurrentProjectArgs = {
 export type MutationUnassignTaskArgs = {
   taskId: Scalars['String']['input'];
   userId: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateCommentArgs = {
+  data: UpdateCommentInput;
 };
 
 
@@ -454,6 +466,12 @@ export type MutationUploadTaskAttachmentArgs = {
 export type MutationVerifyAccauntArgs = {
   data: VerificationInput;
 };
+
+export enum MutationType {
+  Created = 'CREATED',
+  Deleted = 'DELETED',
+  Updated = 'UPDATED'
+}
 
 export type NewPasswordInput = {
   password: Scalars['String']['input'];
@@ -640,7 +658,7 @@ export type SocialLinksModel = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  commentAdded: CommentModel;
+  commentChanged: CommentSubscriptionPayload;
   documentUpdated: DocumentModel;
   taskAdded: TaskModel;
   taskChanged: TaskModel;
@@ -648,7 +666,7 @@ export type Subscription = {
 };
 
 
-export type SubscriptionCommentAddedArgs = {
+export type SubscriptionCommentChangedArgs = {
   taskId: Scalars['String']['input'];
 };
 
@@ -756,6 +774,11 @@ export type TotpModel = {
   secret: Scalars['String']['output'];
 };
 
+export type UpdateCommentInput = {
+  commentId: Scalars['ID']['input'];
+  content: Scalars['String']['input'];
+};
+
 export type UpdateTaskInput = {
   assigneeId?: InputMaybe<Scalars['ID']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
@@ -792,6 +815,8 @@ export type UserModel = {
 export type VerificationInput = {
   token: Scalars['String']['input'];
 };
+
+export type CommentFragment = { __typename?: 'CommentModel', id: string, content: string, createdAt: any, updatedAt: any, author: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } };
 
 export type TaskFragment = { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> };
 
@@ -943,6 +968,13 @@ export type CreateTaskMutationVariables = Exact<{
 
 export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
+export type DeleteCommentMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: boolean };
+
 export type DeleteTaskMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
@@ -958,6 +990,13 @@ export type RemoveLabelFromTaskMutationVariables = Exact<{
 
 export type RemoveLabelFromTaskMutation = { __typename?: 'Mutation', removeLabelFromTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
+export type SendCommentMutationVariables = Exact<{
+  data: SendCommentInput;
+}>;
+
+
+export type SendCommentMutation = { __typename?: 'Mutation', sendComment: { __typename?: 'CommentModel', id: string, content: string, createdAt: any, updatedAt: any, author: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } } };
+
 export type UnassignTaskMutationVariables = Exact<{
   taskId: Scalars['String']['input'];
   userId: Scalars['String']['input'];
@@ -965,6 +1004,13 @@ export type UnassignTaskMutationVariables = Exact<{
 
 
 export type UnassignTaskMutation = { __typename?: 'Mutation', unassignTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+
+export type UpdateCommentMutationVariables = Exact<{
+  data: UpdateCommentInput;
+}>;
+
+
+export type UpdateCommentMutation = { __typename?: 'Mutation', updateComment: { __typename?: 'CommentModel', id: string, content: string, createdAt: any, updatedAt: any, author: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } } };
 
 export type UpdateTaskMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -1087,12 +1133,19 @@ export type FindAllTasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FindAllTasksQuery = { __typename?: 'Query', findAllTasks: Array<{ __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> }> };
 
+export type FindCommentsByTaskQueryVariables = Exact<{
+  taskId: Scalars['String']['input'];
+}>;
+
+
+export type FindCommentsByTaskQuery = { __typename?: 'Query', findCommentsByTask: Array<{ __typename?: 'CommentModel', id: string, content: string, createdAt: any, updatedAt: any, author: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }> };
+
 export type FindTaskByIdQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type FindTaskByIdQuery = { __typename?: 'Query', findTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, createdAt: any, updatedAt: any, createdBy: { __typename?: 'UserModel', avatar?: string | null, displayName: string }, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }>, links: Array<{ __typename?: 'TaskLinkModel', id: string, title?: string | null, url: string }>, comments: Array<{ __typename?: 'CommentModel', id: string, content: string, createdAt: any, author: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }> } };
+export type FindTaskByIdQuery = { __typename?: 'Query', findTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, createdAt: any, updatedAt: any, createdBy: { __typename?: 'UserModel', avatar?: string | null, displayName: string }, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }>, links: Array<{ __typename?: 'TaskLinkModel', id: string, title?: string | null, url: string }> } };
 
 export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1119,6 +1172,13 @@ export type GenerateTotpSecretQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GenerateTotpSecretQuery = { __typename?: 'Query', generateTotpSecret: { __typename?: 'TotpModel', secret: string, qrCodeUrl: string } };
 
+export type CommentChangedSubscriptionVariables = Exact<{
+  taskId: Scalars['String']['input'];
+}>;
+
+
+export type CommentChangedSubscription = { __typename?: 'Subscription', commentChanged: { __typename?: 'CommentSubscriptionPayload', mutation: MutationType, comment?: { __typename?: 'CommentModel', id: string, content: string, createdAt: any, updatedAt: any, author: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } } | null } };
+
 export type TaskAddedSubscriptionVariables = Exact<{
   projectId: Scalars['String']['input'];
 }>;
@@ -1140,6 +1200,20 @@ export type TaskDeletedSubscriptionVariables = Exact<{
 
 export type TaskDeletedSubscription = { __typename?: 'Subscription', taskDeleted: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
+export const CommentFragmentDoc = gql`
+    fragment Comment on CommentModel {
+  id
+  content
+  createdAt
+  updatedAt
+  author {
+    id
+    username
+    displayName
+    avatar
+  }
+}
+    `;
 export const TaskFragmentDoc = gql`
     fragment Task on TaskModel {
   id
@@ -1873,6 +1947,37 @@ export function useCreateTaskMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateTaskMutationHookResult = ReturnType<typeof useCreateTaskMutation>;
 export type CreateTaskMutationResult = Apollo.MutationResult<CreateTaskMutation>;
 export type CreateTaskMutationOptions = Apollo.BaseMutationOptions<CreateTaskMutation, CreateTaskMutationVariables>;
+export const DeleteCommentDocument = gql`
+    mutation DeleteComment($id: String!) {
+  deleteComment(commentId: $id)
+}
+    `;
+export type DeleteCommentMutationFn = Apollo.MutationFunction<DeleteCommentMutation, DeleteCommentMutationVariables>;
+
+/**
+ * __useDeleteCommentMutation__
+ *
+ * To run a mutation, you first call `useDeleteCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCommentMutation, { data, loading, error }] = useDeleteCommentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteCommentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCommentMutation, DeleteCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCommentMutation, DeleteCommentMutationVariables>(DeleteCommentDocument, options);
+      }
+export type DeleteCommentMutationHookResult = ReturnType<typeof useDeleteCommentMutation>;
+export type DeleteCommentMutationResult = Apollo.MutationResult<DeleteCommentMutation>;
+export type DeleteCommentMutationOptions = Apollo.BaseMutationOptions<DeleteCommentMutation, DeleteCommentMutationVariables>;
 export const DeleteTaskDocument = gql`
     mutation DeleteTask($id: String!) {
   deleteTask(taskId: $id) {
@@ -1940,6 +2045,39 @@ export function useRemoveLabelFromTaskMutation(baseOptions?: Apollo.MutationHook
 export type RemoveLabelFromTaskMutationHookResult = ReturnType<typeof useRemoveLabelFromTaskMutation>;
 export type RemoveLabelFromTaskMutationResult = Apollo.MutationResult<RemoveLabelFromTaskMutation>;
 export type RemoveLabelFromTaskMutationOptions = Apollo.BaseMutationOptions<RemoveLabelFromTaskMutation, RemoveLabelFromTaskMutationVariables>;
+export const SendCommentDocument = gql`
+    mutation SendComment($data: SendCommentInput!) {
+  sendComment(data: $data) {
+    ...Comment
+  }
+}
+    ${CommentFragmentDoc}`;
+export type SendCommentMutationFn = Apollo.MutationFunction<SendCommentMutation, SendCommentMutationVariables>;
+
+/**
+ * __useSendCommentMutation__
+ *
+ * To run a mutation, you first call `useSendCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendCommentMutation, { data, loading, error }] = useSendCommentMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useSendCommentMutation(baseOptions?: Apollo.MutationHookOptions<SendCommentMutation, SendCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendCommentMutation, SendCommentMutationVariables>(SendCommentDocument, options);
+      }
+export type SendCommentMutationHookResult = ReturnType<typeof useSendCommentMutation>;
+export type SendCommentMutationResult = Apollo.MutationResult<SendCommentMutation>;
+export type SendCommentMutationOptions = Apollo.BaseMutationOptions<SendCommentMutation, SendCommentMutationVariables>;
 export const UnassignTaskDocument = gql`
     mutation UnassignTask($taskId: String!, $userId: String!) {
   unassignTask(taskId: $taskId, userId: $userId) {
@@ -1974,6 +2112,39 @@ export function useUnassignTaskMutation(baseOptions?: Apollo.MutationHookOptions
 export type UnassignTaskMutationHookResult = ReturnType<typeof useUnassignTaskMutation>;
 export type UnassignTaskMutationResult = Apollo.MutationResult<UnassignTaskMutation>;
 export type UnassignTaskMutationOptions = Apollo.BaseMutationOptions<UnassignTaskMutation, UnassignTaskMutationVariables>;
+export const UpdateCommentDocument = gql`
+    mutation UpdateComment($data: UpdateCommentInput!) {
+  updateComment(data: $data) {
+    ...Comment
+  }
+}
+    ${CommentFragmentDoc}`;
+export type UpdateCommentMutationFn = Apollo.MutationFunction<UpdateCommentMutation, UpdateCommentMutationVariables>;
+
+/**
+ * __useUpdateCommentMutation__
+ *
+ * To run a mutation, you first call `useUpdateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCommentMutation, { data, loading, error }] = useUpdateCommentMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateCommentMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCommentMutation, UpdateCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCommentMutation, UpdateCommentMutationVariables>(UpdateCommentDocument, options);
+      }
+export type UpdateCommentMutationHookResult = ReturnType<typeof useUpdateCommentMutation>;
+export type UpdateCommentMutationResult = Apollo.MutationResult<UpdateCommentMutation>;
+export type UpdateCommentMutationOptions = Apollo.BaseMutationOptions<UpdateCommentMutation, UpdateCommentMutationVariables>;
 export const UpdateTaskDocument = gql`
     mutation UpdateTask($id: String!, $data: UpdateTaskInput!) {
   updateTask(taskId: $id, input: $data) {
@@ -2640,6 +2811,46 @@ export type FindAllTasksQueryHookResult = ReturnType<typeof useFindAllTasksQuery
 export type FindAllTasksLazyQueryHookResult = ReturnType<typeof useFindAllTasksLazyQuery>;
 export type FindAllTasksSuspenseQueryHookResult = ReturnType<typeof useFindAllTasksSuspenseQuery>;
 export type FindAllTasksQueryResult = Apollo.QueryResult<FindAllTasksQuery, FindAllTasksQueryVariables>;
+export const FindCommentsByTaskDocument = gql`
+    query FindCommentsByTask($taskId: String!) {
+  findCommentsByTask(taskId: $taskId) {
+    ...Comment
+  }
+}
+    ${CommentFragmentDoc}`;
+
+/**
+ * __useFindCommentsByTaskQuery__
+ *
+ * To run a query within a React component, call `useFindCommentsByTaskQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindCommentsByTaskQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindCommentsByTaskQuery({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *   },
+ * });
+ */
+export function useFindCommentsByTaskQuery(baseOptions: Apollo.QueryHookOptions<FindCommentsByTaskQuery, FindCommentsByTaskQueryVariables> & ({ variables: FindCommentsByTaskQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindCommentsByTaskQuery, FindCommentsByTaskQueryVariables>(FindCommentsByTaskDocument, options);
+      }
+export function useFindCommentsByTaskLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindCommentsByTaskQuery, FindCommentsByTaskQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindCommentsByTaskQuery, FindCommentsByTaskQueryVariables>(FindCommentsByTaskDocument, options);
+        }
+export function useFindCommentsByTaskSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindCommentsByTaskQuery, FindCommentsByTaskQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindCommentsByTaskQuery, FindCommentsByTaskQueryVariables>(FindCommentsByTaskDocument, options);
+        }
+export type FindCommentsByTaskQueryHookResult = ReturnType<typeof useFindCommentsByTaskQuery>;
+export type FindCommentsByTaskLazyQueryHookResult = ReturnType<typeof useFindCommentsByTaskLazyQuery>;
+export type FindCommentsByTaskSuspenseQueryHookResult = ReturnType<typeof useFindCommentsByTaskSuspenseQuery>;
+export type FindCommentsByTaskQueryResult = Apollo.QueryResult<FindCommentsByTaskQuery, FindCommentsByTaskQueryVariables>;
 export const FindTaskByIdDocument = gql`
     query FindTaskById($id: String!) {
   findTask(taskId: $id) {
@@ -2674,17 +2885,6 @@ export const FindTaskByIdDocument = gql`
       id
       title
       url
-    }
-    comments {
-      id
-      content
-      author {
-        id
-        username
-        displayName
-        avatar
-      }
-      createdAt
     }
     createdAt
     updatedAt
@@ -2961,6 +3161,39 @@ export type GenerateTotpSecretQueryHookResult = ReturnType<typeof useGenerateTot
 export type GenerateTotpSecretLazyQueryHookResult = ReturnType<typeof useGenerateTotpSecretLazyQuery>;
 export type GenerateTotpSecretSuspenseQueryHookResult = ReturnType<typeof useGenerateTotpSecretSuspenseQuery>;
 export type GenerateTotpSecretQueryResult = Apollo.QueryResult<GenerateTotpSecretQuery, GenerateTotpSecretQueryVariables>;
+export const CommentChangedDocument = gql`
+    subscription CommentChanged($taskId: String!) {
+  commentChanged(taskId: $taskId) {
+    mutation
+    comment {
+      ...Comment
+    }
+  }
+}
+    ${CommentFragmentDoc}`;
+
+/**
+ * __useCommentChangedSubscription__
+ *
+ * To run a query within a React component, call `useCommentChangedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useCommentChangedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommentChangedSubscription({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *   },
+ * });
+ */
+export function useCommentChangedSubscription(baseOptions: Apollo.SubscriptionHookOptions<CommentChangedSubscription, CommentChangedSubscriptionVariables> & ({ variables: CommentChangedSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<CommentChangedSubscription, CommentChangedSubscriptionVariables>(CommentChangedDocument, options);
+      }
+export type CommentChangedSubscriptionHookResult = ReturnType<typeof useCommentChangedSubscription>;
+export type CommentChangedSubscriptionResult = Apollo.SubscriptionResult<CommentChangedSubscription>;
 export const TaskAddedDocument = gql`
     subscription TaskAdded($projectId: String!) {
   taskAdded(projectId: $projectId) {
