@@ -102,7 +102,7 @@ export function CommentsSection({ taskId }: { taskId: string }) {
 	if (!profile) return null
 
 	return (
-		<div className="pr-4 pt-12">
+		<div className="pr-4 pt-8">
 			<div className="space-y-6">
 				{comments.map(comment => (
 					<CommentItem

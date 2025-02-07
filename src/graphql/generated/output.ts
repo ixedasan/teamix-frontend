@@ -322,7 +322,7 @@ export type MutationCreateTaskLabelArgs = {
 
 
 export type MutationCreateTaskLinkArgs = {
-  input: TaskLinkInput;
+  data: TaskLinkInput;
   taskId: Scalars['String']['input'];
 };
 
@@ -452,7 +452,7 @@ export type MutationUpdateTaskArgs = {
 
 
 export type MutationUpdateTaskLinkArgs = {
-  input: TaskLinkInput;
+  data: TaskLinkInput;
   linkId: Scalars['String']['input'];
 };
 
@@ -741,6 +741,7 @@ export type TaskLinkModel = {
 export type TaskModel = {
   __typename?: 'TaskModel';
   assignees: Array<TaskAssigneeModel>;
+  attachments: Array<AttachmentModel>;
   comments: Array<CommentModel>;
   createdAt: Scalars['DateTime']['output'];
   createdBy: UserModel;
@@ -968,6 +969,14 @@ export type CreateTaskMutationVariables = Exact<{
 
 export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
+export type CreateTaskLinkMutationVariables = Exact<{
+  taskId: Scalars['String']['input'];
+  data: TaskLinkInput;
+}>;
+
+
+export type CreateTaskLinkMutation = { __typename?: 'Mutation', createTaskLink: boolean };
+
 export type DeleteCommentMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
@@ -981,6 +990,13 @@ export type DeleteTaskMutationVariables = Exact<{
 
 
 export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask: { __typename?: 'TaskModel', id: string } };
+
+export type DeleteTaskLinkMutationVariables = Exact<{
+  linkId: Scalars['String']['input'];
+}>;
+
+
+export type DeleteTaskLinkMutation = { __typename?: 'Mutation', deleteTaskLink: boolean };
 
 export type RemoveLabelFromTaskMutationVariables = Exact<{
   taskId: Scalars['String']['input'];
@@ -1019,6 +1035,14 @@ export type UpdateTaskMutationVariables = Exact<{
 
 
 export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+
+export type UpdateTaskLinkMutationVariables = Exact<{
+  linkId: Scalars['String']['input'];
+  data: TaskLinkInput;
+}>;
+
+
+export type UpdateTaskLinkMutation = { __typename?: 'Mutation', updateTaskLink: boolean };
 
 export type ChangeEmailMutationVariables = Exact<{
   data: ChangeEmailInput;
@@ -1145,7 +1169,7 @@ export type FindTaskByIdQueryVariables = Exact<{
 }>;
 
 
-export type FindTaskByIdQuery = { __typename?: 'Query', findTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, createdAt: any, updatedAt: any, createdBy: { __typename?: 'UserModel', avatar?: string | null, displayName: string }, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }>, links: Array<{ __typename?: 'TaskLinkModel', id: string, title?: string | null, url: string }> } };
+export type FindTaskByIdQuery = { __typename?: 'Query', findTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, createdAt: any, updatedAt: any, createdBy: { __typename?: 'UserModel', avatar?: string | null, displayName: string }, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }>, links: Array<{ __typename?: 'TaskLinkModel', id: string, title?: string | null, url: string, createdAt: any }>, attachments: Array<{ __typename?: 'AttachmentModel', id: string, filename: string, filepath: string, mimeType: string, createdAt: any }> } };
 
 export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1947,6 +1971,38 @@ export function useCreateTaskMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateTaskMutationHookResult = ReturnType<typeof useCreateTaskMutation>;
 export type CreateTaskMutationResult = Apollo.MutationResult<CreateTaskMutation>;
 export type CreateTaskMutationOptions = Apollo.BaseMutationOptions<CreateTaskMutation, CreateTaskMutationVariables>;
+export const CreateTaskLinkDocument = gql`
+    mutation CreateTaskLink($taskId: String!, $data: TaskLinkInput!) {
+  createTaskLink(taskId: $taskId, data: $data)
+}
+    `;
+export type CreateTaskLinkMutationFn = Apollo.MutationFunction<CreateTaskLinkMutation, CreateTaskLinkMutationVariables>;
+
+/**
+ * __useCreateTaskLinkMutation__
+ *
+ * To run a mutation, you first call `useCreateTaskLinkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTaskLinkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTaskLinkMutation, { data, loading, error }] = useCreateTaskLinkMutation({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateTaskLinkMutation(baseOptions?: Apollo.MutationHookOptions<CreateTaskLinkMutation, CreateTaskLinkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTaskLinkMutation, CreateTaskLinkMutationVariables>(CreateTaskLinkDocument, options);
+      }
+export type CreateTaskLinkMutationHookResult = ReturnType<typeof useCreateTaskLinkMutation>;
+export type CreateTaskLinkMutationResult = Apollo.MutationResult<CreateTaskLinkMutation>;
+export type CreateTaskLinkMutationOptions = Apollo.BaseMutationOptions<CreateTaskLinkMutation, CreateTaskLinkMutationVariables>;
 export const DeleteCommentDocument = gql`
     mutation DeleteComment($id: String!) {
   deleteComment(commentId: $id)
@@ -2011,6 +2067,37 @@ export function useDeleteTaskMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteTaskMutationHookResult = ReturnType<typeof useDeleteTaskMutation>;
 export type DeleteTaskMutationResult = Apollo.MutationResult<DeleteTaskMutation>;
 export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<DeleteTaskMutation, DeleteTaskMutationVariables>;
+export const DeleteTaskLinkDocument = gql`
+    mutation DeleteTaskLink($linkId: String!) {
+  deleteTaskLink(linkId: $linkId)
+}
+    `;
+export type DeleteTaskLinkMutationFn = Apollo.MutationFunction<DeleteTaskLinkMutation, DeleteTaskLinkMutationVariables>;
+
+/**
+ * __useDeleteTaskLinkMutation__
+ *
+ * To run a mutation, you first call `useDeleteTaskLinkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTaskLinkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTaskLinkMutation, { data, loading, error }] = useDeleteTaskLinkMutation({
+ *   variables: {
+ *      linkId: // value for 'linkId'
+ *   },
+ * });
+ */
+export function useDeleteTaskLinkMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTaskLinkMutation, DeleteTaskLinkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTaskLinkMutation, DeleteTaskLinkMutationVariables>(DeleteTaskLinkDocument, options);
+      }
+export type DeleteTaskLinkMutationHookResult = ReturnType<typeof useDeleteTaskLinkMutation>;
+export type DeleteTaskLinkMutationResult = Apollo.MutationResult<DeleteTaskLinkMutation>;
+export type DeleteTaskLinkMutationOptions = Apollo.BaseMutationOptions<DeleteTaskLinkMutation, DeleteTaskLinkMutationVariables>;
 export const RemoveLabelFromTaskDocument = gql`
     mutation RemoveLabelFromTask($taskId: String!, $labelId: String!) {
   removeLabelFromTask(taskId: $taskId, labelId: $labelId) {
@@ -2179,6 +2266,38 @@ export function useUpdateTaskMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateTaskMutationHookResult = ReturnType<typeof useUpdateTaskMutation>;
 export type UpdateTaskMutationResult = Apollo.MutationResult<UpdateTaskMutation>;
 export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<UpdateTaskMutation, UpdateTaskMutationVariables>;
+export const UpdateTaskLinkDocument = gql`
+    mutation UpdateTaskLink($linkId: String!, $data: TaskLinkInput!) {
+  updateTaskLink(linkId: $linkId, data: $data)
+}
+    `;
+export type UpdateTaskLinkMutationFn = Apollo.MutationFunction<UpdateTaskLinkMutation, UpdateTaskLinkMutationVariables>;
+
+/**
+ * __useUpdateTaskLinkMutation__
+ *
+ * To run a mutation, you first call `useUpdateTaskLinkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTaskLinkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTaskLinkMutation, { data, loading, error }] = useUpdateTaskLinkMutation({
+ *   variables: {
+ *      linkId: // value for 'linkId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateTaskLinkMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTaskLinkMutation, UpdateTaskLinkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateTaskLinkMutation, UpdateTaskLinkMutationVariables>(UpdateTaskLinkDocument, options);
+      }
+export type UpdateTaskLinkMutationHookResult = ReturnType<typeof useUpdateTaskLinkMutation>;
+export type UpdateTaskLinkMutationResult = Apollo.MutationResult<UpdateTaskLinkMutation>;
+export type UpdateTaskLinkMutationOptions = Apollo.BaseMutationOptions<UpdateTaskLinkMutation, UpdateTaskLinkMutationVariables>;
 export const ChangeEmailDocument = gql`
     mutation ChangeEmail($data: ChangeEmailInput!) {
   changeEmail(data: $data)
@@ -2885,6 +3004,14 @@ export const FindTaskByIdDocument = gql`
       id
       title
       url
+      createdAt
+    }
+    attachments {
+      id
+      filename
+      filepath
+      mimeType
+      createdAt
     }
     createdAt
     updatedAt

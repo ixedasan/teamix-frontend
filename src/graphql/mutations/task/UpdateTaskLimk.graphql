@@ -1,0 +1,3 @@
+mutation UpdateTaskLink($linkId: String!, $data: TaskLinkInput!) {
+	updateTaskLink(linkId: $linkId, data: $data)
+}

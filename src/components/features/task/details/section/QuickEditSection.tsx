@@ -1,18 +1,23 @@
 'use client'
 
+import { Link } from 'lucide-react'
+
 import { AssigneeSelector } from '@/components/common/task/AssignmentSelector'
 import { DateSelector } from '@/components/common/task/DateSelector'
 import { LabelSelector } from '@/components/common/task/LabelSelector'
 import { PrioritySelector } from '@/components/common/task/PriorytySelector'
 import { StatusSelector } from '@/components/common/task/StatusSelector'
+import { Button } from '@/components/ui/Button'
 import {
 	useChangeTaskStatusMutation,
+	useCreateTaskLinkMutation,
 	useUpdateTaskMutation,
 	type FindTaskByIdQuery,
 	type Priority,
 	type TaskModel,
 	type TaskStatus
 } from '@/graphql/generated/output'
+import { TaskLinkForm } from '../common/TaskLinkForm'
 
 interface IQuickEditSection {
 	task: FindTaskByIdQuery['findTask']
@@ -61,6 +66,8 @@ export function QuickEditSection({ task, isLoading }: IQuickEditSection) {
 			console.error('Error changing status:', error)
 		}
 	}
+
+	const [create] = useCreateTaskLinkMutation()
 
 	return (
 		<div className="flex flex-col space-y-3">
@@ -112,6 +119,17 @@ export function QuickEditSection({ task, isLoading }: IQuickEditSection) {
 					taskId={task?.id}
 					currentLabels={task?.labels}
 					disabled={isUpdating || isLoading}
+				/>
+			</div>
+			<div className="flex w-full items-center justify-end gap-4">
+				<TaskLinkForm
+					onSubmit={data => create({ variables: { taskId: task?.id, data } })}
+					trigger={
+						<Button variant="outline" size="sm" className="flex items-center">
+							<Link className="mr-1 size-4" />
+							<span>Add Link</span>
+						</Button>
+					}
 				/>
 			</div>
 		</div>

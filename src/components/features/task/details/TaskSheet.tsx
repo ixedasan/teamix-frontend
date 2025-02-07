@@ -29,6 +29,11 @@ const CommentsSection = dynamic(
 	{ ssr: false }
 )
 
+const TaskLinkSection = dynamic(
+	() => import('./section/TaskLinkSection').then(m => m.TaskLinkSection),
+	{ ssr: false }
+)
+
 export function TaskSheet() {
 	const isDesktop = useMediaQuery('(min-width: 768px)')
 
@@ -63,7 +68,7 @@ export function TaskSheet() {
 						{/* Quick editing */}
 						<QuickEditSection task={task} isLoading={loading} />
 
-						{/* <MetadataSection task={task} /> */}
+						{task.links.length > 0 && <TaskLinkSection task={task} />}
 
 						<CommentsSection taskId={task.id} />
 					</div>
@@ -86,7 +91,7 @@ export function TaskSheet() {
 					{/* Quick editing */}
 					<QuickEditSection task={task} isLoading={loading} />
 
-					{/* <MetadataSection task={task} /> */}
+					{task.links.length > 0 && <TaskLinkSection task={task} />}
 
 					<CommentsSection taskId={task.id} />
 				</div>

@@ -31,6 +31,14 @@ query FindTaskById($id: String!) {
 			id
 			title
 			url
+			createdAt
+		}
+		attachments {
+			id
+			filename
+			filepath
+			mimeType
+			createdAt
 		}
 		createdAt
 		updatedAt

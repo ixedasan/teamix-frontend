@@ -1,0 +1,3 @@
+mutation DeleteTaskLink($linkId: String!) {
+	deleteTaskLink(linkId: $linkId) 
+}
