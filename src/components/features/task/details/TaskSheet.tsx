@@ -34,6 +34,12 @@ const TaskLinkSection = dynamic(
 	{ ssr: false }
 )
 
+const TaskAttachmentsSection = dynamic(
+	() =>
+		import('./section/AttachmentsSection').then(m => m.TaskAttachmentsSection),
+	{ ssr: false }
+)
+
 export function TaskSheet() {
 	const isDesktop = useMediaQuery('(min-width: 768px)')
 
@@ -57,7 +63,7 @@ export function TaskSheet() {
 		return (
 			<Sheet open={isOpen} onOpenChange={handleOpenChange}>
 				<SheetContent className="h-full w-full max-w-2xl overflow-y-auto md:max-w-3xl xl:max-w-5xl">
-					<SheetHeader className="hidden">
+					<SheetHeader className="sr-only">
 						<SheetTitle></SheetTitle>
 						<SheetDescription></SheetDescription>
 					</SheetHeader>
@@ -70,6 +76,10 @@ export function TaskSheet() {
 
 						{task.links.length > 0 && <TaskLinkSection task={task} />}
 
+						{task.attachments.length > 0 && (
+							<TaskAttachmentsSection taskId={task.id} />
+						)}
+
 						<CommentsSection taskId={task.id} />
 					</div>
 				</SheetContent>
@@ -80,7 +90,7 @@ export function TaskSheet() {
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
 			<DrawerContent className="h-[90%]">
-				<DrawerHeader className="hidden">
+				<DrawerHeader className="sr-only">
 					<DrawerTitle></DrawerTitle>
 					<DrawerDescription></DrawerDescription>
 				</DrawerHeader>
@@ -92,6 +102,10 @@ export function TaskSheet() {
 					<QuickEditSection task={task} isLoading={loading} />
 
 					{task.links.length > 0 && <TaskLinkSection task={task} />}
+
+					{task.attachments.length > 0 && (
+						<TaskAttachmentsSection taskId={task.id} />
+					)}
 
 					<CommentsSection taskId={task.id} />
 				</div>

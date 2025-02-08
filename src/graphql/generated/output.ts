@@ -991,12 +991,26 @@ export type DeleteTaskMutationVariables = Exact<{
 
 export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask: { __typename?: 'TaskModel', id: string } };
 
+export type DeleteTaskAttachmentMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DeleteTaskAttachmentMutation = { __typename?: 'Mutation', deleteTaskAttachment: boolean };
+
 export type DeleteTaskLinkMutationVariables = Exact<{
   linkId: Scalars['String']['input'];
 }>;
 
 
 export type DeleteTaskLinkMutation = { __typename?: 'Mutation', deleteTaskLink: boolean };
+
+export type GenerateAttachmentDownloadUrlMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GenerateAttachmentDownloadUrlMutation = { __typename?: 'Mutation', generateAttachmentDownloadUrl: string };
 
 export type RemoveLabelFromTaskMutationVariables = Exact<{
   taskId: Scalars['String']['input'];
@@ -1043,6 +1057,14 @@ export type UpdateTaskLinkMutationVariables = Exact<{
 
 
 export type UpdateTaskLinkMutation = { __typename?: 'Mutation', updateTaskLink: boolean };
+
+export type UploadTaskAttachmentMutationVariables = Exact<{
+  taskId: Scalars['String']['input'];
+  file: Scalars['Upload']['input'];
+}>;
+
+
+export type UploadTaskAttachmentMutation = { __typename?: 'Mutation', uploadTaskAttachment: boolean };
 
 export type ChangeEmailMutationVariables = Exact<{
   data: ChangeEmailInput;
@@ -1163,6 +1185,13 @@ export type FindCommentsByTaskQueryVariables = Exact<{
 
 
 export type FindCommentsByTaskQuery = { __typename?: 'Query', findCommentsByTask: Array<{ __typename?: 'CommentModel', id: string, content: string, createdAt: any, updatedAt: any, author: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }> };
+
+export type FindTaskAttachmentsQueryVariables = Exact<{
+  taskId: Scalars['String']['input'];
+}>;
+
+
+export type FindTaskAttachmentsQuery = { __typename?: 'Query', findTaskAttachments: Array<{ __typename?: 'AttachmentModel', id: string, filename: string, filepath: string, mimeType: string, size: number }> };
 
 export type FindTaskByIdQueryVariables = Exact<{
   id: Scalars['String']['input'];
@@ -2067,6 +2096,37 @@ export function useDeleteTaskMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteTaskMutationHookResult = ReturnType<typeof useDeleteTaskMutation>;
 export type DeleteTaskMutationResult = Apollo.MutationResult<DeleteTaskMutation>;
 export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<DeleteTaskMutation, DeleteTaskMutationVariables>;
+export const DeleteTaskAttachmentDocument = gql`
+    mutation DeleteTaskAttachment($id: String!) {
+  deleteTaskAttachment(id: $id)
+}
+    `;
+export type DeleteTaskAttachmentMutationFn = Apollo.MutationFunction<DeleteTaskAttachmentMutation, DeleteTaskAttachmentMutationVariables>;
+
+/**
+ * __useDeleteTaskAttachmentMutation__
+ *
+ * To run a mutation, you first call `useDeleteTaskAttachmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTaskAttachmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTaskAttachmentMutation, { data, loading, error }] = useDeleteTaskAttachmentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteTaskAttachmentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTaskAttachmentMutation, DeleteTaskAttachmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTaskAttachmentMutation, DeleteTaskAttachmentMutationVariables>(DeleteTaskAttachmentDocument, options);
+      }
+export type DeleteTaskAttachmentMutationHookResult = ReturnType<typeof useDeleteTaskAttachmentMutation>;
+export type DeleteTaskAttachmentMutationResult = Apollo.MutationResult<DeleteTaskAttachmentMutation>;
+export type DeleteTaskAttachmentMutationOptions = Apollo.BaseMutationOptions<DeleteTaskAttachmentMutation, DeleteTaskAttachmentMutationVariables>;
 export const DeleteTaskLinkDocument = gql`
     mutation DeleteTaskLink($linkId: String!) {
   deleteTaskLink(linkId: $linkId)
@@ -2098,6 +2158,37 @@ export function useDeleteTaskLinkMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteTaskLinkMutationHookResult = ReturnType<typeof useDeleteTaskLinkMutation>;
 export type DeleteTaskLinkMutationResult = Apollo.MutationResult<DeleteTaskLinkMutation>;
 export type DeleteTaskLinkMutationOptions = Apollo.BaseMutationOptions<DeleteTaskLinkMutation, DeleteTaskLinkMutationVariables>;
+export const GenerateAttachmentDownloadUrlDocument = gql`
+    mutation GenerateAttachmentDownloadUrl($id: String!) {
+  generateAttachmentDownloadUrl(id: $id)
+}
+    `;
+export type GenerateAttachmentDownloadUrlMutationFn = Apollo.MutationFunction<GenerateAttachmentDownloadUrlMutation, GenerateAttachmentDownloadUrlMutationVariables>;
+
+/**
+ * __useGenerateAttachmentDownloadUrlMutation__
+ *
+ * To run a mutation, you first call `useGenerateAttachmentDownloadUrlMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGenerateAttachmentDownloadUrlMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [generateAttachmentDownloadUrlMutation, { data, loading, error }] = useGenerateAttachmentDownloadUrlMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGenerateAttachmentDownloadUrlMutation(baseOptions?: Apollo.MutationHookOptions<GenerateAttachmentDownloadUrlMutation, GenerateAttachmentDownloadUrlMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GenerateAttachmentDownloadUrlMutation, GenerateAttachmentDownloadUrlMutationVariables>(GenerateAttachmentDownloadUrlDocument, options);
+      }
+export type GenerateAttachmentDownloadUrlMutationHookResult = ReturnType<typeof useGenerateAttachmentDownloadUrlMutation>;
+export type GenerateAttachmentDownloadUrlMutationResult = Apollo.MutationResult<GenerateAttachmentDownloadUrlMutation>;
+export type GenerateAttachmentDownloadUrlMutationOptions = Apollo.BaseMutationOptions<GenerateAttachmentDownloadUrlMutation, GenerateAttachmentDownloadUrlMutationVariables>;
 export const RemoveLabelFromTaskDocument = gql`
     mutation RemoveLabelFromTask($taskId: String!, $labelId: String!) {
   removeLabelFromTask(taskId: $taskId, labelId: $labelId) {
@@ -2298,6 +2389,38 @@ export function useUpdateTaskLinkMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpdateTaskLinkMutationHookResult = ReturnType<typeof useUpdateTaskLinkMutation>;
 export type UpdateTaskLinkMutationResult = Apollo.MutationResult<UpdateTaskLinkMutation>;
 export type UpdateTaskLinkMutationOptions = Apollo.BaseMutationOptions<UpdateTaskLinkMutation, UpdateTaskLinkMutationVariables>;
+export const UploadTaskAttachmentDocument = gql`
+    mutation UploadTaskAttachment($taskId: String!, $file: Upload!) {
+  uploadTaskAttachment(taskId: $taskId, file: $file)
+}
+    `;
+export type UploadTaskAttachmentMutationFn = Apollo.MutationFunction<UploadTaskAttachmentMutation, UploadTaskAttachmentMutationVariables>;
+
+/**
+ * __useUploadTaskAttachmentMutation__
+ *
+ * To run a mutation, you first call `useUploadTaskAttachmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadTaskAttachmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadTaskAttachmentMutation, { data, loading, error }] = useUploadTaskAttachmentMutation({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useUploadTaskAttachmentMutation(baseOptions?: Apollo.MutationHookOptions<UploadTaskAttachmentMutation, UploadTaskAttachmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadTaskAttachmentMutation, UploadTaskAttachmentMutationVariables>(UploadTaskAttachmentDocument, options);
+      }
+export type UploadTaskAttachmentMutationHookResult = ReturnType<typeof useUploadTaskAttachmentMutation>;
+export type UploadTaskAttachmentMutationResult = Apollo.MutationResult<UploadTaskAttachmentMutation>;
+export type UploadTaskAttachmentMutationOptions = Apollo.BaseMutationOptions<UploadTaskAttachmentMutation, UploadTaskAttachmentMutationVariables>;
 export const ChangeEmailDocument = gql`
     mutation ChangeEmail($data: ChangeEmailInput!) {
   changeEmail(data: $data)
@@ -2970,6 +3093,50 @@ export type FindCommentsByTaskQueryHookResult = ReturnType<typeof useFindComment
 export type FindCommentsByTaskLazyQueryHookResult = ReturnType<typeof useFindCommentsByTaskLazyQuery>;
 export type FindCommentsByTaskSuspenseQueryHookResult = ReturnType<typeof useFindCommentsByTaskSuspenseQuery>;
 export type FindCommentsByTaskQueryResult = Apollo.QueryResult<FindCommentsByTaskQuery, FindCommentsByTaskQueryVariables>;
+export const FindTaskAttachmentsDocument = gql`
+    query FindTaskAttachments($taskId: String!) {
+  findTaskAttachments(taskId: $taskId) {
+    id
+    filename
+    filepath
+    mimeType
+    size
+  }
+}
+    `;
+
+/**
+ * __useFindTaskAttachmentsQuery__
+ *
+ * To run a query within a React component, call `useFindTaskAttachmentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindTaskAttachmentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindTaskAttachmentsQuery({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *   },
+ * });
+ */
+export function useFindTaskAttachmentsQuery(baseOptions: Apollo.QueryHookOptions<FindTaskAttachmentsQuery, FindTaskAttachmentsQueryVariables> & ({ variables: FindTaskAttachmentsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindTaskAttachmentsQuery, FindTaskAttachmentsQueryVariables>(FindTaskAttachmentsDocument, options);
+      }
+export function useFindTaskAttachmentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindTaskAttachmentsQuery, FindTaskAttachmentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindTaskAttachmentsQuery, FindTaskAttachmentsQueryVariables>(FindTaskAttachmentsDocument, options);
+        }
+export function useFindTaskAttachmentsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindTaskAttachmentsQuery, FindTaskAttachmentsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindTaskAttachmentsQuery, FindTaskAttachmentsQueryVariables>(FindTaskAttachmentsDocument, options);
+        }
+export type FindTaskAttachmentsQueryHookResult = ReturnType<typeof useFindTaskAttachmentsQuery>;
+export type FindTaskAttachmentsLazyQueryHookResult = ReturnType<typeof useFindTaskAttachmentsLazyQuery>;
+export type FindTaskAttachmentsSuspenseQueryHookResult = ReturnType<typeof useFindTaskAttachmentsSuspenseQuery>;
+export type FindTaskAttachmentsQueryResult = Apollo.QueryResult<FindTaskAttachmentsQuery, FindTaskAttachmentsQueryVariables>;
 export const FindTaskByIdDocument = gql`
     query FindTaskById($id: String!) {
   findTask(taskId: $id) {

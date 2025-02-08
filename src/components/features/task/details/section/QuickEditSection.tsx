@@ -17,6 +17,7 @@ import {
 	type TaskModel,
 	type TaskStatus
 } from '@/graphql/generated/output'
+import { CreateAttachmentsForm } from '../common/CreateAttachmentsForm'
 import { TaskLinkForm } from '../common/TaskLinkForm'
 
 interface IQuickEditSection {
@@ -131,6 +132,7 @@ export function QuickEditSection({ task, isLoading }: IQuickEditSection) {
 						</Button>
 					}
 				/>
+				<CreateAttachmentsForm taskId={task?.id} />
 			</div>
 		</div>
 	)
