@@ -30,7 +30,7 @@ import {
 	useGenerateAttachmentDownloadUrlMutation
 } from '@/graphql/generated/output'
 import { formatFileSize } from '@/utils/format-file-size'
-import { CreateAttachmentsForm } from '../common/CreateAttachmentsForm'
+import { CreateAttachmentsForm } from './CreateAttachmentsForm'
 import { cn } from '@/lib/utils'
 
 interface ITaskAttachmentsSection {
@@ -82,6 +82,8 @@ export function TaskAttachmentsSection({ taskId }: ITaskAttachmentsSection) {
 	const memoizedFormatFileSize = useCallback((size: number) => {
 		return formatFileSize(size)
 	}, [])
+
+	if (!attachments.length) return null
 
 	return (
 		<Collapsible

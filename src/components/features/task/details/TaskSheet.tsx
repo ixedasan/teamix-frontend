@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback } from 'react'
-// import { CommentsSection } from './section/CommentsSection'
 import dynamic from 'next/dynamic'
 
 import {
@@ -11,6 +10,7 @@ import {
 	DrawerHeader,
 	DrawerTitle
 } from '@/components/ui/Drawer'
+import { ScrollArea } from '@/components/ui/ScrollArea'
 import {
 	Sheet,
 	SheetContent,
@@ -25,18 +25,21 @@ import { QuickEditSection } from './section/QuickEditSection'
 import { TaskHeaderSection } from './section/TaskHeaderSection'
 
 const CommentsSection = dynamic(
-	() => import('./section/CommentsSection').then(m => m.CommentsSection),
+	() =>
+		import('./section/comments/CommentsSection').then(m => m.CommentsSection),
 	{ ssr: false }
 )
 
 const TaskLinkSection = dynamic(
-	() => import('./section/TaskLinkSection').then(m => m.TaskLinkSection),
+	() => import('./section/links/TaskLinkSection').then(m => m.TaskLinkSection),
 	{ ssr: false }
 )
 
 const TaskAttachmentsSection = dynamic(
 	() =>
-		import('./section/AttachmentsSection').then(m => m.TaskAttachmentsSection),
+		import('./section/attachments/AttachmentsSection').then(
+			m => m.TaskAttachmentsSection
+		),
 	{ ssr: false }
 )
 
@@ -68,13 +71,11 @@ export function TaskSheet() {
 						<SheetDescription></SheetDescription>
 					</SheetHeader>
 					<div className="relative flex flex-col space-y-3 px-8 py-5">
-						{/* Main info */}
 						<TaskHeaderSection task={task} isLoading={loading} />
 
-						{/* Quick editing */}
 						<QuickEditSection task={task} isLoading={loading} />
 
-						{task.links.length > 0 && <TaskLinkSection task={task} />}
+						{task.links.length > 0 && <TaskLinkSection taskId={task.id} />}
 
 						{task.attachments.length > 0 && (
 							<TaskAttachmentsSection taskId={task.id} />
@@ -90,25 +91,25 @@ export function TaskSheet() {
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
 			<DrawerContent className="h-[90%]">
-				<DrawerHeader className="sr-only">
-					<DrawerTitle></DrawerTitle>
-					<DrawerDescription></DrawerDescription>
-				</DrawerHeader>
-				<div className="relative flex flex-col space-y-3 p-4">
-					{/* Main info */}
-					<TaskHeaderSection task={task} isLoading={loading} />
+				<ScrollArea className="h-full">
+					<DrawerHeader className="sr-only">
+						<DrawerTitle></DrawerTitle>
+						<DrawerDescription></DrawerDescription>
+					</DrawerHeader>
+					<div className="relative flex flex-col space-y-3 p-4">
+						<TaskHeaderSection task={task} isLoading={loading} />
 
-					{/* Quick editing */}
-					<QuickEditSection task={task} isLoading={loading} />
+						<QuickEditSection task={task} isLoading={loading} />
 
-					{task.links.length > 0 && <TaskLinkSection task={task} />}
+						{task.links.length > 0 && <TaskLinkSection taskId={task.id} />}
 
-					{task.attachments.length > 0 && (
-						<TaskAttachmentsSection taskId={task.id} />
-					)}
+						{task.attachments.length > 0 && (
+							<TaskAttachmentsSection taskId={task.id} />
+						)}
 
-					<CommentsSection taskId={task.id} />
-				</div>
+						<CommentsSection taskId={task.id} />
+					</div>
+				</ScrollArea>
 			</DrawerContent>
 		</Drawer>
 	)

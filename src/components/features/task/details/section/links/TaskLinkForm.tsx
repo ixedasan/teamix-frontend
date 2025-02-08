@@ -58,13 +58,13 @@ export function TaskLinkForm({
 
 	const { isValid } = form.formState
 
-	const handleSubmit = async (data: TypeTaskLinkSchema) => {
+	const handleSubmit = (data: TypeTaskLinkSchema) => {
 		try {
-			await onSubmit(data)
+			onSubmit(data)
 			setOpen(false)
 			form.reset()
 		} catch {
-			toast.error('Error processing link')
+			toast.error('Failed to create link')
 		}
 	}
 

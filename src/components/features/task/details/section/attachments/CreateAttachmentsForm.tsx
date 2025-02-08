@@ -40,13 +40,6 @@ export function CreateAttachmentsForm({
 	trigger
 }: ICreateAttachmentsForm) {
 	const [open, setOpen] = useState(false)
-	const [uploadFile, { loading, error }] = useUploadTaskAttachmentMutation({
-		onCompleted: () => {
-			toast.success('Attachment uploaded successfully')
-			setOpen(false)
-			form.reset()
-		}
-	})
 
 	const form = useForm<TypeUploadFileSchema>({
 		resolver: zodResolver(UploadFileSchema),
@@ -68,6 +61,15 @@ export function CreateAttachmentsForm({
 		onDrop,
 		multiple: false,
 		accept: { '*': [] }
+	})
+
+	const [uploadFile, { loading, error }] = useUploadTaskAttachmentMutation({
+		onCompleted: () => {
+			toast.success('Attachment uploaded successfully')
+			setOpen(false)
+			form.reset()
+		},
+		refetchQueries: ['FindTaskAttachments']
 	})
 
 	const onSubmit = (data: TypeUploadFileSchema) => {

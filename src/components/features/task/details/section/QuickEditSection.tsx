@@ -10,15 +10,15 @@ import { StatusSelector } from '@/components/common/task/StatusSelector'
 import { Button } from '@/components/ui/Button'
 import {
 	useChangeTaskStatusMutation,
-	useCreateTaskLinkMutation,
 	useUpdateTaskMutation,
 	type FindTaskByIdQuery,
 	type Priority,
 	type TaskModel,
 	type TaskStatus
 } from '@/graphql/generated/output'
-import { CreateAttachmentsForm } from '../common/CreateAttachmentsForm'
-import { TaskLinkForm } from '../common/TaskLinkForm'
+import { useTaskLinks } from '@/hooks/use-task-links'
+import { CreateAttachmentsForm } from './attachments/CreateAttachmentsForm'
+import { TaskLinkForm } from './links/TaskLinkForm'
 
 interface IQuickEditSection {
 	task: FindTaskByIdQuery['findTask']
@@ -35,6 +35,8 @@ export function QuickEditSection({ task, isLoading }: IQuickEditSection) {
 	const [changeStatus, { loading: isLoadingStatus }] =
 		useChangeTaskStatusMutation()
 	const [updateTask, { loading: isUpdating }] = useUpdateTaskMutation()
+
+	const { createLink } = useTaskLinks(task?.id)
 
 	const handleUpdateChange = async <K extends keyof UpdateFieldType>(
 		field: K,
@@ -67,8 +69,6 @@ export function QuickEditSection({ task, isLoading }: IQuickEditSection) {
 			console.error('Error changing status:', error)
 		}
 	}
-
-	const [create] = useCreateTaskLinkMutation()
 
 	return (
 		<div className="flex flex-col space-y-3">
@@ -124,7 +124,7 @@ export function QuickEditSection({ task, isLoading }: IQuickEditSection) {
 			</div>
 			<div className="flex w-full items-center justify-end gap-4">
 				<TaskLinkForm
-					onSubmit={data => create({ variables: { taskId: task?.id, data } })}
+					onSubmit={data => createLink(data)}
 					trigger={
 						<Button variant="outline" size="sm" className="flex items-center">
 							<Link className="mr-1 size-4" />
@@ -132,7 +132,15 @@ export function QuickEditSection({ task, isLoading }: IQuickEditSection) {
 						</Button>
 					}
 				/>
-				<CreateAttachmentsForm taskId={task?.id} />
+				<CreateAttachmentsForm
+					taskId={task?.id}
+					trigger={
+						<Button variant="outline" size="sm" className="flex items-center">
+							<Link className="mr-1 size-4" />
+							<span>Add Attachment</span>
+						</Button>
+					}
+				/>
 			</div>
 		</div>
 	)

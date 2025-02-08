@@ -1191,14 +1191,21 @@ export type FindTaskAttachmentsQueryVariables = Exact<{
 }>;
 
 
-export type FindTaskAttachmentsQuery = { __typename?: 'Query', findTaskAttachments: Array<{ __typename?: 'AttachmentModel', id: string, filename: string, filepath: string, mimeType: string, size: number }> };
+export type FindTaskAttachmentsQuery = { __typename?: 'Query', findTaskAttachments: Array<{ __typename?: 'AttachmentModel', id: string, filename: string, filepath: string, mimeType: string, size: number, createdAt: any }> };
 
 export type FindTaskByIdQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type FindTaskByIdQuery = { __typename?: 'Query', findTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, createdAt: any, updatedAt: any, createdBy: { __typename?: 'UserModel', avatar?: string | null, displayName: string }, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }>, links: Array<{ __typename?: 'TaskLinkModel', id: string, title?: string | null, url: string, createdAt: any }>, attachments: Array<{ __typename?: 'AttachmentModel', id: string, filename: string, filepath: string, mimeType: string, createdAt: any }> } };
+export type FindTaskByIdQuery = { __typename?: 'Query', findTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, createdAt: any, updatedAt: any, createdBy: { __typename?: 'UserModel', avatar?: string | null, displayName: string }, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }>, links: Array<{ __typename?: 'TaskLinkModel', id: string }>, attachments: Array<{ __typename?: 'AttachmentModel', id: string }> } };
+
+export type FindTaskLinksQueryVariables = Exact<{
+  taskId: Scalars['String']['input'];
+}>;
+
+
+export type FindTaskLinksQuery = { __typename?: 'Query', findTaskLinks: Array<{ __typename?: 'TaskLinkModel', id: string, title?: string | null, url: string, createdAt: any, updatedAt: any }> };
 
 export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3101,6 +3108,7 @@ export const FindTaskAttachmentsDocument = gql`
     filepath
     mimeType
     size
+    createdAt
   }
 }
     `;
@@ -3169,16 +3177,9 @@ export const FindTaskByIdDocument = gql`
     }
     links {
       id
-      title
-      url
-      createdAt
     }
     attachments {
       id
-      filename
-      filepath
-      mimeType
-      createdAt
     }
     createdAt
     updatedAt
@@ -3218,6 +3219,50 @@ export type FindTaskByIdQueryHookResult = ReturnType<typeof useFindTaskByIdQuery
 export type FindTaskByIdLazyQueryHookResult = ReturnType<typeof useFindTaskByIdLazyQuery>;
 export type FindTaskByIdSuspenseQueryHookResult = ReturnType<typeof useFindTaskByIdSuspenseQuery>;
 export type FindTaskByIdQueryResult = Apollo.QueryResult<FindTaskByIdQuery, FindTaskByIdQueryVariables>;
+export const FindTaskLinksDocument = gql`
+    query FindTaskLinks($taskId: String!) {
+  findTaskLinks(taskId: $taskId) {
+    id
+    title
+    url
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useFindTaskLinksQuery__
+ *
+ * To run a query within a React component, call `useFindTaskLinksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindTaskLinksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindTaskLinksQuery({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *   },
+ * });
+ */
+export function useFindTaskLinksQuery(baseOptions: Apollo.QueryHookOptions<FindTaskLinksQuery, FindTaskLinksQueryVariables> & ({ variables: FindTaskLinksQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindTaskLinksQuery, FindTaskLinksQueryVariables>(FindTaskLinksDocument, options);
+      }
+export function useFindTaskLinksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindTaskLinksQuery, FindTaskLinksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindTaskLinksQuery, FindTaskLinksQueryVariables>(FindTaskLinksDocument, options);
+        }
+export function useFindTaskLinksSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindTaskLinksQuery, FindTaskLinksQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindTaskLinksQuery, FindTaskLinksQueryVariables>(FindTaskLinksDocument, options);
+        }
+export type FindTaskLinksQueryHookResult = ReturnType<typeof useFindTaskLinksQuery>;
+export type FindTaskLinksLazyQueryHookResult = ReturnType<typeof useFindTaskLinksLazyQuery>;
+export type FindTaskLinksSuspenseQueryHookResult = ReturnType<typeof useFindTaskLinksSuspenseQuery>;
+export type FindTaskLinksQueryResult = Apollo.QueryResult<FindTaskLinksQuery, FindTaskLinksQueryVariables>;
 export const FindCurrentSessionDocument = gql`
     query FindCurrentSession {
   findCurrentSession {

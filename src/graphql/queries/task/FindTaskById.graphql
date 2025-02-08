@@ -27,15 +27,6 @@ query FindTaskById($id: String!) {
 			name
 			color
 		}
-		links {
-			id
-			title
-			url
-			createdAt
-		}
-		attachments {
-			id
-		}
 		createdAt
 		updatedAt
 	}

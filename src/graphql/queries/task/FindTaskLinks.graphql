@@ -1,0 +1,9 @@
+query FindTaskLinks($taskId: String!) {
+	findTaskLinks(taskId: $taskId) {
+		id
+		title
+		url
+		createdAt
+		updatedAt
+	}
+}
