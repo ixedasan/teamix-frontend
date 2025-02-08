@@ -1,6 +1,7 @@
 'use client'
 
-import { TaskViewToggle } from '@/components/common/TaskViewToggle'
+import { CreateTaskDialog } from '@/components/common/task/CreateTaskDialog'
+import { TaskViewToggle } from '@/components/common/task/TaskViewToggle'
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -39,7 +40,11 @@ export function TaskHeader() {
 			</div>
 			<div className="flex items-center gap-2 px-4">
 				<TaskViewToggle />
-				<Button className="h-8 rounded-md px-4 text-xs">Add Task</Button>
+				<CreateTaskDialog
+					trigger={
+						<Button className="h-8 rounded-md px-4 text-sm">Add Task</Button>
+					}
+				/>
 			</div>
 		</header>
 	)

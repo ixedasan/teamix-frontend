@@ -977,6 +977,13 @@ export type CreateTaskLinkMutationVariables = Exact<{
 
 export type CreateTaskLinkMutation = { __typename?: 'Mutation', createTaskLink: boolean };
 
+export type CreateTaskMutationMutationVariables = Exact<{
+  data: TaskInput;
+}>;
+
+
+export type CreateTaskMutationMutation = { __typename?: 'Mutation', createTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
+
 export type DeleteCommentMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
@@ -1198,7 +1205,7 @@ export type FindTaskByIdQueryVariables = Exact<{
 }>;
 
 
-export type FindTaskByIdQuery = { __typename?: 'Query', findTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, createdAt: any, updatedAt: any, createdBy: { __typename?: 'UserModel', avatar?: string | null, displayName: string }, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }>, links: Array<{ __typename?: 'TaskLinkModel', id: string }>, attachments: Array<{ __typename?: 'AttachmentModel', id: string }> } };
+export type FindTaskByIdQuery = { __typename?: 'Query', findTask: { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, createdAt: any, updatedAt: any, createdBy: { __typename?: 'UserModel', avatar?: string | null, displayName: string }, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> } };
 
 export type FindTaskLinksQueryVariables = Exact<{
   taskId: Scalars['String']['input'];
@@ -2039,6 +2046,39 @@ export function useCreateTaskLinkMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreateTaskLinkMutationHookResult = ReturnType<typeof useCreateTaskLinkMutation>;
 export type CreateTaskLinkMutationResult = Apollo.MutationResult<CreateTaskLinkMutation>;
 export type CreateTaskLinkMutationOptions = Apollo.BaseMutationOptions<CreateTaskLinkMutation, CreateTaskLinkMutationVariables>;
+export const CreateTaskMutationDocument = gql`
+    mutation CreateTaskMutation($data: TaskInput!) {
+  createTask(input: $data) {
+    ...Task
+  }
+}
+    ${TaskFragmentDoc}`;
+export type CreateTaskMutationMutationFn = Apollo.MutationFunction<CreateTaskMutationMutation, CreateTaskMutationMutationVariables>;
+
+/**
+ * __useCreateTaskMutationMutation__
+ *
+ * To run a mutation, you first call `useCreateTaskMutationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTaskMutationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTaskMutationMutation, { data, loading, error }] = useCreateTaskMutationMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateTaskMutationMutation(baseOptions?: Apollo.MutationHookOptions<CreateTaskMutationMutation, CreateTaskMutationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTaskMutationMutation, CreateTaskMutationMutationVariables>(CreateTaskMutationDocument, options);
+      }
+export type CreateTaskMutationMutationHookResult = ReturnType<typeof useCreateTaskMutationMutation>;
+export type CreateTaskMutationMutationResult = Apollo.MutationResult<CreateTaskMutationMutation>;
+export type CreateTaskMutationMutationOptions = Apollo.BaseMutationOptions<CreateTaskMutationMutation, CreateTaskMutationMutationVariables>;
 export const DeleteCommentDocument = gql`
     mutation DeleteComment($id: String!) {
   deleteComment(commentId: $id)
@@ -3174,12 +3214,6 @@ export const FindTaskByIdDocument = gql`
       id
       name
       color
-    }
-    links {
-      id
-    }
-    attachments {
-      id
     }
     createdAt
     updatedAt

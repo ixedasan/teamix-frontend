@@ -122,7 +122,7 @@ export function PrioritySelector({
 			aria-expanded={open}
 			className={cn(
 				'justify-between',
-				triggerVariant === 'icon-only' && 'h-6 w-6 p-0.5',
+				triggerVariant === 'icon-only' && 'size-8 justify-center p-0.5',
 				triggerVariant === 'compact' && 'h-7 px-2',
 				triggerVariant === 'default' && 'w-full',
 				className

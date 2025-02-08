@@ -2,8 +2,8 @@
 
 import { Kanban, Table } from 'lucide-react'
 
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { TaskViewMode, useTaskViewStore } from '@/store/task/task-view.store'
-import { Tabs, TabsList, TabsTrigger } from '../ui/Tabs'
 
 export function TaskViewToggle() {
 	const { mode, setMode } = useTaskViewStore()

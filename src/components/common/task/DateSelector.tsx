@@ -52,7 +52,7 @@ export function DateSelector({
 
 	const renderTriggerContent = () => {
 		if (triggerVariant === 'icon-only') {
-			return <CalendarIcon className="h-4 w-4" />
+			return <CalendarIcon className="size-8" />
 		}
 
 		if (triggerVariant === 'compact') {
@@ -61,7 +61,7 @@ export function DateSelector({
 					{value ? (
 						<span className="text-xs">{format(value, 'dd.MM')}</span>
 					) : (
-						<CalendarIcon className="h-4 w-4" />
+						<CalendarIcon className="size-4" />
 					)}
 				</div>
 			)
@@ -74,7 +74,7 @@ export function DateSelector({
 					<span>{format(value, 'dd.MM.yyyy')}</span>
 				) : (
 					<>
-						<CalendarIcon className="h-4 w-4" />
+						<CalendarIcon className="size-4" />
 						<span>Pick a date</span>
 					</>
 				)}
@@ -87,7 +87,7 @@ export function DateSelector({
 			variant="outline"
 			className={cn(
 				'justify-between',
-				triggerVariant === 'icon-only' && 'h-6 w-6 p-0.5',
+				triggerVariant === 'icon-only' && 'size-8 justify-center p-0.5',
 				triggerVariant === 'compact' && 'h-7 px-2',
 				triggerVariant === 'default' && 'w-full',
 				!value && 'text-muted-foreground',

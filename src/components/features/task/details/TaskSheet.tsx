@@ -2,7 +2,10 @@
 
 import { useCallback } from 'react'
 import dynamic from 'next/dynamic'
+import { MoreVerticalIcon, Trash } from 'lucide-react'
 
+import { DeleteTaskDialog } from '@/components/common/task/DeleteTaskDialog'
+import { Button } from '@/components/ui/Button'
 import {
 	Drawer,
 	DrawerContent,
@@ -10,6 +13,11 @@ import {
 	DrawerHeader,
 	DrawerTitle
 } from '@/components/ui/Drawer'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuTrigger
+} from '@/components/ui/DropdownMenu'
 import { ScrollArea } from '@/components/ui/ScrollArea'
 import {
 	Sheet,
@@ -66,20 +74,43 @@ export function TaskSheet() {
 		return (
 			<Sheet open={isOpen} onOpenChange={handleOpenChange}>
 				<SheetContent className="h-full w-full max-w-2xl overflow-y-auto md:max-w-3xl xl:max-w-5xl">
-					<SheetHeader className="sr-only">
-						<SheetTitle></SheetTitle>
-						<SheetDescription></SheetDescription>
+					<SheetHeader>
+						<SheetTitle className="sr-only"></SheetTitle>
+						<SheetDescription className="sr-only"></SheetDescription>
+
+						<DropdownMenu>
+							<DropdownMenuTrigger
+								asChild
+								tabIndex={-1}
+								className="absolute left-0 top-0 translate-x-2 p-4"
+							>
+								<Button variant="ghost" className="size-4">
+									<MoreVerticalIcon className="size-4" />
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent>
+								<DeleteTaskDialog
+									task={task}
+									trigger={
+										<Button
+											className="w-full p-0 text-muted-foreground hover:text-destructive"
+											variant="ghost"
+										>
+											Delete <Trash />
+										</Button>
+									}
+								/>
+							</DropdownMenuContent>
+						</DropdownMenu>
 					</SheetHeader>
 					<div className="relative flex flex-col space-y-3 px-8 py-5">
 						<TaskHeaderSection task={task} isLoading={loading} />
 
 						<QuickEditSection task={task} isLoading={loading} />
 
-						{task.links.length > 0 && <TaskLinkSection taskId={task.id} />}
+						<TaskLinkSection taskId={task.id} />
 
-						{task.attachments.length > 0 && (
-							<TaskAttachmentsSection taskId={task.id} />
-						)}
+						<TaskAttachmentsSection taskId={task.id} />
 
 						<CommentsSection taskId={task.id} />
 					</div>
@@ -92,20 +123,42 @@ export function TaskSheet() {
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
 			<DrawerContent className="h-[90%]">
 				<ScrollArea className="h-full">
-					<DrawerHeader className="sr-only">
-						<DrawerTitle></DrawerTitle>
-						<DrawerDescription></DrawerDescription>
+					<DrawerHeader>
+						<DrawerTitle className="sr-only"></DrawerTitle>
+						<DrawerDescription className="sr-only"></DrawerDescription>
+						<DropdownMenu>
+							<DropdownMenuTrigger
+								asChild
+								tabIndex={-1}
+								className="absolute left-0 top-0 translate-x-2 p-4"
+							>
+								<Button variant="ghost" className="size-4">
+									<MoreVerticalIcon className="size-4" />
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent>
+								<DeleteTaskDialog
+									task={task}
+									trigger={
+										<Button
+											className="w-full p-0 text-muted-foreground hover:text-destructive"
+											variant="ghost"
+										>
+											Delete <Trash />
+										</Button>
+									}
+								/>
+							</DropdownMenuContent>
+						</DropdownMenu>
 					</DrawerHeader>
 					<div className="relative flex flex-col space-y-3 p-4">
 						<TaskHeaderSection task={task} isLoading={loading} />
 
 						<QuickEditSection task={task} isLoading={loading} />
 
-						{task.links.length > 0 && <TaskLinkSection taskId={task.id} />}
+						<TaskLinkSection taskId={task.id} />
 
-						{task.attachments.length > 0 && (
-							<TaskAttachmentsSection taskId={task.id} />
-						)}
+						<TaskAttachmentsSection taskId={task.id} />
 
 						<CommentsSection taskId={task.id} />
 					</div>
