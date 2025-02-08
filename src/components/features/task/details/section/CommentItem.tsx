@@ -26,14 +26,12 @@ import { CommentSchema, TypeCommentSchema } from '@/schemas/task/comment.schema'
 interface ICommentItem {
 	comment: CommentFragment
 	userId?: string
-	taskId: string
 	onError: (message: string) => void
 }
 
 export function CommentItem({
 	comment,
 	userId,
-	taskId,
 	onError
 }: ICommentItem) {
 	const [isEditing, setIsEditing] = useState(false)

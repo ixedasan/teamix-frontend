@@ -45,7 +45,7 @@ export default function PaymentSuccess() {
 					</p>
 
 					<div className="rounded-lg bg-muted p-4">
-						<h3 className="mb-2 font-medium">What's next?</h3>
+						<h3 className="mb-2 font-medium">What&apos;s next?</h3>
 						<ul className="space-y-2 text-sm text-muted-foreground">
 							<li>✨ Explore new Pro features</li>
 							<li>🔄 Set up workflow automations</li>

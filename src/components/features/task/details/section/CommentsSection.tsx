@@ -109,7 +109,6 @@ export function CommentsSection({ taskId }: { taskId: string }) {
 						key={comment.id}
 						comment={comment}
 						userId={profile?.id}
-						taskId={taskId}
 						onError={message =>
 							toast('Error', {
 								description: message
