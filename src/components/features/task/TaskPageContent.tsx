@@ -6,6 +6,7 @@ import Loader from '@/components/common/Loader'
 import { useTasks } from '@/hooks/use-tasks'
 import { useTaskViewStore } from '@/store/task/task-view.store'
 import { KanbanBoard } from './kanban/KanbanBoard'
+import { TaskTable } from './table/TaskTable'
 
 export function TaskPageContent() {
 	const pathName = usePathname()
@@ -19,11 +20,8 @@ export function TaskPageContent() {
 
 	return (
 		<>
-			{mode === 'kanban' ? (
-				<KanbanBoard tasks={tasks} />
-			) : (
-				<div className="p-4">Table view coming soon</div>
-			)}
+			{mode === 'kanban' && <KanbanBoard tasks={tasks} />}
+			{mode === 'table' && <TaskTable tasks={tasks} />}
 		</>
 	)
 }

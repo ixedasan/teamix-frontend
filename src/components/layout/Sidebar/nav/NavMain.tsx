@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { FolderKanban, Home } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -34,10 +35,10 @@ export function NavMain() {
 				return (
 					<SidebarMenuItem key={item.title}>
 						<SidebarMenuButton asChild isActive={isActive}>
-							<a href={item.url}>
+							<Link href={item.url}>
 								<item.icon />
 								<span>{item.title}</span>
-							</a>
+							</Link>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 				)

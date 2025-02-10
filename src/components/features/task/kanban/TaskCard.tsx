@@ -164,10 +164,12 @@ export const TaskCard = memo(function TaskCard({ task, index }: ITaskCard) {
 					}}
 					onClick={() => openTaskSheet(task.id)}
 				>
-					<div className="mb-3 flex items-start justify-between gap-2">
-						<div className="flex-1">
-							<div className="mb-1 flex items-center gap-2">
-								<p className="line-clamp-2 font-medium">{task.title}</p>
+					<div className="mb-3 flex min-w-0 items-start justify-between gap-2">
+						<div className="min-w-0 flex-1">
+							<div className="mb-1 flex min-w-0 items-center gap-2">
+								<p className="line-clamp-2 overflow-hidden text-ellipsis break-words font-medium">
+									{task.title}
+								</p>
 							</div>
 						</div>
 					</div>
