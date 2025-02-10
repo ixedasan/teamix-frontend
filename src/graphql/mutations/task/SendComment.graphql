@@ -1,0 +1,5 @@
+mutation SendComment($data: SendCommentInput!) {
+	sendComment(data: $data) {
+		...Comment
+	}
+}

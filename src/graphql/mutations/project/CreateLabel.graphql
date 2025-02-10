@@ -1,3 +1,5 @@
 mutation CreateLabel($data: CreateLabelInput!) {
-	createTaskLabel(input: $data)
+	createTaskLabel(input: $data) {
+		id
+	}
 }

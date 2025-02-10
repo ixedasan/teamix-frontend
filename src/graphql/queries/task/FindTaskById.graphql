@@ -1,0 +1,33 @@
+query FindTaskById($id: String!) {
+	findTask(taskId: $id) {
+		id
+		title
+		description
+		status
+		priority
+		position
+		startDate
+		dueDate
+		createdBy {
+			avatar
+			displayName
+		}
+		assignees {
+			id
+			userId
+			user {
+				id
+				username
+				displayName
+				avatar
+			}
+		}
+		labels {
+			id
+			name
+			color
+		}
+		createdAt
+		updatedAt
+	}
+}

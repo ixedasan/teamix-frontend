@@ -1,0 +1,3 @@
+mutation UploadTaskAttachment($taskId: String!, $file: Upload!) {
+	uploadTaskAttachment(taskId: $taskId, file: $file)
+}

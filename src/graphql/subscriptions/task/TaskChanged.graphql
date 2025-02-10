@@ -1,0 +1,5 @@
+subscription TaskChanged($projectId: String!) {
+	taskChanged(projectId: $projectId) {
+		...Task
+	}
+}

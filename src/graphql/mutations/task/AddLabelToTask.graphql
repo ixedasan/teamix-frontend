@@ -1,0 +1,5 @@
+mutation AddLabelToTask($taskId: String!, $labelId: String!) {
+	addLabelToTask(taskId: $taskId, labelId: $labelId) {
+		...Task
+	}
+}

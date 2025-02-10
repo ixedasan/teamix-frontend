@@ -1,0 +1,25 @@
+fragment Task on TaskModel {
+	id
+	title
+	description
+	status
+	priority
+	position
+	startDate
+	dueDate
+	assignees {
+		id
+		userId
+		user {
+			id
+			username
+			displayName
+			avatar
+		}
+	}
+	labels {
+		id
+		name
+		color
+	}
+}

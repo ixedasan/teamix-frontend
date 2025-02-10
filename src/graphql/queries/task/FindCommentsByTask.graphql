@@ -1,0 +1,5 @@
+query FindCommentsByTask($taskId: String!) {
+	findCommentsByTask(taskId: $taskId) {
+		...Comment
+	}
+}

@@ -90,7 +90,7 @@ export function MebmerRoleEditor({ member, disabled }: IMemberRoleEditor) {
 			onValueChange={value => handleRoleChange(value as Role)}
 			disabled={isUpdating}
 		>
-			<SelectTrigger className="w-[140px]">
+			<SelectTrigger className="w-[140px]" disabled={disabled}>
 				<SelectValue />
 			</SelectTrigger>
 			<SelectContent>

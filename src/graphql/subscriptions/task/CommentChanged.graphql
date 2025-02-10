@@ -1,0 +1,8 @@
+subscription CommentChanged($taskId: String!) {
+	commentChanged(taskId: $taskId) {
+		mutation
+		comment {
+			...Comment
+		}
+	}
+}

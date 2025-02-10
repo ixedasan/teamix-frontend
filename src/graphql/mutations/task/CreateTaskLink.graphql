@@ -1,0 +1,3 @@
+mutation CreateTaskLink($taskId: String!, $data: TaskLinkInput!) {
+	createTaskLink(taskId: $taskId, data: $data)
+}

@@ -1,0 +1,10 @@
+query FindTaskAttachments($taskId: String!) {
+	findTaskAttachments(taskId: $taskId) {
+		id
+		filename
+		filepath
+		mimeType
+		size
+		createdAt
+	}
+}

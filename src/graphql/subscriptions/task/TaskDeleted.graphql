@@ -1,0 +1,5 @@
+subscription TaskDeleted($projectId: String!) {
+	taskDeleted(projectId: $projectId) {
+		...Task
+	}
+}

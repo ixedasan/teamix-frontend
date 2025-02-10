@@ -1,0 +1,5 @@
+mutation RemoveLabelFromTask($taskId: String!, $labelId: String!) {
+	removeLabelFromTask(taskId: $taskId, labelId: $labelId) {
+		...Task
+	}
+}

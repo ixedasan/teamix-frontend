@@ -1,0 +1,5 @@
+mutation AssingTask($taskId: String!, $userId: String!) {
+	assignTask(taskId: $taskId, userId: $userId) {
+		...Task
+	}
+}
