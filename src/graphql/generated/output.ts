@@ -246,8 +246,8 @@ export type MutationAssignTaskArgs = {
 
 
 export type MutationChangeDocumentArgs = {
+  data: ChangeDocumentInput;
   documentId: Scalars['String']['input'];
-  input: ChangeDocumentInput;
 };
 
 
@@ -549,7 +549,7 @@ export type Query = {
   findAllTasks: Array<TaskModel>;
   findCommentsByTask: Array<CommentModel>;
   findCurrentSession: SessionModel;
-  findDocument: DocumentModel;
+  findDocumentById: DocumentModel;
   findDocumentsByProject: Array<DocumentModel>;
   findNotificationsByUser: Array<NotificationModel>;
   findNotificationsUnreadCount: Scalars['Float']['output'];
@@ -574,7 +574,7 @@ export type QueryFindCommentsByTaskArgs = {
 };
 
 
-export type QueryFindDocumentArgs = {
+export type QueryFindDocumentByIdArgs = {
   documentId: Scalars['String']['input'];
 };
 
@@ -659,7 +659,7 @@ export type SocialLinksModel = {
 export type Subscription = {
   __typename?: 'Subscription';
   commentChanged: CommentSubscriptionPayload;
-  documentUpdated: DocumentModel;
+  documentChanged: DocumentModel;
   taskAdded: TaskModel;
   taskChanged: TaskModel;
   taskDeleted: TaskModel;
@@ -671,8 +671,8 @@ export type SubscriptionCommentChangedArgs = {
 };
 
 
-export type SubscriptionDocumentUpdatedArgs = {
-  projectId: Scalars['String']['input'];
+export type SubscriptionDocumentChangedArgs = {
+  documentId: Scalars['String']['input'];
 };
 
 
@@ -819,6 +819,8 @@ export type VerificationInput = {
 
 export type CommentFragment = { __typename?: 'CommentModel', id: string, content: string, createdAt: any, updatedAt: any, author: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } };
 
+export type DocumentFragment = { __typename?: 'DocumentModel', id: string, title: string, content: any, projectId: string, createdAt: any, updatedAt: any };
+
 export type TaskFragment = { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> };
 
 export type CreateUserMutationVariables = Exact<{
@@ -860,6 +862,28 @@ export type VerifyAccauntMutationVariables = Exact<{
 
 
 export type VerifyAccauntMutation = { __typename?: 'Mutation', verifyAccaunt: { __typename?: 'AuthModel', message?: string | null, user?: { __typename?: 'UserModel', isEmailVerified: boolean } | null } };
+
+export type ChangeDocumentMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  data: ChangeDocumentInput;
+}>;
+
+
+export type ChangeDocumentMutation = { __typename?: 'Mutation', changeDocument: { __typename?: 'DocumentModel', id: string, title: string, content: any, projectId: string, createdAt: any, updatedAt: any } };
+
+export type CreateDocumentMutationVariables = Exact<{
+  data: CreateDocumentInput;
+}>;
+
+
+export type CreateDocumentMutation = { __typename?: 'Mutation', createDocument: boolean };
+
+export type DeleteDocumentMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DeleteDocumentMutation = { __typename?: 'Mutation', deleteDocument: boolean };
 
 export type AcceptProjectInvitationMutationVariables = Exact<{
   token: Scalars['String']['input'];
@@ -1166,6 +1190,18 @@ export type UpdateSocialLinkMutationVariables = Exact<{
 
 export type UpdateSocialLinkMutation = { __typename?: 'Mutation', updateSocialLink: boolean };
 
+export type FindDocumentByIdQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type FindDocumentByIdQuery = { __typename?: 'Query', findDocumentById: { __typename?: 'DocumentModel', id: string, title: string, content: any, projectId: string, createdAt: any, updatedAt: any } };
+
+export type FindDocumentsByProjectQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindDocumentsByProjectQuery = { __typename?: 'Query', findDocumentsByProject: Array<{ __typename?: 'DocumentModel', id: string, title: string, projectId: string, createdAt: any, updatedAt: any }> };
+
 export type FindProjectByIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1239,6 +1275,13 @@ export type GenerateTotpSecretQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GenerateTotpSecretQuery = { __typename?: 'Query', generateTotpSecret: { __typename?: 'TotpModel', secret: string, qrCodeUrl: string } };
 
+export type DocumentChangedSubscriptionVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DocumentChangedSubscription = { __typename?: 'Subscription', documentChanged: { __typename?: 'DocumentModel', id: string, title: string, content: any, projectId: string, createdAt: any, updatedAt: any } };
+
 export type CommentChangedSubscriptionVariables = Exact<{
   taskId: Scalars['String']['input'];
 }>;
@@ -1279,6 +1322,16 @@ export const CommentFragmentDoc = gql`
     displayName
     avatar
   }
+}
+    `;
+export const DocumentFragmentDoc = gql`
+    fragment Document on DocumentModel {
+  id
+  title
+  content
+  projectId
+  createdAt
+  updatedAt
 }
     `;
 export const TaskFragmentDoc = gql`
@@ -1503,6 +1556,102 @@ export function useVerifyAccauntMutation(baseOptions?: Apollo.MutationHookOption
 export type VerifyAccauntMutationHookResult = ReturnType<typeof useVerifyAccauntMutation>;
 export type VerifyAccauntMutationResult = Apollo.MutationResult<VerifyAccauntMutation>;
 export type VerifyAccauntMutationOptions = Apollo.BaseMutationOptions<VerifyAccauntMutation, VerifyAccauntMutationVariables>;
+export const ChangeDocumentDocument = gql`
+    mutation ChangeDocument($id: String!, $data: ChangeDocumentInput!) {
+  changeDocument(documentId: $id, data: $data) {
+    ...Document
+  }
+}
+    ${DocumentFragmentDoc}`;
+export type ChangeDocumentMutationFn = Apollo.MutationFunction<ChangeDocumentMutation, ChangeDocumentMutationVariables>;
+
+/**
+ * __useChangeDocumentMutation__
+ *
+ * To run a mutation, you first call `useChangeDocumentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeDocumentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changeDocumentMutation, { data, loading, error }] = useChangeDocumentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useChangeDocumentMutation(baseOptions?: Apollo.MutationHookOptions<ChangeDocumentMutation, ChangeDocumentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangeDocumentMutation, ChangeDocumentMutationVariables>(ChangeDocumentDocument, options);
+      }
+export type ChangeDocumentMutationHookResult = ReturnType<typeof useChangeDocumentMutation>;
+export type ChangeDocumentMutationResult = Apollo.MutationResult<ChangeDocumentMutation>;
+export type ChangeDocumentMutationOptions = Apollo.BaseMutationOptions<ChangeDocumentMutation, ChangeDocumentMutationVariables>;
+export const CreateDocumentDocument = gql`
+    mutation CreateDocument($data: CreateDocumentInput!) {
+  createDocument(data: $data)
+}
+    `;
+export type CreateDocumentMutationFn = Apollo.MutationFunction<CreateDocumentMutation, CreateDocumentMutationVariables>;
+
+/**
+ * __useCreateDocumentMutation__
+ *
+ * To run a mutation, you first call `useCreateDocumentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateDocumentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createDocumentMutation, { data, loading, error }] = useCreateDocumentMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateDocumentMutation(baseOptions?: Apollo.MutationHookOptions<CreateDocumentMutation, CreateDocumentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateDocumentMutation, CreateDocumentMutationVariables>(CreateDocumentDocument, options);
+      }
+export type CreateDocumentMutationHookResult = ReturnType<typeof useCreateDocumentMutation>;
+export type CreateDocumentMutationResult = Apollo.MutationResult<CreateDocumentMutation>;
+export type CreateDocumentMutationOptions = Apollo.BaseMutationOptions<CreateDocumentMutation, CreateDocumentMutationVariables>;
+export const DeleteDocumentDocument = gql`
+    mutation DeleteDocument($id: String!) {
+  deleteDocument(documentId: $id)
+}
+    `;
+export type DeleteDocumentMutationFn = Apollo.MutationFunction<DeleteDocumentMutation, DeleteDocumentMutationVariables>;
+
+/**
+ * __useDeleteDocumentMutation__
+ *
+ * To run a mutation, you first call `useDeleteDocumentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDocumentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDocumentMutation, { data, loading, error }] = useDeleteDocumentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteDocumentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteDocumentMutation, DeleteDocumentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteDocumentMutation, DeleteDocumentMutationVariables>(DeleteDocumentDocument, options);
+      }
+export type DeleteDocumentMutationHookResult = ReturnType<typeof useDeleteDocumentMutation>;
+export type DeleteDocumentMutationResult = Apollo.MutationResult<DeleteDocumentMutation>;
+export type DeleteDocumentMutationOptions = Apollo.BaseMutationOptions<DeleteDocumentMutation, DeleteDocumentMutationVariables>;
 export const AcceptProjectInvitationDocument = gql`
     mutation AcceptProjectInvitation($token: String!) {
   acceptProjectInvitation(token: $token)
@@ -2906,6 +3055,89 @@ export function useUpdateSocialLinkMutation(baseOptions?: Apollo.MutationHookOpt
 export type UpdateSocialLinkMutationHookResult = ReturnType<typeof useUpdateSocialLinkMutation>;
 export type UpdateSocialLinkMutationResult = Apollo.MutationResult<UpdateSocialLinkMutation>;
 export type UpdateSocialLinkMutationOptions = Apollo.BaseMutationOptions<UpdateSocialLinkMutation, UpdateSocialLinkMutationVariables>;
+export const FindDocumentByIdDocument = gql`
+    query FindDocumentById($id: String!) {
+  findDocumentById(documentId: $id) {
+    ...Document
+  }
+}
+    ${DocumentFragmentDoc}`;
+
+/**
+ * __useFindDocumentByIdQuery__
+ *
+ * To run a query within a React component, call `useFindDocumentByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindDocumentByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindDocumentByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindDocumentByIdQuery(baseOptions: Apollo.QueryHookOptions<FindDocumentByIdQuery, FindDocumentByIdQueryVariables> & ({ variables: FindDocumentByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>(FindDocumentByIdDocument, options);
+      }
+export function useFindDocumentByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>(FindDocumentByIdDocument, options);
+        }
+export function useFindDocumentByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>(FindDocumentByIdDocument, options);
+        }
+export type FindDocumentByIdQueryHookResult = ReturnType<typeof useFindDocumentByIdQuery>;
+export type FindDocumentByIdLazyQueryHookResult = ReturnType<typeof useFindDocumentByIdLazyQuery>;
+export type FindDocumentByIdSuspenseQueryHookResult = ReturnType<typeof useFindDocumentByIdSuspenseQuery>;
+export type FindDocumentByIdQueryResult = Apollo.QueryResult<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>;
+export const FindDocumentsByProjectDocument = gql`
+    query FindDocumentsByProject {
+  findDocumentsByProject {
+    id
+    title
+    projectId
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useFindDocumentsByProjectQuery__
+ *
+ * To run a query within a React component, call `useFindDocumentsByProjectQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindDocumentsByProjectQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindDocumentsByProjectQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindDocumentsByProjectQuery(baseOptions?: Apollo.QueryHookOptions<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>(FindDocumentsByProjectDocument, options);
+      }
+export function useFindDocumentsByProjectLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>(FindDocumentsByProjectDocument, options);
+        }
+export function useFindDocumentsByProjectSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>(FindDocumentsByProjectDocument, options);
+        }
+export type FindDocumentsByProjectQueryHookResult = ReturnType<typeof useFindDocumentsByProjectQuery>;
+export type FindDocumentsByProjectLazyQueryHookResult = ReturnType<typeof useFindDocumentsByProjectLazyQuery>;
+export type FindDocumentsByProjectSuspenseQueryHookResult = ReturnType<typeof useFindDocumentsByProjectSuspenseQuery>;
+export type FindDocumentsByProjectQueryResult = Apollo.QueryResult<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>;
 export const FindProjectByIdDocument = gql`
     query FindProjectById {
   findProjectById {
@@ -3534,6 +3766,36 @@ export type GenerateTotpSecretQueryHookResult = ReturnType<typeof useGenerateTot
 export type GenerateTotpSecretLazyQueryHookResult = ReturnType<typeof useGenerateTotpSecretLazyQuery>;
 export type GenerateTotpSecretSuspenseQueryHookResult = ReturnType<typeof useGenerateTotpSecretSuspenseQuery>;
 export type GenerateTotpSecretQueryResult = Apollo.QueryResult<GenerateTotpSecretQuery, GenerateTotpSecretQueryVariables>;
+export const DocumentChangedDocument = gql`
+    subscription DocumentChanged($id: String!) {
+  documentChanged(documentId: $id) {
+    ...Document
+  }
+}
+    ${DocumentFragmentDoc}`;
+
+/**
+ * __useDocumentChangedSubscription__
+ *
+ * To run a query within a React component, call `useDocumentChangedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useDocumentChangedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDocumentChangedSubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDocumentChangedSubscription(baseOptions: Apollo.SubscriptionHookOptions<DocumentChangedSubscription, DocumentChangedSubscriptionVariables> & ({ variables: DocumentChangedSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<DocumentChangedSubscription, DocumentChangedSubscriptionVariables>(DocumentChangedDocument, options);
+      }
+export type DocumentChangedSubscriptionHookResult = ReturnType<typeof useDocumentChangedSubscription>;
+export type DocumentChangedSubscriptionResult = Apollo.SubscriptionResult<DocumentChangedSubscription>;
 export const CommentChangedDocument = gql`
     subscription CommentChanged($taskId: String!) {
   commentChanged(taskId: $taskId) {

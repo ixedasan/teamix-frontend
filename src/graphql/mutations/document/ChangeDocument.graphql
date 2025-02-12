@@ -1,0 +1,5 @@
+mutation ChangeDocument($id: String!, $data: ChangeDocumentInput!) {
+	changeDocument(documentId: $id, data: $data) {
+		...Document
+	}
+}
