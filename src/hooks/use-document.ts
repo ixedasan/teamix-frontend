@@ -1,81 +1,89 @@
-import { useCallback } from 'react'
-import { useApolloClient } from '@apollo/client'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import debounce from 'debounce'
 
 import {
 	DocumentModel,
-	FindDocumentByIdDocument,
-	FindDocumentByIdQuery,
+	useChangeDocumentMutation,
 	useDocumentChangedSubscription,
 	useFindDocumentByIdQuery
 } from '@/graphql/generated/output'
 
-/**
- * Custom hook for managing a single document with real-time updates
- * Handles the initial document query and subscription, maintaining cache consistency
- *
- * @param documentId - The ID of the document to manage
- * @returns Object containing the document data, loading state, error, and refetch function
- */
-export const useDocument = (documentId: string) => {
-	const client = useApolloClient()
-
-	// Initial query to fetch the document
+export function useDocument(documentId: string) {
 	const { data, loading, error, refetch } = useFindDocumentByIdQuery({
-		variables: { id: documentId },
-		fetchPolicy: 'network-only',
-		nextFetchPolicy: 'cache-first'
+		variables: { id: documentId }
 	})
 
-	/**
-	 * Updates the document in the Apollo cache based on new data from subscription
-	 *
-	 * @param updatedDocument - The updated document data
-	 */
-	const updateCache = useCallback(
-		(updatedDocument: DocumentModel) => {
-			client.cache.updateQuery<FindDocumentByIdQuery>(
-				{
-					query: FindDocumentByIdDocument,
-					variables: { documentId }
-				},
-				existingData => {
-					if (!existingData?.findDocumentById) return existingData
-					return {
-						findDocumentById: {
-							...existingData.findDocumentById,
-							...updatedDocument
-						}
+	const [updateDocument] = useChangeDocumentMutation()
+	const [localDocument, setLocalDocument] = useState<DocumentModel>()
+	const lastUpdateRef = useRef<{ title: string; content: any } | null>(null)
+	const updatingRef = useRef(false)
+
+	const { data: subscriptionData } = useDocumentChangedSubscription({
+		variables: { id: documentId }
+	})
+
+	useEffect(() => {
+		if (subscriptionData && !updatingRef.current) {
+			setLocalDocument(subscriptionData.documentChanged)
+		}
+	}, [subscriptionData])
+
+	useEffect(() => {
+		if (data?.findDocumentById) {
+			setLocalDocument(data.findDocumentById)
+		}
+	}, [data])
+
+	// Оптимизированная функция обновления с избежанием лишних запросов
+	const handleUpdateDocument = useCallback(
+		debounce(async (title: string, content: any) => {
+			// Предотвращаем пустые обновления или дублирование последних данных
+			if (!title && !content) return
+
+			const contentStr = JSON.stringify(content)
+			const lastUpdateStr = lastUpdateRef.current
+				? JSON.stringify(lastUpdateRef.current.content)
+				: null
+
+			if (
+				lastUpdateRef.current &&
+				title === lastUpdateRef.current.title &&
+				contentStr === lastUpdateStr
+			) {
+				return // Избегаем отправки идентичных данных
+			}
+
+			try {
+				updatingRef.current = true
+				lastUpdateRef.current = { title, content }
+
+				const result = await updateDocument({
+					variables: {
+						id: documentId,
+						data: { title, content }
 					}
+				})
+
+				if (result.data) {
+					setLocalDocument(result.data.changeDocument)
 				}
-			)
-		},
-		[client, documentId]
+			} catch (err) {
+				console.error('Error updating document:', err)
+			} finally {
+				// Небольшая задержка перед разрешением новых обновлений
+				// чтобы избежать конфликтов с подпиской
+				setTimeout(() => {
+					updatingRef.current = false
+				}, 300)
+			}
+		}, 1000),
+		[documentId, updateDocument]
 	)
 
-	/**
-	 * Handles subscription errors in a consistent way
-	 *
-	 * @param subscriptionError - The error that occurred
-	 */
-	const handleSubscriptionError = useCallback((subscriptionError: Error) => {
-		console.error('Document subscription error:', subscriptionError)
-	}, [])
-
-	// Subscribe to changes for this document
-	useDocumentChangedSubscription({
-		variables: { id: documentId },
-		onData: ({ data: subscriptionData }) => {
-			const updatedDoc = subscriptionData.data?.documentChanged
-			if (!updatedDoc) return
-			updateCache(updatedDoc)
-		},
-		onError: handleSubscriptionError
-	})
-
 	return {
-		document: data?.findDocumentById,
+		document: localDocument,
 		loading,
 		error,
-		refetch
+		updateDocument: handleUpdateDocument
 	}
 }
