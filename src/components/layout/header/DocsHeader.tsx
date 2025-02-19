@@ -1,5 +1,6 @@
 'use client'
 
+import { CreateDocumentDialog } from '@/components/features/document/form/CreateDocumentDialog'
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -12,7 +13,7 @@ import { Separator } from '@/components/ui/Separator'
 import { SidebarTrigger } from '@/components/ui/Sidebar'
 import { useFindProjectByIdQuery } from '@/graphql/generated/output'
 
-export function TaskHeader() {
+export function DocsHeader() {
 	const { data } = useFindProjectByIdQuery()
 	const project = data?.findProjectById
 
@@ -36,9 +37,11 @@ export function TaskHeader() {
 					</BreadcrumbList>
 				</Breadcrumb>
 			</div>
-			<div className="flex items-center gap-2 px-4">
-				<Button className="h-8 rounded-md px-4 text-sm">Add Docs</Button>
-			</div>
+			<CreateDocumentDialog
+				trigger={
+					<Button className="mr-2 h-8 rounded-md px-4 text-sm">Add Docs</Button>
+				}
+			/>
 		</header>
 	)
 }

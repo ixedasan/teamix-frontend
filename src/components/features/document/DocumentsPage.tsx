@@ -31,6 +31,7 @@ import {
 	useFindDocumentsByProjectQuery,
 	type FindDocumentsByProjectQuery
 } from '@/graphql/generated/output'
+import { DeleteDocumentForm } from './form/DeleteDocumentForm'
 
 type Document = FindDocumentsByProjectQuery['findDocumentsByProject'][0]
 
@@ -69,12 +70,13 @@ const columns: ColumnDef<Document>[] = [
 				{format(new Date(row.original.updatedAt), 'dd.MM.yyyy')}
 			</div>
 		)
+	},
+	{
+		id: 'actions',
+		header: () => <div>Actions</div>,
+		enableHiding: false,
+		cell: ({ row }) => <DeleteDocumentForm documentId={row.original.id} />
 	}
-	// {
-	// 	id: 'actions',
-	// 	enableHiding: false,
-	// 	cell: ({ row }) => <RowActions document={row.original} />
-	// }
 ]
 
 export function DocumentsPage() {
