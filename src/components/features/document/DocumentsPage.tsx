@@ -82,7 +82,9 @@ export function DocumentsPage() {
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
-	const { data } = useFindDocumentsByProjectQuery()
+	const { data } = useFindDocumentsByProjectQuery({
+		fetchPolicy: 'cache-and-network'
+	})
 
 	const table = useReactTable({
 		data: data?.findDocumentsByProject || [],
