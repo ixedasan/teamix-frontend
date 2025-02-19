@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 
+import { DocumentEditor } from '@/components/features/document/editor/DocumentEditor'
 import { NO_INDEX_PAGE } from '@/constants/seo.constants'
 
 export const metadata: Metadata = {
@@ -8,5 +9,5 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-	return <div></div>
+	return <DocumentEditor />
 }
