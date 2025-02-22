@@ -97,6 +97,18 @@ export type CommentSubscriptionPayload = {
   mutation: MutationType;
 };
 
+export type ComprehensiveProjectAnalytics = {
+  __typename?: 'ComprehensiveProjectAnalytics';
+  activity: ProjectActivity;
+  labelDistribution: LabelDistribution;
+  memberProductivity: Array<MemberProductivity>;
+  priorityDistribution: PriorityDistribution;
+  statistics: ProjectStatistics;
+  statusDistribution: TaskStatusAnalytics;
+  taskTrends: Array<TaskTrend>;
+  timeline: ProjectTimeline;
+};
+
 export type CreateDocumentInput = {
   title: Scalars['String']['input'];
 };
@@ -112,6 +124,12 @@ export type CreateUserInput = {
   username: Scalars['String']['input'];
 };
 
+export type DailyCount = {
+  __typename?: 'DailyCount';
+  count: Scalars['Int']['output'];
+  date: Scalars['String']['output'];
+};
+
 export type DeviceModel = {
   __typename?: 'DeviceModel';
   browser: Scalars['String']['output'];
@@ -121,7 +139,7 @@ export type DeviceModel = {
 
 export type DocumentModel = {
   __typename?: 'DocumentModel';
-  content: Scalars['JSON']['output'];
+  content?: Maybe<Scalars['JSON']['output']>;
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
   projectId: Scalars['String']['output'];
@@ -137,6 +155,21 @@ export type EnableTotpInput = {
 export type InviteMemberInput = {
   email: Scalars['String']['input'];
   role: Role;
+};
+
+export type LabelCount = {
+  __typename?: 'LabelCount';
+  color: Scalars['String']['output'];
+  count: Scalars['Int']['output'];
+  labelId: Scalars['String']['output'];
+  labelName: Scalars['String']['output'];
+  percentage: Scalars['Int']['output'];
+};
+
+export type LabelDistribution = {
+  __typename?: 'LabelDistribution';
+  distribution: Array<LabelCount>;
+  totalLabelsUsed: Scalars['Int']['output'];
 };
 
 export type LocationModel = {
@@ -168,6 +201,21 @@ export type MemberModel = {
   updatedAt: Scalars['DateTime']['output'];
   user: UserModel;
   userId: Scalars['ID']['output'];
+};
+
+export type MemberProductivity = {
+  __typename?: 'MemberProductivity';
+  assignedTasks: Scalars['Int']['output'];
+  avatar?: Maybe<Scalars['String']['output']>;
+  commentsCount: Scalars['Int']['output'];
+  completedTasks: Scalars['Int']['output'];
+  completionRate: Scalars['Int']['output'];
+  displayName: Scalars['String']['output'];
+  lastActive?: Maybe<Scalars['DateTime']['output']>;
+  role: Role;
+  urgentTasks: Scalars['Int']['output'];
+  userId: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type Mutation = {
@@ -518,6 +566,24 @@ export enum Priority {
   Urgent = 'URGENT'
 }
 
+export type PriorityDistribution = {
+  __typename?: 'PriorityDistribution';
+  high: Scalars['Int']['output'];
+  low: Scalars['Int']['output'];
+  medium: Scalars['Int']['output'];
+  none: Scalars['Int']['output'];
+  totalTasks: Scalars['Int']['output'];
+  urgent: Scalars['Int']['output'];
+};
+
+export type ProjectActivity = {
+  __typename?: 'ProjectActivity';
+  activeUsers: Array<DailyCount>;
+  comments: Array<DailyCount>;
+  tasksCompleted: Array<DailyCount>;
+  tasksCreated: Array<DailyCount>;
+};
+
 export type ProjectInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   icon?: InputMaybe<Scalars['String']['input']>;
@@ -544,6 +610,31 @@ export enum ProjectPlan {
   Pro = 'PRO'
 }
 
+export type ProjectStatistics = {
+  __typename?: 'ProjectStatistics';
+  avgCompletionTime: Scalars['Int']['output'];
+  completedTasks: Scalars['Int']['output'];
+  completionRate: Scalars['Int']['output'];
+  overdueTasks: Scalars['Int']['output'];
+  taskGrowthRate: Scalars['Int']['output'];
+  totalComments: Scalars['Int']['output'];
+  totalDocuments: Scalars['Int']['output'];
+  totalMembers: Scalars['Int']['output'];
+  totalTasks: Scalars['Int']['output'];
+};
+
+export type ProjectTimeline = {
+  __typename?: 'ProjectTimeline';
+  firstTaskCreatedAt?: Maybe<Scalars['DateTime']['output']>;
+  firstTaskTitle?: Maybe<Scalars['String']['output']>;
+  latestCompletedTaskAt?: Maybe<Scalars['DateTime']['output']>;
+  latestCompletedTaskTitle?: Maybe<Scalars['String']['output']>;
+  mostRecentTaskAt?: Maybe<Scalars['DateTime']['output']>;
+  mostRecentTaskTitle?: Maybe<Scalars['String']['output']>;
+  projectCreatedAt: Scalars['DateTime']['output'];
+  projectDurationDays: Scalars['Int']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
   findAllTasks: Array<TaskModel>;
@@ -566,6 +657,15 @@ export type Query = {
   generateTotpSecret: TotpModel;
   getAllUserProjects: Array<ProjectModel>;
   getTaskAssignees: Array<TaskAssigneeModel>;
+  labelDistribution: LabelDistribution;
+  memberProductivity: Array<MemberProductivity>;
+  priorityDistribution: PriorityDistribution;
+  projectActivity: ProjectActivity;
+  projectAnalytics: ComprehensiveProjectAnalytics;
+  projectStatistics: ProjectStatistics;
+  projectTimeline: ProjectTimeline;
+  taskStatusDistribution: TaskStatusAnalytics;
+  taskTrends: Array<TaskTrend>;
 };
 
 
@@ -601,6 +701,21 @@ export type QueryFindTaskLinksArgs = {
 
 export type QueryGetTaskAssigneesArgs = {
   taskId: Scalars['String']['input'];
+};
+
+
+export type QueryMemberProductivityArgs = {
+  timeframe?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryProjectActivityArgs = {
+  days?: Scalars['Float']['input'];
+};
+
+
+export type QueryTaskTrendsArgs = {
+  months?: Scalars['Float']['input'];
 };
 
 export type ResetPasswordInput = {
@@ -769,6 +884,24 @@ export enum TaskStatus {
   Todo = 'TODO'
 }
 
+export type TaskStatusAnalytics = {
+  __typename?: 'TaskStatusAnalytics';
+  backlog: Scalars['Int']['output'];
+  cancelled: Scalars['Int']['output'];
+  done: Scalars['Int']['output'];
+  inProgress: Scalars['Int']['output'];
+  todo: Scalars['Int']['output'];
+  totalTasks: Scalars['Int']['output'];
+};
+
+export type TaskTrend = {
+  __typename?: 'TaskTrend';
+  completed: Scalars['Int']['output'];
+  completionRate: Scalars['Int']['output'];
+  created: Scalars['Int']['output'];
+  month: Scalars['String']['output'];
+};
+
 export type TotpModel = {
   __typename?: 'TotpModel';
   qrCodeUrl: Scalars['String']['output'];
@@ -819,7 +952,7 @@ export type VerificationInput = {
 
 export type CommentFragment = { __typename?: 'CommentModel', id: string, content: string, createdAt: any, updatedAt: any, author: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } };
 
-export type DocumentFragment = { __typename?: 'DocumentModel', id: string, title: string, content: any, projectId: string, createdAt: any, updatedAt: any };
+export type DocumentFragment = { __typename?: 'DocumentModel', id: string, title: string, content?: any | null, projectId: string, createdAt: any, updatedAt: any };
 
 export type TaskFragment = { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> };
 
@@ -869,7 +1002,7 @@ export type ChangeDocumentMutationVariables = Exact<{
 }>;
 
 
-export type ChangeDocumentMutation = { __typename?: 'Mutation', changeDocument: { __typename?: 'DocumentModel', id: string, title: string, content: any, projectId: string, createdAt: any, updatedAt: any } };
+export type ChangeDocumentMutation = { __typename?: 'Mutation', changeDocument: { __typename?: 'DocumentModel', id: string, title: string, content?: any | null, projectId: string, createdAt: any, updatedAt: any } };
 
 export type CreateDocumentMutationVariables = Exact<{
   data: CreateDocumentInput;
@@ -1195,12 +1328,17 @@ export type FindDocumentByIdQueryVariables = Exact<{
 }>;
 
 
-export type FindDocumentByIdQuery = { __typename?: 'Query', findDocumentById: { __typename?: 'DocumentModel', id: string, title: string, content: any, projectId: string, createdAt: any, updatedAt: any } };
+export type FindDocumentByIdQuery = { __typename?: 'Query', findDocumentById: { __typename?: 'DocumentModel', id: string, title: string, content?: any | null, projectId: string, createdAt: any, updatedAt: any } };
 
 export type FindDocumentsByProjectQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindDocumentsByProjectQuery = { __typename?: 'Query', findDocumentsByProject: Array<{ __typename?: 'DocumentModel', id: string, title: string, projectId: string, createdAt: any, updatedAt: any }> };
+
+export type FindProjectAnalyticsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindProjectAnalyticsQuery = { __typename?: 'Query', projectAnalytics: { __typename?: 'ComprehensiveProjectAnalytics', statistics: { __typename?: 'ProjectStatistics', totalTasks: number, completedTasks: number, overdueTasks: number, completionRate: number, totalMembers: number, totalDocuments: number, totalComments: number, taskGrowthRate: number, avgCompletionTime: number }, statusDistribution: { __typename?: 'TaskStatusAnalytics', backlog: number, todo: number, inProgress: number, done: number, cancelled: number, totalTasks: number }, memberProductivity: Array<{ __typename?: 'MemberProductivity', userId: string, username: string, displayName: string, avatar?: string | null, role: Role, assignedTasks: number, completedTasks: number, completionRate: number, commentsCount: number, lastActive?: any | null, urgentTasks: number }>, activity: { __typename?: 'ProjectActivity', tasksCreated: Array<{ __typename?: 'DailyCount', date: string, count: number }>, tasksCompleted: Array<{ __typename?: 'DailyCount', date: string, count: number }>, comments: Array<{ __typename?: 'DailyCount', date: string, count: number }>, activeUsers: Array<{ __typename?: 'DailyCount', date: string, count: number }> }, labelDistribution: { __typename?: 'LabelDistribution', totalLabelsUsed: number, distribution: Array<{ __typename?: 'LabelCount', labelId: string, labelName: string, color: string, count: number, percentage: number }> }, priorityDistribution: { __typename?: 'PriorityDistribution', none: number, low: number, medium: number, high: number, urgent: number, totalTasks: number }, taskTrends: Array<{ __typename?: 'TaskTrend', month: string, created: number, completed: number, completionRate: number }>, timeline: { __typename?: 'ProjectTimeline', projectCreatedAt: any, firstTaskCreatedAt?: any | null, firstTaskTitle?: string | null, latestCompletedTaskAt?: any | null, latestCompletedTaskTitle?: string | null, mostRecentTaskAt?: any | null, mostRecentTaskTitle?: string | null, projectDurationDays: number } } };
 
 export type FindProjectByIdQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1290,7 +1428,7 @@ export type DocumentChangedSubscriptionVariables = Exact<{
 }>;
 
 
-export type DocumentChangedSubscription = { __typename?: 'Subscription', documentChanged: { __typename?: 'DocumentModel', id: string, title: string, content: any, projectId: string, createdAt: any, updatedAt: any } };
+export type DocumentChangedSubscription = { __typename?: 'Subscription', documentChanged: { __typename?: 'DocumentModel', id: string, title: string, content?: any | null, projectId: string, createdAt: any, updatedAt: any } };
 
 export type CommentChangedSubscriptionVariables = Exact<{
   taskId: Scalars['String']['input'];
@@ -3148,6 +3286,129 @@ export type FindDocumentsByProjectQueryHookResult = ReturnType<typeof useFindDoc
 export type FindDocumentsByProjectLazyQueryHookResult = ReturnType<typeof useFindDocumentsByProjectLazyQuery>;
 export type FindDocumentsByProjectSuspenseQueryHookResult = ReturnType<typeof useFindDocumentsByProjectSuspenseQuery>;
 export type FindDocumentsByProjectQueryResult = Apollo.QueryResult<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>;
+export const FindProjectAnalyticsDocument = gql`
+    query FindProjectAnalytics {
+  projectAnalytics {
+    statistics {
+      totalTasks
+      completedTasks
+      overdueTasks
+      completionRate
+      totalMembers
+      totalDocuments
+      totalComments
+      taskGrowthRate
+      avgCompletionTime
+    }
+    statusDistribution {
+      backlog
+      todo
+      inProgress
+      done
+      cancelled
+      totalTasks
+    }
+    memberProductivity {
+      userId
+      username
+      displayName
+      avatar
+      role
+      assignedTasks
+      completedTasks
+      completionRate
+      commentsCount
+      lastActive
+      urgentTasks
+    }
+    activity {
+      tasksCreated {
+        date
+        count
+      }
+      tasksCompleted {
+        date
+        count
+      }
+      comments {
+        date
+        count
+      }
+      activeUsers {
+        date
+        count
+      }
+    }
+    labelDistribution {
+      distribution {
+        labelId
+        labelName
+        color
+        count
+        percentage
+      }
+      totalLabelsUsed
+    }
+    priorityDistribution {
+      none
+      low
+      medium
+      high
+      urgent
+      totalTasks
+    }
+    taskTrends {
+      month
+      created
+      completed
+      completionRate
+    }
+    timeline {
+      projectCreatedAt
+      firstTaskCreatedAt
+      firstTaskTitle
+      latestCompletedTaskAt
+      latestCompletedTaskTitle
+      mostRecentTaskAt
+      mostRecentTaskTitle
+      latestCompletedTaskTitle
+      projectDurationDays
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindProjectAnalyticsQuery__
+ *
+ * To run a query within a React component, call `useFindProjectAnalyticsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindProjectAnalyticsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindProjectAnalyticsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindProjectAnalyticsQuery(baseOptions?: Apollo.QueryHookOptions<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>(FindProjectAnalyticsDocument, options);
+      }
+export function useFindProjectAnalyticsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>(FindProjectAnalyticsDocument, options);
+        }
+export function useFindProjectAnalyticsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>(FindProjectAnalyticsDocument, options);
+        }
+export type FindProjectAnalyticsQueryHookResult = ReturnType<typeof useFindProjectAnalyticsQuery>;
+export type FindProjectAnalyticsLazyQueryHookResult = ReturnType<typeof useFindProjectAnalyticsLazyQuery>;
+export type FindProjectAnalyticsSuspenseQueryHookResult = ReturnType<typeof useFindProjectAnalyticsSuspenseQuery>;
+export type FindProjectAnalyticsQueryResult = Apollo.QueryResult<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>;
 export const FindProjectByIdDocument = gql`
     query FindProjectById {
   findProjectById {
