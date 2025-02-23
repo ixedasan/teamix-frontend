@@ -36,13 +36,13 @@ export const getRelativeTime = (dateString: string | null | undefined) => {
 export const getRoleBadgeColor = (role: Role) => {
 	switch (role) {
 		case Role.Admin:
-			return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300'
+			return 'bg-blue-500/10 text-blue-500'
 		case Role.Member:
-			return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+			return 'bg-purple-500/10 text-purple-500'
 		case Role.Viewer:
-			return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
+			return 'bg-green-500/10 text-green-500'
 		default:
-			return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300'
+			return 'bg-gray-100'
 	}
 }
 

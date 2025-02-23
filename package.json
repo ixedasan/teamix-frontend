@@ -53,6 +53,7 @@
     "date-fns": "^4.1.0",
     "debounce": "^2.2.0",
     "emoji-picker-react": "^4.12.0",
+    "export-to-csv": "^1.4.0",
     "framer-motion": "^12.0.6",
     "graphql": "^16.10.0",
     "graphql-ws": "^6.0.2",

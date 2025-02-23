@@ -9,6 +9,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { FindProjectAnalyticsQuery } from '@/graphql/generated/output'
 import { OverviewTab } from './overview-tab/OverviewTab'
+import { TeamTab } from './team-tab/TeamTab'
 
 interface IAnalyticsTabs {
 	activeTab: string
@@ -49,7 +50,9 @@ export function AnalyticsTabs({
 			<TabsContent value="overview">
 				<OverviewTab data={data} />
 			</TabsContent>
-			<TabsContent value="team">{/* <TeamTab data={data} /> */}</TabsContent>
+			<TabsContent value="team">
+				<TeamTab data={data} />
+			</TabsContent>
 			<TabsContent value="tasks">{/* <TasksTab data={data} /> */}</TabsContent>
 			<TabsContent value="activity">
 				{/* <ActivityTab data={data} /> */}
