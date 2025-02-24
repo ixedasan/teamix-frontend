@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -58,68 +58,71 @@ export function LabelsTable({ labelDistribution }: ILabelsTable) {
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
-	const columns: ColumnDef<Label>[] = [
-		{
-			accessorKey: 'labelName',
-			header: ({ column }) => (
-				<DataTableColumnHeader column={column} title="Label name" />
-			),
-			cell: ({ row }) => (
-				<div className="flex items-center space-x-2">
-					<div
-						className="h-3 w-3 rounded-full"
-						style={{ backgroundColor: row.original.color }}
-					/>
-					<span className="font-medium">{row.original.labelName}</span>
-				</div>
-			)
-		},
-		{
-			accessorKey: 'color',
-			header: ({ column }) => (
-				<DataTableColumnHeader column={column} title="Color" />
-			),
-			cell: ({ row }) => (
-				<Badge
-					variant="outline"
-					className="font-mono"
-					style={{ borderColor: row.original.color }}
-				>
-					{row.original.color}
-				</Badge>
-			)
-		},
-		{
-			accessorKey: 'count',
-			header: ({ column }) => (
-				<DataTableColumnHeader column={column} title="Number of tasks" />
-			),
-			cell: ({ row }) => (
-				<div className="font-medium">
-					{row.original.count}
-					<span className="ml-1 text-sm text-muted-foreground">tasks</span>
-				</div>
-			)
-		},
-		{
-			accessorKey: 'percentage',
-			header: ({ column }) => (
-				<DataTableColumnHeader column={column} title="Percentage of total" />
-			),
-			cell: ({ row }) => (
-				<div className="flex items-center space-x-4">
-					<Progress
-						value={row.original.percentage}
-						className="h-2 w-32"
-						indicatorClassName={`bg-primary`}
-					/>
-					<span className="text-sm font-medium">
-						{row.original.percentage.toFixed(1)}%
-					</span>
-				</div>
-			)
-		}
-	]
+	const columns = useMemo<ColumnDef<Label>[]>(
+		() => [
+			{
+				accessorKey: 'labelName',
+				header: ({ column }) => (
+					<DataTableColumnHeader column={column} title="Label name" />
+				),
+				cell: ({ row }) => (
+					<div className="flex items-center space-x-2">
+						<div
+							className="h-3 w-3 rounded-full"
+							style={{ backgroundColor: row.original.color }}
+						/>
+						<span className="font-medium">{row.original.labelName}</span>
+					</div>
+				)
+			},
+			{
+				accessorKey: 'color',
+				header: ({ column }) => (
+					<DataTableColumnHeader column={column} title="Color" />
+				),
+				cell: ({ row }) => (
+					<Badge
+						variant="outline"
+						className="font-mono"
+						style={{ borderColor: row.original.color }}
+					>
+						{row.original.color}
+					</Badge>
+				)
+			},
+			{
+				accessorKey: 'count',
+				header: ({ column }) => (
+					<DataTableColumnHeader column={column} title="Number of tasks" />
+				),
+				cell: ({ row }) => (
+					<div className="font-medium">
+						{row.original.count}
+						<span className="ml-1 text-sm text-muted-foreground">tasks</span>
+					</div>
+				)
+			},
+			{
+				accessorKey: 'percentage',
+				header: ({ column }) => (
+					<DataTableColumnHeader column={column} title="Percentage of total" />
+				),
+				cell: ({ row }) => (
+					<div className="flex items-center space-x-4">
+						<Progress
+							value={row.original.percentage}
+							className="h-2 w-32"
+							indicatorClassName={`bg-primary`}
+						/>
+						<span className="text-sm font-medium">
+							{row.original.percentage.toFixed(1)}%
+						</span>
+					</div>
+				)
+			}
+		],
+		[]
+	)
 
 	const table = useReactTable({
 		data: labelDistribution.distribution,

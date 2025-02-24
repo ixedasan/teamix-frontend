@@ -1,5 +1,6 @@
 query FindProjectAnalytics {
 	projectAnalytics {
+		id
 		statistics {
 			totalTasks
 			completedTasks

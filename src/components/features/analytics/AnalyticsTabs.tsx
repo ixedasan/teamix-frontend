@@ -8,6 +8,7 @@ import {
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { FindProjectAnalyticsQuery } from '@/graphql/generated/output'
+import { ActivityTab } from './activiry-tab/ActivityTab'
 import { OverviewTab } from './overview-tab/OverviewTab'
 import { TasksTab } from './tasks-tab/TasksTab'
 import { TeamTab } from './team-tab/TeamTab'
@@ -58,7 +59,7 @@ export function AnalyticsTabs({
 				<TasksTab data={data} />
 			</TabsContent>
 			<TabsContent value="activity">
-				{/* <ActivityTab data={data} /> */}
+				<ActivityTab data={data} />
 			</TabsContent>
 			<TabsContent value="timeline">
 				{/* <TimelineTab data={data} /> */}

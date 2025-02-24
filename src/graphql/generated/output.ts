@@ -100,6 +100,7 @@ export type CommentSubscriptionPayload = {
 export type ComprehensiveProjectAnalytics = {
   __typename?: 'ComprehensiveProjectAnalytics';
   activity: ProjectActivity;
+  id: Scalars['ID']['output'];
   labelDistribution: LabelDistribution;
   memberProductivity: Array<MemberProductivity>;
   priorityDistribution: PriorityDistribution;
@@ -1338,7 +1339,7 @@ export type FindDocumentsByProjectQuery = { __typename?: 'Query', findDocumentsB
 export type FindProjectAnalyticsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProjectAnalyticsQuery = { __typename?: 'Query', projectAnalytics: { __typename?: 'ComprehensiveProjectAnalytics', statistics: { __typename?: 'ProjectStatistics', totalTasks: number, completedTasks: number, overdueTasks: number, completionRate: number, totalMembers: number, totalDocuments: number, totalComments: number, taskGrowthRate: number, avgCompletionTime: number }, statusDistribution: { __typename?: 'TaskStatusAnalytics', backlog: number, todo: number, inProgress: number, done: number, cancelled: number, totalTasks: number }, memberProductivity: Array<{ __typename?: 'MemberProductivity', userId: string, username: string, displayName: string, avatar?: string | null, role: Role, assignedTasks: number, completedTasks: number, completionRate: number, commentsCount: number, lastActive?: any | null, urgentTasks: number }>, activity: { __typename?: 'ProjectActivity', tasksCreated: Array<{ __typename?: 'DailyCount', date: string, count: number }>, tasksCompleted: Array<{ __typename?: 'DailyCount', date: string, count: number }>, comments: Array<{ __typename?: 'DailyCount', date: string, count: number }>, activeUsers: Array<{ __typename?: 'DailyCount', date: string, count: number }> }, labelDistribution: { __typename?: 'LabelDistribution', totalLabelsUsed: number, distribution: Array<{ __typename?: 'LabelCount', labelId: string, labelName: string, color: string, count: number, percentage: number }> }, priorityDistribution: { __typename?: 'PriorityDistribution', none: number, low: number, medium: number, high: number, urgent: number, totalTasks: number }, taskTrends: Array<{ __typename?: 'TaskTrend', month: string, created: number, completed: number, completionRate: number }>, timeline: { __typename?: 'ProjectTimeline', projectCreatedAt: any, firstTaskCreatedAt?: any | null, firstTaskTitle?: string | null, latestCompletedTaskAt?: any | null, latestCompletedTaskTitle?: string | null, mostRecentTaskAt?: any | null, mostRecentTaskTitle?: string | null, projectDurationDays: number } } };
+export type FindProjectAnalyticsQuery = { __typename?: 'Query', projectAnalytics: { __typename?: 'ComprehensiveProjectAnalytics', id: string, statistics: { __typename?: 'ProjectStatistics', totalTasks: number, completedTasks: number, overdueTasks: number, completionRate: number, totalMembers: number, totalDocuments: number, totalComments: number, taskGrowthRate: number, avgCompletionTime: number }, statusDistribution: { __typename?: 'TaskStatusAnalytics', backlog: number, todo: number, inProgress: number, done: number, cancelled: number, totalTasks: number }, memberProductivity: Array<{ __typename?: 'MemberProductivity', userId: string, username: string, displayName: string, avatar?: string | null, role: Role, assignedTasks: number, completedTasks: number, completionRate: number, commentsCount: number, lastActive?: any | null, urgentTasks: number }>, activity: { __typename?: 'ProjectActivity', tasksCreated: Array<{ __typename?: 'DailyCount', date: string, count: number }>, tasksCompleted: Array<{ __typename?: 'DailyCount', date: string, count: number }>, comments: Array<{ __typename?: 'DailyCount', date: string, count: number }>, activeUsers: Array<{ __typename?: 'DailyCount', date: string, count: number }> }, labelDistribution: { __typename?: 'LabelDistribution', totalLabelsUsed: number, distribution: Array<{ __typename?: 'LabelCount', labelId: string, labelName: string, color: string, count: number, percentage: number }> }, priorityDistribution: { __typename?: 'PriorityDistribution', none: number, low: number, medium: number, high: number, urgent: number, totalTasks: number }, taskTrends: Array<{ __typename?: 'TaskTrend', month: string, created: number, completed: number, completionRate: number }>, timeline: { __typename?: 'ProjectTimeline', projectCreatedAt: any, firstTaskCreatedAt?: any | null, firstTaskTitle?: string | null, latestCompletedTaskAt?: any | null, latestCompletedTaskTitle?: string | null, mostRecentTaskAt?: any | null, mostRecentTaskTitle?: string | null, projectDurationDays: number } } };
 
 export type FindProjectByIdQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3289,6 +3290,7 @@ export type FindDocumentsByProjectQueryResult = Apollo.QueryResult<FindDocuments
 export const FindProjectAnalyticsDocument = gql`
     query FindProjectAnalytics {
   projectAnalytics {
+    id
     statistics {
       totalTasks
       completedTasks
