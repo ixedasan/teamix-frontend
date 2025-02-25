@@ -12,6 +12,7 @@ import { ActivityTab } from './activiry-tab/ActivityTab'
 import { OverviewTab } from './overview-tab/OverviewTab'
 import { TasksTab } from './tasks-tab/TasksTab'
 import { TeamTab } from './team-tab/TeamTab'
+import { TimelineTab } from './timeline-tab/TimelineTab'
 
 interface IAnalyticsTabs {
 	activeTab: string
@@ -62,7 +63,7 @@ export function AnalyticsTabs({
 				<ActivityTab data={data} />
 			</TabsContent>
 			<TabsContent value="timeline">
-				{/* <TimelineTab data={data} /> */}
+				<TimelineTab data={data} />
 			</TabsContent>
 		</Tabs>
 	)

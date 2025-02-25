@@ -49,10 +49,7 @@ export const StatCards = ({ activity }: IActivityData) => {
 	return (
 		<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
 			{statCards.map((stat, index) => (
-				<Card
-					key={index}
-					className="transition-all duration-200 hover:shadow-md dark:hover:shadow-primary/5"
-				>
+				<Card key={index}>
 					<CardContent className="p-6">
 						<div className="flex items-center justify-between">
 							<div className="space-y-2">
