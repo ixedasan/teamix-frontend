@@ -1,0 +1,3 @@
+mutation CreateDocument($data: CreateDocumentInput!) {
+	createDocument(data: $data)
+}

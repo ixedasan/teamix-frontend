@@ -97,6 +97,19 @@ export type CommentSubscriptionPayload = {
   mutation: MutationType;
 };
 
+export type ComprehensiveProjectAnalytics = {
+  __typename?: 'ComprehensiveProjectAnalytics';
+  activity: ProjectActivity;
+  id: Scalars['ID']['output'];
+  labelDistribution: LabelDistribution;
+  memberProductivity: Array<MemberProductivity>;
+  priorityDistribution: PriorityDistribution;
+  statistics: ProjectStatistics;
+  statusDistribution: TaskStatusAnalytics;
+  taskTrends: Array<TaskTrend>;
+  timeline: ProjectTimeline;
+};
+
 export type CreateDocumentInput = {
   title: Scalars['String']['input'];
 };
@@ -112,6 +125,12 @@ export type CreateUserInput = {
   username: Scalars['String']['input'];
 };
 
+export type DailyCount = {
+  __typename?: 'DailyCount';
+  count: Scalars['Int']['output'];
+  date: Scalars['String']['output'];
+};
+
 export type DeviceModel = {
   __typename?: 'DeviceModel';
   browser: Scalars['String']['output'];
@@ -121,7 +140,7 @@ export type DeviceModel = {
 
 export type DocumentModel = {
   __typename?: 'DocumentModel';
-  content: Scalars['JSON']['output'];
+  content?: Maybe<Scalars['JSON']['output']>;
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
   projectId: Scalars['String']['output'];
@@ -137,6 +156,21 @@ export type EnableTotpInput = {
 export type InviteMemberInput = {
   email: Scalars['String']['input'];
   role: Role;
+};
+
+export type LabelCount = {
+  __typename?: 'LabelCount';
+  color: Scalars['String']['output'];
+  count: Scalars['Int']['output'];
+  labelId: Scalars['String']['output'];
+  labelName: Scalars['String']['output'];
+  percentage: Scalars['Int']['output'];
+};
+
+export type LabelDistribution = {
+  __typename?: 'LabelDistribution';
+  distribution: Array<LabelCount>;
+  totalLabelsUsed: Scalars['Int']['output'];
 };
 
 export type LocationModel = {
@@ -168,6 +202,21 @@ export type MemberModel = {
   updatedAt: Scalars['DateTime']['output'];
   user: UserModel;
   userId: Scalars['ID']['output'];
+};
+
+export type MemberProductivity = {
+  __typename?: 'MemberProductivity';
+  assignedTasks: Scalars['Int']['output'];
+  avatar?: Maybe<Scalars['String']['output']>;
+  commentsCount: Scalars['Int']['output'];
+  completedTasks: Scalars['Int']['output'];
+  completionRate: Scalars['Int']['output'];
+  displayName: Scalars['String']['output'];
+  lastActive?: Maybe<Scalars['DateTime']['output']>;
+  role: Role;
+  urgentTasks: Scalars['Int']['output'];
+  userId: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type Mutation = {
@@ -246,8 +295,8 @@ export type MutationAssignTaskArgs = {
 
 
 export type MutationChangeDocumentArgs = {
+  data: ChangeDocumentInput;
   documentId: Scalars['String']['input'];
-  input: ChangeDocumentInput;
 };
 
 
@@ -518,6 +567,24 @@ export enum Priority {
   Urgent = 'URGENT'
 }
 
+export type PriorityDistribution = {
+  __typename?: 'PriorityDistribution';
+  high: Scalars['Int']['output'];
+  low: Scalars['Int']['output'];
+  medium: Scalars['Int']['output'];
+  none: Scalars['Int']['output'];
+  totalTasks: Scalars['Int']['output'];
+  urgent: Scalars['Int']['output'];
+};
+
+export type ProjectActivity = {
+  __typename?: 'ProjectActivity';
+  activeUsers: Array<DailyCount>;
+  comments: Array<DailyCount>;
+  tasksCompleted: Array<DailyCount>;
+  tasksCreated: Array<DailyCount>;
+};
+
 export type ProjectInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   icon?: InputMaybe<Scalars['String']['input']>;
@@ -544,12 +611,37 @@ export enum ProjectPlan {
   Pro = 'PRO'
 }
 
+export type ProjectStatistics = {
+  __typename?: 'ProjectStatistics';
+  avgCompletionTime: Scalars['Int']['output'];
+  completedTasks: Scalars['Int']['output'];
+  completionRate: Scalars['Int']['output'];
+  overdueTasks: Scalars['Int']['output'];
+  taskGrowthRate: Scalars['Int']['output'];
+  totalComments: Scalars['Int']['output'];
+  totalDocuments: Scalars['Int']['output'];
+  totalMembers: Scalars['Int']['output'];
+  totalTasks: Scalars['Int']['output'];
+};
+
+export type ProjectTimeline = {
+  __typename?: 'ProjectTimeline';
+  firstTaskCreatedAt?: Maybe<Scalars['DateTime']['output']>;
+  firstTaskTitle?: Maybe<Scalars['String']['output']>;
+  latestCompletedTaskAt?: Maybe<Scalars['DateTime']['output']>;
+  latestCompletedTaskTitle?: Maybe<Scalars['String']['output']>;
+  mostRecentTaskAt?: Maybe<Scalars['DateTime']['output']>;
+  mostRecentTaskTitle?: Maybe<Scalars['String']['output']>;
+  projectCreatedAt: Scalars['DateTime']['output'];
+  projectDurationDays: Scalars['Int']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
   findAllTasks: Array<TaskModel>;
   findCommentsByTask: Array<CommentModel>;
   findCurrentSession: SessionModel;
-  findDocument: DocumentModel;
+  findDocumentById: DocumentModel;
   findDocumentsByProject: Array<DocumentModel>;
   findNotificationsByUser: Array<NotificationModel>;
   findNotificationsUnreadCount: Scalars['Float']['output'];
@@ -566,6 +658,15 @@ export type Query = {
   generateTotpSecret: TotpModel;
   getAllUserProjects: Array<ProjectModel>;
   getTaskAssignees: Array<TaskAssigneeModel>;
+  labelDistribution: LabelDistribution;
+  memberProductivity: Array<MemberProductivity>;
+  priorityDistribution: PriorityDistribution;
+  projectActivity: ProjectActivity;
+  projectAnalytics: ComprehensiveProjectAnalytics;
+  projectStatistics: ProjectStatistics;
+  projectTimeline: ProjectTimeline;
+  taskStatusDistribution: TaskStatusAnalytics;
+  taskTrends: Array<TaskTrend>;
 };
 
 
@@ -574,7 +675,7 @@ export type QueryFindCommentsByTaskArgs = {
 };
 
 
-export type QueryFindDocumentArgs = {
+export type QueryFindDocumentByIdArgs = {
   documentId: Scalars['String']['input'];
 };
 
@@ -601,6 +702,21 @@ export type QueryFindTaskLinksArgs = {
 
 export type QueryGetTaskAssigneesArgs = {
   taskId: Scalars['String']['input'];
+};
+
+
+export type QueryMemberProductivityArgs = {
+  timeframe?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryProjectActivityArgs = {
+  days?: Scalars['Float']['input'];
+};
+
+
+export type QueryTaskTrendsArgs = {
+  months?: Scalars['Float']['input'];
 };
 
 export type ResetPasswordInput = {
@@ -659,7 +775,7 @@ export type SocialLinksModel = {
 export type Subscription = {
   __typename?: 'Subscription';
   commentChanged: CommentSubscriptionPayload;
-  documentUpdated: DocumentModel;
+  documentChanged: DocumentModel;
   taskAdded: TaskModel;
   taskChanged: TaskModel;
   taskDeleted: TaskModel;
@@ -671,8 +787,8 @@ export type SubscriptionCommentChangedArgs = {
 };
 
 
-export type SubscriptionDocumentUpdatedArgs = {
-  projectId: Scalars['String']['input'];
+export type SubscriptionDocumentChangedArgs = {
+  documentId: Scalars['String']['input'];
 };
 
 
@@ -769,6 +885,24 @@ export enum TaskStatus {
   Todo = 'TODO'
 }
 
+export type TaskStatusAnalytics = {
+  __typename?: 'TaskStatusAnalytics';
+  backlog: Scalars['Int']['output'];
+  cancelled: Scalars['Int']['output'];
+  done: Scalars['Int']['output'];
+  inProgress: Scalars['Int']['output'];
+  todo: Scalars['Int']['output'];
+  totalTasks: Scalars['Int']['output'];
+};
+
+export type TaskTrend = {
+  __typename?: 'TaskTrend';
+  completed: Scalars['Int']['output'];
+  completionRate: Scalars['Int']['output'];
+  created: Scalars['Int']['output'];
+  month: Scalars['String']['output'];
+};
+
 export type TotpModel = {
   __typename?: 'TotpModel';
   qrCodeUrl: Scalars['String']['output'];
@@ -819,6 +953,8 @@ export type VerificationInput = {
 
 export type CommentFragment = { __typename?: 'CommentModel', id: string, content: string, createdAt: any, updatedAt: any, author: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } };
 
+export type DocumentFragment = { __typename?: 'DocumentModel', id: string, title: string, content?: any | null, projectId: string, createdAt: any, updatedAt: any };
+
 export type TaskFragment = { __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, userId: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }> };
 
 export type CreateUserMutationVariables = Exact<{
@@ -860,6 +996,28 @@ export type VerifyAccauntMutationVariables = Exact<{
 
 
 export type VerifyAccauntMutation = { __typename?: 'Mutation', verifyAccaunt: { __typename?: 'AuthModel', message?: string | null, user?: { __typename?: 'UserModel', isEmailVerified: boolean } | null } };
+
+export type ChangeDocumentMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  data: ChangeDocumentInput;
+}>;
+
+
+export type ChangeDocumentMutation = { __typename?: 'Mutation', changeDocument: { __typename?: 'DocumentModel', id: string, title: string, content?: any | null, projectId: string, createdAt: any, updatedAt: any } };
+
+export type CreateDocumentMutationVariables = Exact<{
+  data: CreateDocumentInput;
+}>;
+
+
+export type CreateDocumentMutation = { __typename?: 'Mutation', createDocument: boolean };
+
+export type DeleteDocumentMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DeleteDocumentMutation = { __typename?: 'Mutation', deleteDocument: boolean };
 
 export type AcceptProjectInvitationMutationVariables = Exact<{
   token: Scalars['String']['input'];
@@ -1166,6 +1324,23 @@ export type UpdateSocialLinkMutationVariables = Exact<{
 
 export type UpdateSocialLinkMutation = { __typename?: 'Mutation', updateSocialLink: boolean };
 
+export type FindDocumentByIdQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type FindDocumentByIdQuery = { __typename?: 'Query', findDocumentById: { __typename?: 'DocumentModel', id: string, title: string, content?: any | null, projectId: string, createdAt: any, updatedAt: any } };
+
+export type FindDocumentsByProjectQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindDocumentsByProjectQuery = { __typename?: 'Query', findDocumentsByProject: Array<{ __typename?: 'DocumentModel', id: string, title: string, projectId: string, createdAt: any, updatedAt: any }> };
+
+export type FindProjectAnalyticsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindProjectAnalyticsQuery = { __typename?: 'Query', projectAnalytics: { __typename?: 'ComprehensiveProjectAnalytics', id: string, statistics: { __typename?: 'ProjectStatistics', totalTasks: number, completedTasks: number, overdueTasks: number, completionRate: number, totalMembers: number, totalDocuments: number, totalComments: number, taskGrowthRate: number, avgCompletionTime: number }, statusDistribution: { __typename?: 'TaskStatusAnalytics', backlog: number, todo: number, inProgress: number, done: number, cancelled: number, totalTasks: number }, memberProductivity: Array<{ __typename?: 'MemberProductivity', userId: string, username: string, displayName: string, avatar?: string | null, role: Role, assignedTasks: number, completedTasks: number, completionRate: number, commentsCount: number, lastActive?: any | null, urgentTasks: number }>, activity: { __typename?: 'ProjectActivity', tasksCreated: Array<{ __typename?: 'DailyCount', date: string, count: number }>, tasksCompleted: Array<{ __typename?: 'DailyCount', date: string, count: number }>, comments: Array<{ __typename?: 'DailyCount', date: string, count: number }>, activeUsers: Array<{ __typename?: 'DailyCount', date: string, count: number }> }, labelDistribution: { __typename?: 'LabelDistribution', totalLabelsUsed: number, distribution: Array<{ __typename?: 'LabelCount', labelId: string, labelName: string, color: string, count: number, percentage: number }> }, priorityDistribution: { __typename?: 'PriorityDistribution', none: number, low: number, medium: number, high: number, urgent: number, totalTasks: number }, taskTrends: Array<{ __typename?: 'TaskTrend', month: string, created: number, completed: number, completionRate: number }>, timeline: { __typename?: 'ProjectTimeline', projectCreatedAt: any, firstTaskCreatedAt?: any | null, firstTaskTitle?: string | null, latestCompletedTaskAt?: any | null, latestCompletedTaskTitle?: string | null, mostRecentTaskAt?: any | null, mostRecentTaskTitle?: string | null, projectDurationDays: number } } };
+
 export type FindProjectByIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1219,6 +1394,16 @@ export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FindCurrentSessionQuery = { __typename?: 'Query', findCurrentSession: { __typename?: 'SessionModel', id: string, createdAt: string, metadata: { __typename?: 'SessionMetadataModel', ip: string, location: { __typename?: 'LocationModel', country: string, city: string, latitude: number, longitude: number }, device: { __typename?: 'DeviceModel', browser: string, os: string } } } };
 
+export type FindNotificationsByUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindNotificationsByUserQuery = { __typename?: 'Query', findNotificationsByUser: Array<{ __typename?: 'NotificationModel', id: string, message: string, type: NotificationType }> };
+
+export type FindNotificationsUnreadCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindNotificationsUnreadCountQuery = { __typename?: 'Query', findNotificationsUnreadCount: number };
+
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1238,6 +1423,13 @@ export type GenerateTotpSecretQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GenerateTotpSecretQuery = { __typename?: 'Query', generateTotpSecret: { __typename?: 'TotpModel', secret: string, qrCodeUrl: string } };
+
+export type DocumentChangedSubscriptionVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DocumentChangedSubscription = { __typename?: 'Subscription', documentChanged: { __typename?: 'DocumentModel', id: string, title: string, content?: any | null, projectId: string, createdAt: any, updatedAt: any } };
 
 export type CommentChangedSubscriptionVariables = Exact<{
   taskId: Scalars['String']['input'];
@@ -1279,6 +1471,16 @@ export const CommentFragmentDoc = gql`
     displayName
     avatar
   }
+}
+    `;
+export const DocumentFragmentDoc = gql`
+    fragment Document on DocumentModel {
+  id
+  title
+  content
+  projectId
+  createdAt
+  updatedAt
 }
     `;
 export const TaskFragmentDoc = gql`
@@ -1503,6 +1705,102 @@ export function useVerifyAccauntMutation(baseOptions?: Apollo.MutationHookOption
 export type VerifyAccauntMutationHookResult = ReturnType<typeof useVerifyAccauntMutation>;
 export type VerifyAccauntMutationResult = Apollo.MutationResult<VerifyAccauntMutation>;
 export type VerifyAccauntMutationOptions = Apollo.BaseMutationOptions<VerifyAccauntMutation, VerifyAccauntMutationVariables>;
+export const ChangeDocumentDocument = gql`
+    mutation ChangeDocument($id: String!, $data: ChangeDocumentInput!) {
+  changeDocument(documentId: $id, data: $data) {
+    ...Document
+  }
+}
+    ${DocumentFragmentDoc}`;
+export type ChangeDocumentMutationFn = Apollo.MutationFunction<ChangeDocumentMutation, ChangeDocumentMutationVariables>;
+
+/**
+ * __useChangeDocumentMutation__
+ *
+ * To run a mutation, you first call `useChangeDocumentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeDocumentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changeDocumentMutation, { data, loading, error }] = useChangeDocumentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useChangeDocumentMutation(baseOptions?: Apollo.MutationHookOptions<ChangeDocumentMutation, ChangeDocumentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangeDocumentMutation, ChangeDocumentMutationVariables>(ChangeDocumentDocument, options);
+      }
+export type ChangeDocumentMutationHookResult = ReturnType<typeof useChangeDocumentMutation>;
+export type ChangeDocumentMutationResult = Apollo.MutationResult<ChangeDocumentMutation>;
+export type ChangeDocumentMutationOptions = Apollo.BaseMutationOptions<ChangeDocumentMutation, ChangeDocumentMutationVariables>;
+export const CreateDocumentDocument = gql`
+    mutation CreateDocument($data: CreateDocumentInput!) {
+  createDocument(data: $data)
+}
+    `;
+export type CreateDocumentMutationFn = Apollo.MutationFunction<CreateDocumentMutation, CreateDocumentMutationVariables>;
+
+/**
+ * __useCreateDocumentMutation__
+ *
+ * To run a mutation, you first call `useCreateDocumentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateDocumentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createDocumentMutation, { data, loading, error }] = useCreateDocumentMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateDocumentMutation(baseOptions?: Apollo.MutationHookOptions<CreateDocumentMutation, CreateDocumentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateDocumentMutation, CreateDocumentMutationVariables>(CreateDocumentDocument, options);
+      }
+export type CreateDocumentMutationHookResult = ReturnType<typeof useCreateDocumentMutation>;
+export type CreateDocumentMutationResult = Apollo.MutationResult<CreateDocumentMutation>;
+export type CreateDocumentMutationOptions = Apollo.BaseMutationOptions<CreateDocumentMutation, CreateDocumentMutationVariables>;
+export const DeleteDocumentDocument = gql`
+    mutation DeleteDocument($id: String!) {
+  deleteDocument(documentId: $id)
+}
+    `;
+export type DeleteDocumentMutationFn = Apollo.MutationFunction<DeleteDocumentMutation, DeleteDocumentMutationVariables>;
+
+/**
+ * __useDeleteDocumentMutation__
+ *
+ * To run a mutation, you first call `useDeleteDocumentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDocumentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDocumentMutation, { data, loading, error }] = useDeleteDocumentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteDocumentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteDocumentMutation, DeleteDocumentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteDocumentMutation, DeleteDocumentMutationVariables>(DeleteDocumentDocument, options);
+      }
+export type DeleteDocumentMutationHookResult = ReturnType<typeof useDeleteDocumentMutation>;
+export type DeleteDocumentMutationResult = Apollo.MutationResult<DeleteDocumentMutation>;
+export type DeleteDocumentMutationOptions = Apollo.BaseMutationOptions<DeleteDocumentMutation, DeleteDocumentMutationVariables>;
 export const AcceptProjectInvitationDocument = gql`
     mutation AcceptProjectInvitation($token: String!) {
   acceptProjectInvitation(token: $token)
@@ -2906,6 +3204,213 @@ export function useUpdateSocialLinkMutation(baseOptions?: Apollo.MutationHookOpt
 export type UpdateSocialLinkMutationHookResult = ReturnType<typeof useUpdateSocialLinkMutation>;
 export type UpdateSocialLinkMutationResult = Apollo.MutationResult<UpdateSocialLinkMutation>;
 export type UpdateSocialLinkMutationOptions = Apollo.BaseMutationOptions<UpdateSocialLinkMutation, UpdateSocialLinkMutationVariables>;
+export const FindDocumentByIdDocument = gql`
+    query FindDocumentById($id: String!) {
+  findDocumentById(documentId: $id) {
+    ...Document
+  }
+}
+    ${DocumentFragmentDoc}`;
+
+/**
+ * __useFindDocumentByIdQuery__
+ *
+ * To run a query within a React component, call `useFindDocumentByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindDocumentByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindDocumentByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindDocumentByIdQuery(baseOptions: Apollo.QueryHookOptions<FindDocumentByIdQuery, FindDocumentByIdQueryVariables> & ({ variables: FindDocumentByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>(FindDocumentByIdDocument, options);
+      }
+export function useFindDocumentByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>(FindDocumentByIdDocument, options);
+        }
+export function useFindDocumentByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>(FindDocumentByIdDocument, options);
+        }
+export type FindDocumentByIdQueryHookResult = ReturnType<typeof useFindDocumentByIdQuery>;
+export type FindDocumentByIdLazyQueryHookResult = ReturnType<typeof useFindDocumentByIdLazyQuery>;
+export type FindDocumentByIdSuspenseQueryHookResult = ReturnType<typeof useFindDocumentByIdSuspenseQuery>;
+export type FindDocumentByIdQueryResult = Apollo.QueryResult<FindDocumentByIdQuery, FindDocumentByIdQueryVariables>;
+export const FindDocumentsByProjectDocument = gql`
+    query FindDocumentsByProject {
+  findDocumentsByProject {
+    id
+    title
+    projectId
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useFindDocumentsByProjectQuery__
+ *
+ * To run a query within a React component, call `useFindDocumentsByProjectQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindDocumentsByProjectQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindDocumentsByProjectQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindDocumentsByProjectQuery(baseOptions?: Apollo.QueryHookOptions<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>(FindDocumentsByProjectDocument, options);
+      }
+export function useFindDocumentsByProjectLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>(FindDocumentsByProjectDocument, options);
+        }
+export function useFindDocumentsByProjectSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>(FindDocumentsByProjectDocument, options);
+        }
+export type FindDocumentsByProjectQueryHookResult = ReturnType<typeof useFindDocumentsByProjectQuery>;
+export type FindDocumentsByProjectLazyQueryHookResult = ReturnType<typeof useFindDocumentsByProjectLazyQuery>;
+export type FindDocumentsByProjectSuspenseQueryHookResult = ReturnType<typeof useFindDocumentsByProjectSuspenseQuery>;
+export type FindDocumentsByProjectQueryResult = Apollo.QueryResult<FindDocumentsByProjectQuery, FindDocumentsByProjectQueryVariables>;
+export const FindProjectAnalyticsDocument = gql`
+    query FindProjectAnalytics {
+  projectAnalytics {
+    id
+    statistics {
+      totalTasks
+      completedTasks
+      overdueTasks
+      completionRate
+      totalMembers
+      totalDocuments
+      totalComments
+      taskGrowthRate
+      avgCompletionTime
+    }
+    statusDistribution {
+      backlog
+      todo
+      inProgress
+      done
+      cancelled
+      totalTasks
+    }
+    memberProductivity {
+      userId
+      username
+      displayName
+      avatar
+      role
+      assignedTasks
+      completedTasks
+      completionRate
+      commentsCount
+      lastActive
+      urgentTasks
+    }
+    activity {
+      tasksCreated {
+        date
+        count
+      }
+      tasksCompleted {
+        date
+        count
+      }
+      comments {
+        date
+        count
+      }
+      activeUsers {
+        date
+        count
+      }
+    }
+    labelDistribution {
+      distribution {
+        labelId
+        labelName
+        color
+        count
+        percentage
+      }
+      totalLabelsUsed
+    }
+    priorityDistribution {
+      none
+      low
+      medium
+      high
+      urgent
+      totalTasks
+    }
+    taskTrends {
+      month
+      created
+      completed
+      completionRate
+    }
+    timeline {
+      projectCreatedAt
+      firstTaskCreatedAt
+      firstTaskTitle
+      latestCompletedTaskAt
+      latestCompletedTaskTitle
+      mostRecentTaskAt
+      mostRecentTaskTitle
+      latestCompletedTaskTitle
+      projectDurationDays
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindProjectAnalyticsQuery__
+ *
+ * To run a query within a React component, call `useFindProjectAnalyticsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindProjectAnalyticsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindProjectAnalyticsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindProjectAnalyticsQuery(baseOptions?: Apollo.QueryHookOptions<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>(FindProjectAnalyticsDocument, options);
+      }
+export function useFindProjectAnalyticsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>(FindProjectAnalyticsDocument, options);
+        }
+export function useFindProjectAnalyticsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>(FindProjectAnalyticsDocument, options);
+        }
+export type FindProjectAnalyticsQueryHookResult = ReturnType<typeof useFindProjectAnalyticsQuery>;
+export type FindProjectAnalyticsLazyQueryHookResult = ReturnType<typeof useFindProjectAnalyticsLazyQuery>;
+export type FindProjectAnalyticsSuspenseQueryHookResult = ReturnType<typeof useFindProjectAnalyticsSuspenseQuery>;
+export type FindProjectAnalyticsQueryResult = Apollo.QueryResult<FindProjectAnalyticsQuery, FindProjectAnalyticsQueryVariables>;
 export const FindProjectByIdDocument = gql`
     query FindProjectById {
   findProjectById {
@@ -3350,6 +3855,84 @@ export type FindCurrentSessionQueryHookResult = ReturnType<typeof useFindCurrent
 export type FindCurrentSessionLazyQueryHookResult = ReturnType<typeof useFindCurrentSessionLazyQuery>;
 export type FindCurrentSessionSuspenseQueryHookResult = ReturnType<typeof useFindCurrentSessionSuspenseQuery>;
 export type FindCurrentSessionQueryResult = Apollo.QueryResult<FindCurrentSessionQuery, FindCurrentSessionQueryVariables>;
+export const FindNotificationsByUserDocument = gql`
+    query FindNotificationsByUser {
+  findNotificationsByUser {
+    id
+    message
+    type
+  }
+}
+    `;
+
+/**
+ * __useFindNotificationsByUserQuery__
+ *
+ * To run a query within a React component, call `useFindNotificationsByUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindNotificationsByUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindNotificationsByUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindNotificationsByUserQuery(baseOptions?: Apollo.QueryHookOptions<FindNotificationsByUserQuery, FindNotificationsByUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindNotificationsByUserQuery, FindNotificationsByUserQueryVariables>(FindNotificationsByUserDocument, options);
+      }
+export function useFindNotificationsByUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindNotificationsByUserQuery, FindNotificationsByUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindNotificationsByUserQuery, FindNotificationsByUserQueryVariables>(FindNotificationsByUserDocument, options);
+        }
+export function useFindNotificationsByUserSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindNotificationsByUserQuery, FindNotificationsByUserQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindNotificationsByUserQuery, FindNotificationsByUserQueryVariables>(FindNotificationsByUserDocument, options);
+        }
+export type FindNotificationsByUserQueryHookResult = ReturnType<typeof useFindNotificationsByUserQuery>;
+export type FindNotificationsByUserLazyQueryHookResult = ReturnType<typeof useFindNotificationsByUserLazyQuery>;
+export type FindNotificationsByUserSuspenseQueryHookResult = ReturnType<typeof useFindNotificationsByUserSuspenseQuery>;
+export type FindNotificationsByUserQueryResult = Apollo.QueryResult<FindNotificationsByUserQuery, FindNotificationsByUserQueryVariables>;
+export const FindNotificationsUnreadCountDocument = gql`
+    query FindNotificationsUnreadCount {
+  findNotificationsUnreadCount
+}
+    `;
+
+/**
+ * __useFindNotificationsUnreadCountQuery__
+ *
+ * To run a query within a React component, call `useFindNotificationsUnreadCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindNotificationsUnreadCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindNotificationsUnreadCountQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindNotificationsUnreadCountQuery(baseOptions?: Apollo.QueryHookOptions<FindNotificationsUnreadCountQuery, FindNotificationsUnreadCountQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindNotificationsUnreadCountQuery, FindNotificationsUnreadCountQueryVariables>(FindNotificationsUnreadCountDocument, options);
+      }
+export function useFindNotificationsUnreadCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindNotificationsUnreadCountQuery, FindNotificationsUnreadCountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindNotificationsUnreadCountQuery, FindNotificationsUnreadCountQueryVariables>(FindNotificationsUnreadCountDocument, options);
+        }
+export function useFindNotificationsUnreadCountSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindNotificationsUnreadCountQuery, FindNotificationsUnreadCountQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindNotificationsUnreadCountQuery, FindNotificationsUnreadCountQueryVariables>(FindNotificationsUnreadCountDocument, options);
+        }
+export type FindNotificationsUnreadCountQueryHookResult = ReturnType<typeof useFindNotificationsUnreadCountQuery>;
+export type FindNotificationsUnreadCountLazyQueryHookResult = ReturnType<typeof useFindNotificationsUnreadCountLazyQuery>;
+export type FindNotificationsUnreadCountSuspenseQueryHookResult = ReturnType<typeof useFindNotificationsUnreadCountSuspenseQuery>;
+export type FindNotificationsUnreadCountQueryResult = Apollo.QueryResult<FindNotificationsUnreadCountQuery, FindNotificationsUnreadCountQueryVariables>;
 export const FindProfileDocument = gql`
     query FindProfile {
   findProfile {
@@ -3534,6 +4117,36 @@ export type GenerateTotpSecretQueryHookResult = ReturnType<typeof useGenerateTot
 export type GenerateTotpSecretLazyQueryHookResult = ReturnType<typeof useGenerateTotpSecretLazyQuery>;
 export type GenerateTotpSecretSuspenseQueryHookResult = ReturnType<typeof useGenerateTotpSecretSuspenseQuery>;
 export type GenerateTotpSecretQueryResult = Apollo.QueryResult<GenerateTotpSecretQuery, GenerateTotpSecretQueryVariables>;
+export const DocumentChangedDocument = gql`
+    subscription DocumentChanged($id: String!) {
+  documentChanged(documentId: $id) {
+    ...Document
+  }
+}
+    ${DocumentFragmentDoc}`;
+
+/**
+ * __useDocumentChangedSubscription__
+ *
+ * To run a query within a React component, call `useDocumentChangedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useDocumentChangedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDocumentChangedSubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDocumentChangedSubscription(baseOptions: Apollo.SubscriptionHookOptions<DocumentChangedSubscription, DocumentChangedSubscriptionVariables> & ({ variables: DocumentChangedSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<DocumentChangedSubscription, DocumentChangedSubscriptionVariables>(DocumentChangedDocument, options);
+      }
+export type DocumentChangedSubscriptionHookResult = ReturnType<typeof useDocumentChangedSubscription>;
+export type DocumentChangedSubscriptionResult = Apollo.SubscriptionResult<DocumentChangedSubscription>;
 export const CommentChangedDocument = gql`
     subscription CommentChanged($taskId: String!) {
   commentChanged(taskId: $taskId) {

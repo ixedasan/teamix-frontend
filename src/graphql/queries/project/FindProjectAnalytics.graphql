@@ -1,0 +1,97 @@
+query FindProjectAnalytics {
+	projectAnalytics {
+		id
+		statistics {
+			totalTasks
+			completedTasks
+			overdueTasks
+			completionRate
+			totalMembers
+			totalDocuments
+			totalComments
+			taskGrowthRate
+			avgCompletionTime
+		}
+
+		statusDistribution {
+			backlog
+			todo
+			inProgress
+			done
+			cancelled
+			totalTasks
+		}
+
+		memberProductivity {
+			userId
+			username
+			displayName
+			avatar
+			role
+			assignedTasks
+			completedTasks
+			completionRate
+			commentsCount
+			lastActive
+			urgentTasks
+		}
+
+		activity {
+			tasksCreated {
+				date
+				count
+			}
+			tasksCompleted {
+				date
+				count
+			}
+			comments {
+				date
+				count
+			}
+			activeUsers {
+				date
+				count
+			}
+		}
+
+		labelDistribution {
+			distribution {
+				labelId
+				labelName
+				color
+				count
+				percentage
+			}
+			totalLabelsUsed
+		}
+
+		priorityDistribution {
+			none
+			low
+			medium
+			high
+			urgent
+			totalTasks
+		}
+
+		taskTrends {
+			month
+			created
+			completed
+			completionRate
+		}
+
+		timeline {
+			projectCreatedAt
+			firstTaskCreatedAt
+			firstTaskTitle
+			latestCompletedTaskAt
+			latestCompletedTaskTitle
+			mostRecentTaskAt
+			mostRecentTaskTitle
+			latestCompletedTaskTitle
+			projectDurationDays
+		}
+	}
+}

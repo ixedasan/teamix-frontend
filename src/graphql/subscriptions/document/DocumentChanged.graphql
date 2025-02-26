@@ -1,0 +1,5 @@
+subscription DocumentChanged($id: String!) {
+	documentChanged(documentId: $id) {
+		...Document
+	}
+}

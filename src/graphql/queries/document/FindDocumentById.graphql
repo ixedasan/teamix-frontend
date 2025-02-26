@@ -1,0 +1,5 @@
+query FindDocumentById($id: String!) {
+	findDocumentById(documentId: $id) {
+		...Document
+	}
+}

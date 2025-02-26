@@ -1,0 +1,9 @@
+query FindDocumentsByProject {
+	findDocumentsByProject {
+		id
+		title
+		projectId
+		createdAt
+		updatedAt
+	}
+}

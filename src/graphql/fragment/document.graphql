@@ -1,0 +1,8 @@
+fragment Document on DocumentModel {
+	id
+	title
+	content
+	projectId
+	createdAt
+	updatedAt
+}

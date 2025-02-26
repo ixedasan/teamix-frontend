@@ -4,6 +4,7 @@ import { type ComponentProps } from 'react'
 import { Separator } from '@radix-ui/react-separator'
 
 import { Logo } from '@/components/common/Logo'
+import { Notifications } from '@/components/features/notifications/Notifications'
 import {
 	Sidebar,
 	SidebarContent,
@@ -22,7 +23,14 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
-				<Logo iconSize={12} showText={state === 'expanded'} className="mt-2" />
+				<div className="flex items-center px-1 justify-between">
+					<Logo
+						iconSize={12}
+						showText={state === 'expanded'}
+						className="mt-2"
+					/>
+					<Notifications />
+				</div>
 				<Separator />
 				<NavMain />
 			</SidebarHeader>
