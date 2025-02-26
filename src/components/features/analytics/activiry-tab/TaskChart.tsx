@@ -43,7 +43,7 @@ export function TaskChart({ activity }: ITaskChart) {
 		<Card>
 			<CardHeader>
 				<CardTitle className="flex items-center gap-2 text-lg font-semibold">
-					<CheckCircle2 className="h-5 w-5 text-muted-foreground" />
+					<CheckCircle2 className="h-5 w-5 text-primary" />
 					Task Analytics
 				</CardTitle>
 				<CardDescription className="text-sm text-muted-foreground">

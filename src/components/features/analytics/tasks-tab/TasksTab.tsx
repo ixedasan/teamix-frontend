@@ -28,8 +28,8 @@ export function TasksTab({ data }: ITasksTab) {
 			<LabelsTable labelDistribution={data.labelDistribution} />
 			<Card>
 				<CardHeader>
-					<CardTitle className="flex items-center">
-						<Clock8 className="mr-2 h-5 w-5 text-muted-foreground" />
+					<CardTitle className="flex items-center gap-2 text-lg font-semibold">
+						<Clock8 className="h-5 w-5 text-primary" />
 						Average time to complete tasks
 					</CardTitle>
 					<CardDescription>
