@@ -8,6 +8,9 @@ import { DashboardFilters } from './header/DashboardFilters'
 import { DashboardSkeleton } from './header/DashboardSkeleton'
 import { DashboardOverview } from './overview/DashboardOverview'
 import { ProjectsSummary } from './projects/ProjectsSummary'
+import { AssignedTasks } from './tasks/AssignedTasks'
+import { OverdueTasks } from './tasks/OverdueTasks'
+import { RecentTasks } from './tasks/RecentTasks'
 import { UpcomingDeadlines } from './tasks/UpcomingDeadlines'
 import { FilterState } from './types/filters.types'
 
@@ -92,13 +95,13 @@ export default function DashboardRoot() {
 							<TabsTrigger value="overdue">Overdue</TabsTrigger>
 						</TabsList>
 						<TabsContent value="recent">
-							{/* <RecentTasks tasks={dashboardData.recentTasks} /> */}
+							<RecentTasks tasks={dashboardData.recentTasks} />
 						</TabsContent>
 						<TabsContent value="assigned">
-							{/* <AssignedTasks tasks={assignedTasks} /> */}
+							<AssignedTasks tasks={assignedTasks} />
 						</TabsContent>
 						<TabsContent value="overdue">
-							{/* <OverdueTasks tasks={overdueTasks} /> */}
+							<OverdueTasks tasks={overdueTasks} />
 						</TabsContent>
 					</Tabs>
 				</>
