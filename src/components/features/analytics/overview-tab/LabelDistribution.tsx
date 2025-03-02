@@ -107,7 +107,7 @@ export function LabelDistribution({ data }: ILabelDistribution) {
 
 	return (
 		<Card className="overflow-hidden transition-all duration-300 hover:shadow-md">
-			<CardHeader className="bg-gradient-to-r from-background to-background/40 pb-4">
+			<CardHeader>
 				<CardTitle className="flex items-center gap-2 text-lg font-semibold">
 					<Tag className="h-5 w-5 text-primary" />
 					Label Distribution

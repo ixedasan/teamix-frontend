@@ -1,8 +1,10 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import dynamic from 'next/dynamic'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { MoreVerticalIcon, Trash } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { DeleteTaskDialog } from '@/components/common/task/DeleteTaskDialog'
 import { Button } from '@/components/ui/Button'
@@ -53,8 +55,17 @@ const TaskAttachmentsSection = dynamic(
 
 export function TaskSheet() {
 	const isDesktop = useMediaQuery('(min-width: 768px)')
+	const router = useRouter()
+	const searchParams = useSearchParams()
 
-	const { isOpen, taskId, close } = useTaskSheet()
+	const { isOpen, taskId, open, close } = useTaskSheet()
+
+	useEffect(() => {
+		const taskIdFromUrl = searchParams.get('taskId')
+		if (taskIdFromUrl && !isOpen) {
+			open(taskIdFromUrl)
+		}
+	}, [searchParams, open, isOpen])
 
 	const { data, loading, error } = useFindTaskByIdQuery({
 		variables: { id: taskId ?? '' },
@@ -63,12 +74,25 @@ export function TaskSheet() {
 	const task = data?.findTask
 
 	const handleOpenChange = useCallback(
-		(open: boolean) => {
-			if (!open) close()
+		(openState: boolean) => {
+			if (!openState) {
+				const params = new URLSearchParams(searchParams.toString())
+				params.delete('taskId')
+
+				const newUrl = params.toString() ? `?${params.toString()}` : ''
+				router.push(newUrl, { scroll: false })
+
+				close()
+			}
 		},
-		[close]
+		[close, router, searchParams]
 	)
-	if (!task) return null
+
+	if (error) {
+		toast.error('Failed to load task details')
+	}
+
+	if (!task && isOpen && !loading) return null
 
 	if (isDesktop) {
 		return (
@@ -103,17 +127,19 @@ export function TaskSheet() {
 							</DropdownMenuContent>
 						</DropdownMenu>
 					</SheetHeader>
-					<div className="relative flex flex-col space-y-3 px-8 py-5">
-						<TaskHeaderSection task={task} isLoading={loading} />
+					{task && (
+						<div className="relative flex flex-col space-y-3 px-8 py-5">
+							<TaskHeaderSection task={task} isLoading={loading} />
 
-						<QuickEditSection task={task} isLoading={loading} />
+							<QuickEditSection task={task} isLoading={loading} />
 
-						<TaskLinkSection taskId={task.id} />
+							<TaskLinkSection taskId={task.id} />
 
-						<TaskAttachmentsSection taskId={task.id} />
+							<TaskAttachmentsSection taskId={task.id} />
 
-						<CommentsSection taskId={task.id} />
-					</div>
+							<CommentsSection taskId={task.id} />
+						</div>
+					)}
 				</SheetContent>
 			</Sheet>
 		)
@@ -126,42 +152,46 @@ export function TaskSheet() {
 					<DrawerHeader>
 						<DrawerTitle className="sr-only"></DrawerTitle>
 						<DrawerDescription className="sr-only"></DrawerDescription>
-						<DropdownMenu>
-							<DropdownMenuTrigger
-								asChild
-								tabIndex={-1}
-								className="absolute left-0 top-0 translate-x-2 p-4"
-							>
-								<Button variant="ghost" className="size-4">
-									<MoreVerticalIcon className="size-4" />
-								</Button>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent>
-								<DeleteTaskDialog
-									task={task}
-									trigger={
-										<Button
-											className="w-full p-0 text-muted-foreground hover:text-destructive"
-											variant="ghost"
-										>
-											Delete <Trash />
-										</Button>
-									}
-								/>
-							</DropdownMenuContent>
-						</DropdownMenu>
+						{task && (
+							<DropdownMenu>
+								<DropdownMenuTrigger
+									asChild
+									tabIndex={-1}
+									className="absolute left-0 top-0 translate-x-2 p-4"
+								>
+									<Button variant="ghost" className="size-4">
+										<MoreVerticalIcon className="size-4" />
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent>
+									<DeleteTaskDialog
+										task={task}
+										trigger={
+											<Button
+												className="w-full p-0 text-muted-foreground hover:text-destructive"
+												variant="ghost"
+											>
+												Delete <Trash />
+											</Button>
+										}
+									/>
+								</DropdownMenuContent>
+							</DropdownMenu>
+						)}
 					</DrawerHeader>
-					<div className="relative flex flex-col space-y-3 p-4">
-						<TaskHeaderSection task={task} isLoading={loading} />
+					{task && (
+						<div className="relative flex flex-col space-y-3 p-4">
+							<TaskHeaderSection task={task} isLoading={loading} />
 
-						<QuickEditSection task={task} isLoading={loading} />
+							<QuickEditSection task={task} isLoading={loading} />
 
-						<TaskLinkSection taskId={task.id} />
+							<TaskLinkSection taskId={task.id} />
 
-						<TaskAttachmentsSection taskId={task.id} />
+							<TaskAttachmentsSection taskId={task.id} />
 
-						<CommentsSection taskId={task.id} />
-					</div>
+							<CommentsSection taskId={task.id} />
+						</div>
+					)}
 				</ScrollArea>
 			</DrawerContent>
 		</Drawer>

@@ -1,0 +1,206 @@
+query FindUserDashboard(
+	$filter: DashboardFilterInput
+	$taskFilter: TaskFilterInput
+) {
+	# Общая сводка и статистика
+	FindUserDashboard(filter: $filter) {
+		totalAssignedTasks
+
+		# Распределение задач по статусам
+		tasksByStatus {
+			status
+			count
+		}
+
+		# Распределение задач по приоритетам
+		tasksByPriority {
+			priority
+			count
+		}
+
+		# Распределение задач по срокам
+		tasksByDueDate {
+			overdue
+			dueToday
+			dueThisWeek
+			upcoming
+			noDueDate
+		}
+
+		# Краткая информация по проектам
+		projectsSummary {
+			project {
+				id
+				name
+				icon
+				description
+				plan
+			}
+			totalTasks
+			completedTasks
+			pendingTasks
+		}
+
+		# Недавно обновленные задачи
+		recentTasks {
+			id
+			title
+			description
+			status
+			priority
+			dueDate
+			createdAt
+			updatedAt
+			project {
+				id
+				name
+				icon
+			}
+			labels {
+				id
+				name
+				color
+			}
+			assignees {
+				user {
+					id
+					username
+					displayName
+					avatar
+				}
+			}
+			createdBy {
+				id
+				username
+				displayName
+				avatar
+			}
+		}
+
+		# Ближайшие дедлайны
+		upcomingDeadlines {
+			id
+			title
+			status
+			priority
+			dueDate
+			project {
+				id
+				name
+				icon
+			}
+			assignees {
+				user {
+					id
+					username
+					displayName
+					avatar
+				}
+			}
+		}
+	}
+
+	# Задачи, назначенные на текущего пользователя с фильтрацией
+	FindUserAssigedTasks(filter: $taskFilter) {
+		id
+		title
+		description
+		status
+		priority
+		position
+		startDate
+		dueDate
+		createdAt
+		updatedAt
+
+		project {
+			id
+			name
+			icon
+		}
+
+		assignees {
+			id
+			user {
+				id
+				username
+				displayName
+				avatar
+			}
+		}
+
+		labels {
+			id
+			name
+			color
+		}
+
+		# Количество комментариев для индикации
+		comments {
+			id
+		}
+
+		# Количество вложений для индикации
+		attachments {
+			id
+			filename
+			mimeType
+		}
+
+		# Внешние ссылки, прикрепленные к задаче
+		links {
+			id
+			title
+			url
+		}
+
+		createdBy {
+			id
+			username
+			displayName
+			avatar
+		}
+	}
+
+	# Просроченные задачи
+	FindUserOverdueTasks(filter: $taskFilter) {
+		id
+		title
+		status
+		priority
+		dueDate
+		project {
+			id
+			name
+			icon
+		}
+		assignees {
+			user {
+				id
+				displayName
+				avatar
+			}
+		}
+	}
+
+	# Задачи с приближающимися сроками
+	FindUserUpcomingTasks(filter: $taskFilter) {
+		id
+		title
+		status
+		priority
+		dueDate
+		project {
+			id
+			name
+			icon
+		}
+		assignees {
+			user {
+				id
+				displayName
+				avatar
+			}
+		}
+	}
+}

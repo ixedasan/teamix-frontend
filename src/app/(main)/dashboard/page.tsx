@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+
+import DashboardRoot from '@/components/features/dashboard/DashboardRoot'
 import { NO_INDEX_PAGE } from '@/constants/seo.constants'
 
 export const metadata: Metadata = {
@@ -7,5 +9,5 @@ export const metadata: Metadata = {
 }
 
 export default function DashboardPage() {
-	return <div></div>
+	return <DashboardRoot />
 }
