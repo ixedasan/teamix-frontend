@@ -1,67 +1,74 @@
-import { useTheme } from 'next-themes'
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
+'use client'
 
+import { Cell, Pie, PieChart } from 'recharts'
+
+import {
+	ChartContainer,
+	ChartLegend,
+	ChartLegendContent,
+	ChartTooltip,
+	ChartTooltipContent,
+	type ChartConfig
+} from '@/components/ui/Chart'
 import type { TasksCountByPriorityModel } from '@/graphql/generated/output'
-import { priorityColors } from '@/constants/analitics.constants'
 
 interface TaskPriorityChartProps {
 	data: TasksCountByPriorityModel[]
 }
 
 export function TaskPriorityChart({ data }: TaskPriorityChartProps) {
-	const { theme } = useTheme()
-	const isDark = theme === 'dark'
+	const priorityChartConfig: ChartConfig = {
+		high: {
+			label: 'High',
+			color: 'hsl(var(--chart-1))'
+		},
+		medium: {
+			label: 'Medium',
+			color: 'hsl(var(--chart-2))'
+		},
+		low: {
+			label: 'Low',
+			color: 'hsl(var(--chart-3))'
+		},
+		none: {
+			label: 'None',
+			color: 'hsl(var(--chart-5))'
+		}
+	}
 
 	const chartData = data
 		.filter(item => item.priority)
 		.map(item => {
 			const priorityKey = item.priority?.toLowerCase() || 'none'
 			return {
-				name:
-					item.priority?.charAt(0) +
-					(item.priority?.slice(1).toLowerCase() || ''),
+				name: priorityKey,
 				value: item.count,
-				color:
-					priorityColors[priorityKey as keyof typeof priorityColors] ||
-					'#94A3B8'
+				fill: `var(--color-${priorityKey})`
 			}
 		})
 
-	const total = chartData.reduce((sum, item) => sum + item.value, 0)
-
 	return (
-		<ResponsiveContainer width="100%" height="100%">
-			<PieChart>
+		<ChartContainer config={priorityChartConfig} className="h-full w-full">
+			<PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
 				<Pie
 					data={chartData}
 					cx="50%"
 					cy="50%"
 					innerRadius={60}
-					outerRadius={80}
+					outerRadius={90}
 					paddingAngle={2}
 					dataKey="value"
-					label={({ name, percent }) =>
-						`${name} ${(percent * 100).toFixed(0)}%`
-					}
-					labelLine={false}
+					nameKey="name"
+					strokeWidth={1}
+					stroke="var(--background)"
 				>
-					{chartData.map((entry, index) => (
-						<Cell key={`cell-${index}`} fill={entry.color} />
+					{chartData.map(entry => (
+						<Cell key={`cell-${entry.name}`} fill={entry.fill} />
 					))}
 				</Pie>
-				<Tooltip
-					formatter={(value: number) => [
-						`${value} (${((value / total) * 100).toFixed(0)}%)`,
-						'Tasks'
-					]}
-					contentStyle={{
-						backgroundColor: isDark ? 'hsl(var(--card))' : 'white',
-						borderColor: isDark ? 'hsl(var(--border))' : '#E5E7EB',
-						borderRadius: 'var(--radius)',
-						color: isDark ? 'white' : 'black'
-					}}
-				/>
+				<ChartTooltip content={<ChartTooltipContent />} />
+				<ChartLegend content={<ChartLegendContent nameKey="name" />} />
 			</PieChart>
-		</ResponsiveContainer>
+		</ChartContainer>
 	)
 }

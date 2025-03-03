@@ -1,23 +1,38 @@
-import { useTheme } from 'next-themes'
-import {
-	Bar,
-	BarChart,
-	ResponsiveContainer,
-	Tooltip,
-	XAxis,
-	YAxis
-} from 'recharts'
+'use client'
 
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
+
+import {
+	ChartContainer,
+	ChartTooltip,
+	ChartTooltipContent,
+	type ChartConfig
+} from '@/components/ui/Chart'
 import type { TasksCountByStatusModel } from '@/graphql/generated/output'
-import { statusColors } from '@/constants/analitics.constants'
 
 interface TaskStatusChartProps {
 	data: TasksCountByStatusModel[]
 }
 
 export function TaskStatusChart({ data }: TaskStatusChartProps) {
-	const { theme } = useTheme()
-	const isDark = theme === 'dark'
+	const statusChartConfig: ChartConfig = {
+		todo: {
+			label: 'Todo',
+			color: 'hsl(var(--chart-2))'
+		},
+		in_progress: {
+			label: 'In Progress',
+			color: 'hsl(var(--chart-3))'
+		},
+		done: {
+			label: 'Done',
+			color: 'hsl(var(--chart-4))'
+		},
+		backlog: {
+			label: 'Backlog',
+			color: 'hsl(var(--chart-1))'
+		}
+	}
 
 	const chartData = data.map(item => {
 		const statusKey = item.status.toLowerCase()
@@ -28,57 +43,52 @@ export function TaskStatusChart({ data }: TaskStatusChartProps) {
 
 		return {
 			name: statusLabel,
-			value: item.count,
-			color: statusColors[statusKey as keyof typeof statusColors] || '#6B7280'
+			[statusKey]: item.count
 		}
 	})
 
 	return (
-		<ResponsiveContainer width="100%" height="100%">
+		<ChartContainer config={statusChartConfig} className="h-full w-full">
 			<BarChart
 				data={chartData}
 				layout="vertical"
-				margin={{ left: 20, right: 20 }}
+				margin={{ left: 70, right: 30, top: 10, bottom: 10 }}
+				barGap={2}
 			>
+				<CartesianGrid horizontal strokeDasharray="3 3" opacity={0.3} />
 				<XAxis
 					type="number"
-					fontSize={12}
 					tickLine={false}
 					axisLine={false}
-					stroke={isDark ? '#6B7280' : '#9CA3AF'}
+					tickMargin={8}
+					fontSize={11}
+					tickFormatter={value => value.toString()}
 				/>
 				<YAxis
 					type="category"
 					dataKey="name"
-					fontSize={12}
 					tickLine={false}
 					axisLine={false}
-					stroke={isDark ? '#6B7280' : '#9CA3AF'}
-					width={100}
+					fontSize={11}
+					width={65}
 				/>
-				<Tooltip
-					contentStyle={{
-						backgroundColor: isDark ? 'hsl(var(--card))' : 'white',
-						borderColor: isDark ? 'hsl(var(--border))' : '#E5E7EB',
-						borderRadius: 'var(--radius)',
-						color: isDark ? 'white' : 'black'
-					}}
-					cursor={{
-						fill: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'
-					}}
+				<ChartTooltip
+					content={<ChartTooltipContent />}
+					cursor={{ fill: 'var(--tooltip-bg)', opacity: 0.1 }}
 				/>
-				<Bar
-					dataKey="value"
-					radius={[4, 4, 4, 4]}
-					barSize={20}
-					fill="currentColor"
-					className="fill-primary"
-				>
-					{chartData.map((entry, index) => (
-						<rect key={`rect-${index}`} fill={entry.color} />
-					))}
-				</Bar>
+				{data.map(item => {
+					const key = item.status.toLowerCase()
+					return (
+						<Bar
+							key={key}
+							dataKey={key}
+							radius={[4, 4, 4, 4]}
+							barSize={24}
+							fill={`var(--color-${key})`}
+						></Bar>
+					)
+				})}
 			</BarChart>
-		</ResponsiveContainer>
+		</ChartContainer>
 	)
 }

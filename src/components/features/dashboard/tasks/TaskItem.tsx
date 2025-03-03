@@ -3,8 +3,10 @@ import { CalendarClock, MessageSquare, Paperclip } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Priority, TaskModel, TaskStatus } from '@/graphql/generated/output'
+import { useTaskNavigation } from '@/hooks/use-task-navigation'
 import { formatDate } from '@/utils/format-date'
 import { getMediaSource } from '@/utils/get-media-source'
 import { cn } from '@/lib/utils'
@@ -22,6 +24,8 @@ export function TaskItem({
 	isCompact = false,
 	isOverdue = false
 }: TaskItemProps) {
+	const { navigateToTask } = useTaskNavigation()
+
 	const getStatusColor = (status: TaskStatus) => {
 		switch (status) {
 			case TaskStatus.Backlog:
@@ -69,6 +73,10 @@ export function TaskItem({
 		return priority.charAt(0) + priority.slice(1).toLowerCase()
 	}
 
+	const handleTaskClick = (taskId: string, projectId: string) => {
+		navigateToTask(taskId, projectId)
+	}
+
 	const hasComments = task.comments && task.comments.length > 0
 	const hasAttachments = task.attachments && task.attachments.length > 0
 	const isDueDate = task.dueDate !== null
@@ -83,18 +91,19 @@ export function TaskItem({
 			<div className="space-y-2">
 				<div className="flex items-start justify-between">
 					<div className="space-y-1">
-						<Link
-							href={`/projects/${task.project.id}/tasks?taskId=${task.id}`}
-							className="font-medium hover:underline"
+						<Button
+							variant="link"
+							className="font-medium text-foreground hover:text-primary"
+							onClick={() => handleTaskClick(task.id, task.project.id)}
 						>
 							{task.title}
-						</Link>
+						</Button>
 
 						{showProject && (
 							<div className="flex items-center gap-1 text-sm text-muted-foreground">
 								{task.project.icon && <span>{task.project.icon}</span>}
 								<Link
-									href={`/projects/${task.project.id}`}
+									href={`/projects/${task.project.id}/tasks`}
 									className="hover:text-foreground hover:underline"
 								>
 									{task.project.name}

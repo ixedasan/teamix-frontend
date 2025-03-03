@@ -32,7 +32,7 @@ export default function DashboardRoot() {
 				statuses: filters.status.length > 0 ? filters.status : undefined,
 				priorities: filters.priority.length > 0 ? filters.priority : undefined,
 				daysRange: 30,
-				limit: 5
+				limit: 8
 			},
 			taskFilter: {
 				searchTerm: filters.search || undefined,

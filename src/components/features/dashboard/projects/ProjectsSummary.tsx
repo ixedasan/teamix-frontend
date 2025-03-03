@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 
+import { Button } from '@/components/ui/Button'
 import {
 	Card,
 	CardContent,
@@ -18,9 +19,18 @@ interface ProjectsSummaryProps {
 export function ProjectsSummary({ projects }: ProjectsSummaryProps) {
 	return (
 		<Card className="col-span-1">
-			<CardHeader>
-				<CardTitle>Projects Summary</CardTitle>
-				<CardDescription>Task completion across your projects</CardDescription>
+			<CardHeader className="flex flex-row items-center justify-between">
+				<div className="space-y-1">
+					<CardTitle>Projects Summary</CardTitle>
+					<CardDescription>
+						Task completion across your projects
+					</CardDescription>
+				</div>
+				<Link href="/projects">
+					<Button variant="ghost" size="sm" className="gap-1">
+						View All <ArrowRight className="size-4" />
+					</Button>
+				</Link>
 			</CardHeader>
 			<CardContent>
 				<div className="space-y-6">
@@ -44,14 +54,14 @@ export function ProjectsSummary({ projects }: ProjectsSummaryProps) {
 											</span>
 										)}
 										<Link
-											href={`/projects/${projectSummary.project.id}`}
+											href={`/projects/${projectSummary.project.id}/tasks`}
 											className="font-medium hover:underline"
 										>
 											{projectSummary.project.name}
 										</Link>
 									</div>
 									<Link
-										href={`/projects/${projectSummary.project.id}`}
+										href={`/projects/${projectSummary.project.id}/tasks`}
 										className="text-sm text-muted-foreground hover:text-foreground"
 									>
 										<ArrowUpRight className="h-4 w-4" />
