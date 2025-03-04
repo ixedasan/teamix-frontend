@@ -8,9 +8,11 @@
 			"heading": "YOUR PROJECTS",
 			"task": "Tasks",
 			"analytics": "Analytics",
-			"docs": "Docs"
+			"docs": "Docs",
+			"settings": "Settings"
 		},
 		"user": {
+			"profile": "Profile",
 			"settings": "Settings",
 			"logout": "Logout"
 		}

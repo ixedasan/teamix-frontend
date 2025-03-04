@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { ChevronsUpDown, LogOut, Settings } from 'lucide-react'
+import { ChevronsUpDown, LogOut, Settings, User } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
@@ -76,6 +76,10 @@ export function NavUser() {
 		}
 	})
 
+	const handleProfileClick = (slug: string) => {
+		router.push(`/profile/${slug}`)
+	}
+
 	const handleSettingsClick = () => {
 		router.push('/settings')
 	}
@@ -83,6 +87,8 @@ export function NavUser() {
 	const handleLogoutClick = () => {
 		logout()
 	}
+
+	if (!profile) return null
 
 	return (
 		<SidebarMenu>
@@ -113,6 +119,13 @@ export function NavUser() {
 								</div>
 							</div>
 						</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem
+							onClick={() => handleProfileClick(profile?.username)}
+						>
+							<User className="mr-2 size-4" />
+							{t('profile')}
+						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem onClick={handleSettingsClick}>
 							<Settings className="mr-2 size-4" />

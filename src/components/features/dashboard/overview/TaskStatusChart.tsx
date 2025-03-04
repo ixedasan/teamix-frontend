@@ -31,6 +31,10 @@ export function TaskStatusChart({ data }: TaskStatusChartProps) {
 		backlog: {
 			label: 'Backlog',
 			color: 'hsl(var(--chart-1))'
+		},
+		cancelled: {
+			label: 'Cancelled',
+			color: 'hsl(var(--destructive))'
 		}
 	}
 

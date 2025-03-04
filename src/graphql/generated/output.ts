@@ -682,6 +682,7 @@ export type Query = {
   findNotificationsByUser: Array<NotificationModel>;
   findNotificationsUnreadCount: Scalars['Float']['output'];
   findProfile: UserModel;
+  findProfileBySlug: UserModel;
   findProjectById: ProjectModel;
   findProjectMembers: Array<MemberModel>;
   findSessionsByUser: Array<SessionModel>;
@@ -743,6 +744,11 @@ export type QueryFindCommentsByTaskArgs = {
 
 export type QueryFindDocumentByIdArgs = {
   documentId: Scalars['String']['input'];
+};
+
+
+export type QueryFindProfileBySlugArgs = {
+  slug: Scalars['String']['input'];
 };
 
 
@@ -1517,6 +1523,13 @@ export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, username: string, email: string, displayName: string, avatar?: string | null, bio?: string | null, isTotpEnabled: boolean, notificationSettings: { __typename?: 'NotificationSettingsModel', siteNotification: boolean, telegramNotification: boolean } } };
+
+export type FindProfileBySlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type FindProfileBySlugQuery = { __typename?: 'Query', findProfileBySlug: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null, email: string, bio?: string | null, socialLinks: Array<{ __typename?: 'SocialLinksModel', id: string, title: string, url: string, position: number }> } };
 
 export type FindSessionsByUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4301,6 +4314,57 @@ export type FindProfileQueryHookResult = ReturnType<typeof useFindProfileQuery>;
 export type FindProfileLazyQueryHookResult = ReturnType<typeof useFindProfileLazyQuery>;
 export type FindProfileSuspenseQueryHookResult = ReturnType<typeof useFindProfileSuspenseQuery>;
 export type FindProfileQueryResult = Apollo.QueryResult<FindProfileQuery, FindProfileQueryVariables>;
+export const FindProfileBySlugDocument = gql`
+    query FindProfileBySlug($slug: String!) {
+  findProfileBySlug(slug: $slug) {
+    id
+    username
+    displayName
+    avatar
+    email
+    bio
+    socialLinks {
+      id
+      title
+      url
+      position
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindProfileBySlugQuery__
+ *
+ * To run a query within a React component, call `useFindProfileBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindProfileBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindProfileBySlugQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useFindProfileBySlugQuery(baseOptions: Apollo.QueryHookOptions<FindProfileBySlugQuery, FindProfileBySlugQueryVariables> & ({ variables: FindProfileBySlugQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>(FindProfileBySlugDocument, options);
+      }
+export function useFindProfileBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>(FindProfileBySlugDocument, options);
+        }
+export function useFindProfileBySlugSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>(FindProfileBySlugDocument, options);
+        }
+export type FindProfileBySlugQueryHookResult = ReturnType<typeof useFindProfileBySlugQuery>;
+export type FindProfileBySlugLazyQueryHookResult = ReturnType<typeof useFindProfileBySlugLazyQuery>;
+export type FindProfileBySlugSuspenseQueryHookResult = ReturnType<typeof useFindProfileBySlugSuspenseQuery>;
+export type FindProfileBySlugQueryResult = Apollo.QueryResult<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>;
 export const FindSessionsByUserDocument = gql`
     query findSessionsByUser {
   findSessionsByUser {

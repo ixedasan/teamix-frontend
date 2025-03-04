@@ -1,0 +1,16 @@
+query FindProfileBySlug($slug: String!) {
+  findProfileBySlug(slug: $slug) {
+    id
+    username
+    displayName
+    avatar
+    email
+    bio
+    socialLinks {
+      id
+      title
+      url
+      position
+    }
+  }
+}
