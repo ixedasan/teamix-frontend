@@ -136,7 +136,7 @@ export function DashboardFilters({
 				<FilterPopover
 					trigger="Projects"
 					items={projects}
-					selectedItems={filters.projects}
+					selectedItems={projects.filter(p => filters.projects.includes(p.id))}
 					onItemClick={project => toggleFilter('projects', project.id)}
 					renderItem={project => <ProjectItem project={project} />}
 					getItemId={project => project.id}
@@ -178,7 +178,7 @@ export function DashboardFilters({
 							}}
 							onSelect={range =>
 								handleFilterChange({
-									dateRange: range || { from: undefined, to: undefined }
+									dateRange: { from: range?.from, to: range?.to ?? undefined }
 								})
 							}
 							numberOfMonths={2}

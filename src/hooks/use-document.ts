@@ -9,7 +9,7 @@ import {
 } from '@/graphql/generated/output'
 
 export function useDocument(documentId: string) {
-	const { data, loading, error, refetch } = useFindDocumentByIdQuery({
+	const { data, loading, error } = useFindDocumentByIdQuery({
 		variables: { id: documentId }
 	})
 
@@ -34,10 +34,8 @@ export function useDocument(documentId: string) {
 		}
 	}, [data])
 
-	// Оптимизированная функция обновления с избежанием лишних запросов
 	const handleUpdateDocument = useCallback(
 		debounce(async (title: string, content: any) => {
-			// Предотвращаем пустые обновления или дублирование последних данных
 			if (!title && !content) return
 
 			const contentStr = JSON.stringify(content)
@@ -50,7 +48,7 @@ export function useDocument(documentId: string) {
 				title === lastUpdateRef.current.title &&
 				contentStr === lastUpdateStr
 			) {
-				return // Избегаем отправки идентичных данных
+				return
 			}
 
 			try {
@@ -70,8 +68,6 @@ export function useDocument(documentId: string) {
 			} catch (err) {
 				console.error('Error updating document:', err)
 			} finally {
-				// Небольшая задержка перед разрешением новых обновлений
-				// чтобы избежать конфликтов с подпиской
 				setTimeout(() => {
 					updatingRef.current = false
 				}, 300)

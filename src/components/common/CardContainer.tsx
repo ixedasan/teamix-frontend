@@ -1,14 +1,13 @@
-import type { PropsWithChildren, ReactNode } from 'react'
-import type { LucideIcon } from 'lucide-react'
-import type { IconType } from 'react-icons'
+import type { ComponentType, PropsWithChildren, ReactNode } from 'react'
 
+import { IconProps } from '@/utils/get-browser-icon'
 import { Card } from '../ui/Card'
 import { cn } from '@/lib/utils'
 
 interface ICardContainer {
 	heading: string
 	description?: string
-	Icon?: IconType | LucideIcon
+	Icon?: ComponentType<IconProps>
 	isRightContentFull?: boolean
 	rightContent?: ReactNode
 }

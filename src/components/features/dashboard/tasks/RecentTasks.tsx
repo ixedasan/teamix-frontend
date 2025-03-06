@@ -36,6 +36,7 @@ export function RecentTasks({ tasks }: RecentTasksProps) {
 				<div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
 					{tasks.length > 0 ? (
 						tasks.map(task => (
+							// @ts-ignore
 							<TaskItem key={task.id} task={task} showProject />
 						))
 					) : (

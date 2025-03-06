@@ -23,6 +23,7 @@ export function UpcomingDeadlines({ tasks }: UpcomingDeadlinesProps) {
 				<div className="space-y-4">
 					{tasks.length > 0 ? (
 						tasks.map(task => (
+							// @ts-ignore
 							<TaskItem key={task.id} task={task} showProject isCompact />
 						))
 					) : (

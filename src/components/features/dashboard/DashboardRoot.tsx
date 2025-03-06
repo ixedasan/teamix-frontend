@@ -69,7 +69,13 @@ export default function DashboardRoot() {
 	return (
 		<div className="flex w-full flex-col gap-6 p-6">
 			<DashboardFilters
-				projects={dashboardData?.projectsSummary.map(p => p.project) || []}
+				projects={
+					dashboardData?.projectsSummary.map(p => ({
+						...p.project,
+						icon: p.project.icon || undefined,
+						description: p.project.description || undefined
+					})) || []
+				}
 				onFilterChange={handleFilterChange}
 				initialFilters={filters}
 			/>

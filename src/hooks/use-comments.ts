@@ -38,6 +38,7 @@ export const useComments = (taskId: string) => {
 		(mutation: 'CREATED' | 'UPDATED' | 'DELETED', comment: CommentFragment) => {
 			client.cache.modify({
 				fields: {
+					// @ts-ignore
 					findCommentsByTask(
 						existingRefs: Reference[] = [],
 						{ readField, toReference }

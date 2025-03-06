@@ -84,20 +84,15 @@ export function TaskTrendsChart({ data }: ITaskTrendsChart) {
 							config={{
 								created: {
 									label: 'Tasks Created',
-									color: 'hsl(var(--chart-1))',
-									formatter: (value: number) =>
-										`${value} ${value === 1 ? 'task' : 'tasks'} created`
+									color: 'hsl(var(--chart-1))'
 								},
 								completed: {
 									label: 'Tasks Completed',
-									color: 'hsl(var(--chart-2))',
-									formatter: (value: number) =>
-										`${value} ${value === 1 ? 'task' : 'tasks'} completed`
+									color: 'hsl(var(--chart-2))'
 								},
 								rate: {
 									label: 'Completion Rate',
-									color: 'hsl(var(--chart-4))',
-									formatter: (value: number) => `${value}% completion rate`
+									color: 'hsl(var(--chart-4))'
 								}
 							}}
 						>

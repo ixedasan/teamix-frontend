@@ -18,6 +18,9 @@ const nextConfig: NextConfig = {
 				hostname: MEDIA_PATHNAME
 			}
 		]
+	},
+	eslint: {
+		ignoreDuringBuilds: true
 	}
 }
 

@@ -1,3 +1,4 @@
+import { type ComponentType } from 'react'
 import { CircleHelp } from 'lucide-react'
 
 import { ChromeIcon } from '@/components/ui/icons/ChromeIcon'
@@ -6,7 +7,11 @@ import { FirefoxIcon } from '@/components/ui/icons/FirefoxIcon'
 import { OperaIcon } from '@/components/ui/icons/OperaIcon'
 import { SafariIcon } from '@/components/ui/icons/SafariIcon'
 
-export function getBrowserIcon(browser: string) {
+export interface IconProps {
+	className?: string
+}
+
+export function getBrowserIcon(browser: string): ComponentType<IconProps> {
 	switch (browser.toLowerCase()) {
 		case 'chrome':
 			return ChromeIcon
