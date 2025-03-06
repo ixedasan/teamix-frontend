@@ -3,10 +3,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/Button'
 
 export function HeroSection() {
+	const t = useTranslations('landing.hero')
+
 	return (
 		<section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
 			<div className="container mx-auto px-4 md:px-6">
@@ -24,8 +27,7 @@ export function HeroSection() {
 								animate={{ opacity: 1 }}
 								transition={{ duration: 0.7, delay: 0.3 }}
 							>
-								Streamline Your Projects with{' '}
-								<span className="text-primary">TEAM</span>
+								{t('heading')} <span className="text-primary">TEAM</span>
 								<span>IX</span>
 							</motion.h1>
 							<motion.p
@@ -34,9 +36,7 @@ export function HeroSection() {
 								animate={{ opacity: 1 }}
 								transition={{ duration: 0.7, delay: 0.5 }}
 							>
-								The all-in-one project management platform that helps teams
-								collaborate, track progress, and deliver results faster than
-								ever before.
+								{t('description')}
 							</motion.p>
 						</div>
 						<motion.div
@@ -47,7 +47,7 @@ export function HeroSection() {
 						>
 							<Link href="/account/login">
 								<Button size="lg" className="px-8">
-									Get Started
+									{t('button')}
 								</Button>
 							</Link>
 						</motion.div>
@@ -66,8 +66,9 @@ export function HeroSection() {
 								))}
 							</div>
 							<div className="text-muted-foreground">
-								Join <span className="font-medium text-foreground">2,000+</span>{' '}
-								teams already using TEAMIX
+								{t('teamsFirst')}{' '}
+								<span className="font-medium text-foreground">2,000+</span>{' '}
+								{t('teamsSecond')}
 							</div>
 						</motion.div>
 					</motion.div>

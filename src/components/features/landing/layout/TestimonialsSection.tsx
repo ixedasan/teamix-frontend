@@ -3,43 +3,38 @@
 import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/Card'
 
 export function TestimonialsSection() {
+	const t = useTranslations('landing.testimonials')
+
 	const ref = useRef(null)
 	const isInView = useInView(ref, { once: true, amount: 0.2 })
 	const [currentIndex, setCurrentIndex] = useState(0)
 
 	const testimonials = [
 		{
-			quote:
-				"TEAMIX has transformed how our team collaborates. We've reduced meeting time by 30% and increased project delivery speed significantly.",
-			author: 'Sarah Johnson',
-			role: 'Product Manager',
-			company: 'TechCorp Inc.'
+			quote: t('customer1.quote'),
+			author: t('customer1.author'),
+			role: t('customer1.role')
 		},
 		{
-			quote:
-				'The intuitive interface and powerful features make TEAMIX the perfect solution for our agency. We can now manage multiple client projects with ease.',
-			author: 'Michael Chen',
-			role: 'Creative Director',
-			company: 'Design Studio'
+			quote: t('customer2.quote'),
+			author: t('customer2.author'),
+			role: t('customer2.role')
 		},
 		{
-			quote:
-				'Since implementing TEAMIX, our remote team feels more connected than ever. The real-time collaboration tools have been a game-changer for us.',
-			author: 'Emma Rodriguez',
-			role: 'Operations Lead',
-			company: 'Global Solutions'
+			quote: t('customer3.quote'),
+			author: t('customer3.author'),
+			role: t('customer3.role')
 		},
 		{
-			quote:
-				'The analytics and reporting features in TEAMIX give us unprecedented visibility into our project performance and team productivity.',
-			author: 'David Kim',
-			role: 'CTO',
-			company: 'Startup Innovations'
+			quote: t('customer4.quote'),
+			author: t('customer4.author'),
+			role: t('customer4.role')
 		}
 	]
 
@@ -74,14 +69,13 @@ export function TestimonialsSection() {
 				<div className="flex flex-col items-center justify-center space-y-4 text-center">
 					<div className="space-y-2">
 						<div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground">
-							Testimonials
+							{t('badge')}
 						</div>
 						<h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-							Trusted by teams worldwide
+							{t('heading')}
 						</h2>
 						<p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed">
-							See what our customers have to say about how TEAMIX has
-							transformed their project management.
+							{t('description')}
 						</p>
 					</div>
 				</div>
@@ -137,7 +131,7 @@ export function TestimonialsSection() {
 										<div>
 											<p className="font-semibold">{testimonial.author}</p>
 											<p className="text-sm text-muted-foreground">
-												{testimonial.role}, {testimonial.company}
+												{testimonial.role}
 											</p>
 										</div>
 									</CardFooter>

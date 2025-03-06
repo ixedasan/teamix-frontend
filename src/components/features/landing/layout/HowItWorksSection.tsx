@@ -3,35 +3,38 @@
 import { useRef } from 'react'
 import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 export function HowItWorksSection() {
+	const t = useTranslations('landing.howItWorks')
+
 	const ref = useRef(null)
 	const isInView = useInView(ref, { once: true, amount: 0.2 })
 
 	const steps = [
 		{
 			number: '01',
-			title: 'Create your project',
+			title: t('step1.heading'),
 			description:
-				'Set up your workspace by creating a new project and customizing its settings.'
+				t('step1.description')
 		},
 		{
 			number: '02',
-			title: 'Invite your team',
+			title: t('step2.heading'),
 			description:
-				'Add team members and assign roles and permissions based on their responsibilities.'
+				t('step2.description')
 		},
 		{
 			number: '03',
-			title: 'Plan your work',
+			title: t('step3.heading'),
 			description:
-				'Create projects, set milestones, and break down work into manageable tasks.'
+				t('step3.description')
 		},
 		{
 			number: '04',
-			title: 'Track progress',
+			title: t('step4.heading'),
 			description:
-				'Monitor project progress in real-time with visual dashboards and automated reports.'
+				t('step4.description')
 		}
 	]
 
@@ -41,14 +44,13 @@ export function HowItWorksSection() {
 				<div className="flex flex-col items-center justify-center space-y-4 text-center">
 					<div className="space-y-2">
 						<div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-							How It Works
+							{t('badge')}
 						</div>
 						<h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-							Get started in four simple steps
+							{t('heading')}
 						</h2>
 						<p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed">
-							TEAMIX makes it easy to get your team up and running quickly with
-							an intuitive setup process.
+							{t('description')}
 						</p>
 					</div>
 				</div>

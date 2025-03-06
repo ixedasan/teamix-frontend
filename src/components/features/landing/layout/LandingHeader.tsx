@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 import { LanguageSwitcher } from '@/components/common/LanguageSwitcher'
 import { Logo } from '@/components/common/Logo'
@@ -19,6 +20,8 @@ import {
 } from '@/components/ui/NavigationMenu'
 
 export function LandingHeader() {
+	const t = useTranslations('landing.header')
+
 	return (
 		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div className="container mx-auto flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
@@ -34,7 +37,9 @@ export function LandingHeader() {
 						<NavigationMenu>
 							<NavigationMenuList>
 								<NavigationMenuItem>
-									<NavigationMenuTrigger>Features</NavigationMenuTrigger>
+									<NavigationMenuTrigger>
+										{t('features.heading')}
+									</NavigationMenuTrigger>
 									<NavigationMenuContent>
 										<ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
 											<li className="row-span-3">
@@ -47,51 +52,61 @@ export function LandingHeader() {
 															TEAMIX Platform
 														</div>
 														<p className="text-sm leading-tight text-muted-foreground">
-															All-in-one project management solution for modern
-															teams
+															{t('features.description')}
 														</p>
 													</Link>
 												</NavigationMenuLink>
 											</li>
-											<ListItem href="/features/tasks" title="Task Management">
-												Organize, prioritize, and track tasks efficiently
+											<ListItem
+												href="/features/tasks"
+												title={t('features.taskManagement')}
+											>
+												{t('features.taskManagementDescription')}
 											</ListItem>
 											<ListItem
 												href="/features/collaboration"
-												title="Team Collaboration"
+												title={t('features.teamCollaboration')}
 											>
-												Real-time communication and file sharing
+												{t('features.teamCollaborationDescription')}
 											</ListItem>
 											<ListItem
 												href="/features/analytics"
-												title="Analytics & Reporting"
+												title={t('features.analytics')}
 											>
-												Comprehensive insights into project performance
+												{t('features.analyticsDescription')}
 											</ListItem>
 										</ul>
 									</NavigationMenuContent>
 								</NavigationMenuItem>
 								<NavigationMenuItem>
-									<NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
+									<NavigationMenuTrigger>
+										{t('solutions.heading')}
+									</NavigationMenuTrigger>
 									<NavigationMenuContent>
 										<ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-											<ListItem href="/solutions/startups" title="For Startups">
-												Scale your operations with minimal overhead
+											<ListItem
+												href="/solutions/startups"
+												title={t('solutions.startaps')}
+											>
+												{t('solutions.startapsDescription')}
 											</ListItem>
 											<ListItem
 												href="/solutions/enterprise"
-												title="For Enterprise"
+												title={t('solutions.enterprise')}
 											>
-												Custom solutions for large-scale operations
+												{t('solutions.enterpriseDescription')}
 											</ListItem>
-											<ListItem href="/solutions/agencies" title="For Agencies">
-												Manage multiple clients and projects seamlessly
+											<ListItem
+												href="/solutions/agencies"
+												title={t('solutions.agency')}
+											>
+												{t('solutions.agencyDescription')}
 											</ListItem>
 											<ListItem
 												href="/solutions/remote"
-												title="For Remote Teams"
+												title={t('solutions.remote')}
 											>
-												Stay connected and productive from anywhere
+												{t('solutions.remoteDescription')}
 											</ListItem>
 										</ul>
 									</NavigationMenuContent>
@@ -101,7 +116,7 @@ export function LandingHeader() {
 										<NavigationMenuLink
 											className={navigationMenuTriggerStyle()}
 										>
-											Pricing
+											{t('pricing')}
 										</NavigationMenuLink>
 									</Link>
 								</NavigationMenuItem>
@@ -110,7 +125,7 @@ export function LandingHeader() {
 						<ThemeSwitcher />
 						<LanguageSwitcher />
 						<Link href="/account/login">
-							<Button className="ml-2 hidden md:flex">Get Started</Button>
+							<Button className="ml-2 hidden md:flex">{t('button')}</Button>
 						</Link>
 						<Button variant="outline" size="icon" className="md:hidden">
 							<svg

@@ -10,47 +10,44 @@ import {
 	Users,
 	Zap
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 export function FeaturesSection() {
+	const t = useTranslations('landing.features')
+
 	const ref = useRef(null)
 	const isInView = useInView(ref, { once: true, amount: 0.2 })
 
 	const features = [
 		{
 			icon: <Calendar className="h-10 w-10 text-primary" />,
-			title: 'Project Planning',
-			description:
-				'Create detailed project plans with timelines, milestones, and dependencies to keep everyone aligned.'
+			title: t('projectPlanning.heading'),
+			description: t('projectPlanning.description')
 		},
 		{
 			icon: <Dock className="h-10 w-10 text-primary" />,
-			title: 'Document Management',
-			description:
-				'Store and organize project documents in a centralized location for easy access and sharing.'
+			title: t('documentManagement.heading'),
+			description: t('documentManagement.description')
 		},
 		{
 			icon: <Users className="h-10 w-10 text-primary" />,
-			title: 'Team Collaboration',
-			description:
-				'Foster seamless collaboration with real-time communication, file sharing, and task assignments.'
+			title: t('teamCollaboration.heading'),
+			description: t('teamCollaboration.description')
 		},
 		{
 			icon: <MessageSquare className="h-10 w-10 text-primary" />,
-			title: 'Integrated Chat',
-			description:
-				'Communicate with your team without switching between apps, keeping discussions in context.'
+			title: t('chat.heading'),
+			description: t('chat.description')
 		},
 		{
 			icon: <BarChart3 className="h-10 w-10 text-primary" />,
-			title: 'Analytics & Reporting',
-			description:
-				'Gain valuable insights with customizable dashboards and detailed performance reports.'
+			title: t('analytics.heading'),
+			description: t('analytics.description')
 		},
 		{
 			icon: <Zap className="h-10 w-10 text-primary" />,
-			title: 'Automation',
-			description:
-				'Automate routine tasks and workflows to save time and reduce manual effort.'
+			title: t('automation.heading'),
+			description: t('automation.description')
 		}
 	]
 
@@ -81,14 +78,13 @@ export function FeaturesSection() {
 				<div className="flex flex-col items-center justify-center space-y-4 text-center">
 					<div className="space-y-2">
 						<div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground">
-							Features
+							{t('badge')}
 						</div>
 						<h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-							Everything you need to manage projects effectively
+							{t('heading')}
 						</h2>
 						<p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed">
-							TEAMIX combines powerful features with an intuitive interface to
-							help your team deliver projects on time and within budget.
+							{t('description')}
 						</p>
 					</div>
 				</div>
