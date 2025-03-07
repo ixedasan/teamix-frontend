@@ -34,10 +34,11 @@ export function ProjectAnalytics() {
 	if (!data) return null
 
 	return (
-		<div className="container mx-auto space-y-6 px-4 py-6">
+		<div className="container mx-auto space-y-6 px-1">
 			<Heading
 				title="Project analytics"
 				description="Track your project's performance and get insights on how to improve it."
+				size="lg"
 			/>
 			<AnalyticsTabs
 				activeTab={activeTab}

@@ -3,6 +3,7 @@
 import { useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { MoreVerticalIcon, Trash } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { DeleteTaskDialog } from '@/components/common/task/DeleteTaskDialog'
 import { Button } from '@/components/ui/Button'
@@ -28,6 +29,7 @@ import {
 } from '@/components/ui/Sheet'
 import { useFindTaskByIdQuery } from '@/graphql/generated/output'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { useAutoOpenPendingTask } from '@/hooks/use-task-navigation'
 import { useTaskSheet } from '@/store/task/task-sheet'
 import { QuickEditSection } from './section/QuickEditSection'
 import { TaskHeaderSection } from './section/TaskHeaderSection'
@@ -53,6 +55,7 @@ const TaskAttachmentsSection = dynamic(
 
 export function TaskSheet() {
 	const isDesktop = useMediaQuery('(min-width: 768px)')
+	useAutoOpenPendingTask()
 
 	const { isOpen, taskId, close } = useTaskSheet()
 
@@ -68,6 +71,11 @@ export function TaskSheet() {
 		},
 		[close]
 	)
+
+	if (error) {
+		toast.error('Failed to load task details')
+	}
+
 	if (!task) return null
 
 	if (isDesktop) {

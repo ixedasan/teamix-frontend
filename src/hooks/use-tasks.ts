@@ -46,6 +46,7 @@ export const useTasks = (projectId: string) => {
 		(action: 'add' | 'update' | 'delete', task: TaskFragment) => {
 			client.cache.modify({
 				fields: {
+					// @ts-ignore
 					findAllTasks(
 						existingTasks: Reference[] = [],
 						{ readField, toReference }

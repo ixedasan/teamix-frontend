@@ -15,21 +15,21 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  DateTime: { input: any; output: any; }
+  Date: { input: any; output: any; }
   JSON: { input: any; output: any; }
   Upload: { input: any; output: any; }
 };
 
 export type AttachmentModel = {
   __typename?: 'AttachmentModel';
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   filename: Scalars['String']['output'];
   filepath: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   mimeType: Scalars['String']['output'];
   size: Scalars['Float']['output'];
   taskId: Scalars['ID']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type AuthModel = {
@@ -85,10 +85,10 @@ export type CommentModel = {
   author: UserModel;
   authorId: Scalars['ID']['output'];
   content: Scalars['String']['output'];
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   taskId: Scalars['ID']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type CommentSubscriptionPayload = {
@@ -131,6 +131,28 @@ export type DailyCount = {
   date: Scalars['String']['output'];
 };
 
+export type DashboardFilterInput = {
+  daysRange?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  onlyOverdue?: InputMaybe<Scalars['Boolean']['input']>;
+  onlyUpcoming?: InputMaybe<Scalars['Boolean']['input']>;
+  priorities?: InputMaybe<Array<Priority>>;
+  projectIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  statuses?: InputMaybe<Array<TaskStatus>>;
+};
+
+export type DashboardSummaryModel = {
+  __typename?: 'DashboardSummaryModel';
+  projectsSummary: Array<ProjectTasksSummaryModel>;
+  recentTasks: Array<TaskModel>;
+  tasksByDueDate: TasksDueDateModel;
+  tasksByPriority: Array<TasksCountByPriorityModel>;
+  tasksByStatus: Array<TasksCountByStatusModel>;
+  totalAssignedTasks: Scalars['Int']['output'];
+  upcomingDeadlines: Array<TaskModel>;
+};
+
 export type DeviceModel = {
   __typename?: 'DeviceModel';
   browser: Scalars['String']['output'];
@@ -141,11 +163,11 @@ export type DeviceModel = {
 export type DocumentModel = {
   __typename?: 'DocumentModel';
   content?: Maybe<Scalars['JSON']['output']>;
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   projectId: Scalars['String']['output'];
   title: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type EnableTotpInput = {
@@ -194,12 +216,12 @@ export type MakePaymentModel = {
 
 export type MemberModel = {
   __typename?: 'MemberModel';
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   project: ProjectModel;
   projectId: Scalars['ID']['output'];
   role: Role;
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
   user: UserModel;
   userId: Scalars['ID']['output'];
 };
@@ -212,7 +234,7 @@ export type MemberProductivity = {
   completedTasks: Scalars['Int']['output'];
   completionRate: Scalars['Int']['output'];
   displayName: Scalars['String']['output'];
-  lastActive?: Maybe<Scalars['DateTime']['output']>;
+  lastActive?: Maybe<Scalars['Date']['output']>;
   role: Role;
   urgentTasks: Scalars['Int']['output'];
   userId: Scalars['String']['output'];
@@ -530,23 +552,23 @@ export type NewPasswordInput = {
 
 export type NotificationModel = {
   __typename?: 'NotificationModel';
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   id: Scalars['String']['output'];
   isRead: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
   type: NotificationType;
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
   user: UserModel;
   userId: Scalars['String']['output'];
 };
 
 export type NotificationSettingsModel = {
   __typename?: 'NotificationSettingsModel';
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   id: Scalars['String']['output'];
   siteNotification: Scalars['Boolean']['output'];
   telegramNotification: Scalars['Boolean']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
   user: UserModel;
   userId: Scalars['String']['output'];
 };
@@ -594,7 +616,7 @@ export type ProjectInput = {
 export type ProjectModel = {
   __typename?: 'ProjectModel';
   cover?: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   description?: Maybe<Scalars['String']['output']>;
   icon?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -602,7 +624,7 @@ export type ProjectModel = {
   members: Array<MemberModel>;
   name: Scalars['String']['output'];
   plan: ProjectPlan;
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export enum ProjectPlan {
@@ -624,20 +646,34 @@ export type ProjectStatistics = {
   totalTasks: Scalars['Int']['output'];
 };
 
+export type ProjectTasksSummaryModel = {
+  __typename?: 'ProjectTasksSummaryModel';
+  completedTasks: Scalars['Int']['output'];
+  pendingTasks: Scalars['Int']['output'];
+  project: ProjectModel;
+  totalTasks: Scalars['Int']['output'];
+};
+
 export type ProjectTimeline = {
   __typename?: 'ProjectTimeline';
-  firstTaskCreatedAt?: Maybe<Scalars['DateTime']['output']>;
+  firstTaskCreatedAt?: Maybe<Scalars['Date']['output']>;
   firstTaskTitle?: Maybe<Scalars['String']['output']>;
-  latestCompletedTaskAt?: Maybe<Scalars['DateTime']['output']>;
+  latestCompletedTaskAt?: Maybe<Scalars['Date']['output']>;
   latestCompletedTaskTitle?: Maybe<Scalars['String']['output']>;
-  mostRecentTaskAt?: Maybe<Scalars['DateTime']['output']>;
+  mostRecentTaskAt?: Maybe<Scalars['Date']['output']>;
   mostRecentTaskTitle?: Maybe<Scalars['String']['output']>;
-  projectCreatedAt: Scalars['DateTime']['output'];
+  projectCreatedAt: Scalars['Date']['output'];
   projectDurationDays: Scalars['Int']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  FindUserAssigedTasks: Array<TaskModel>;
+  FindUserCreatedTasks: Array<TaskModel>;
+  FindUserDashboard: DashboardSummaryModel;
+  FindUserOverdueTasks: Array<TaskModel>;
+  FindUserProjectsTasksSummary: Array<ProjectTasksSummaryModel>;
+  FindUserUpcomingTasks: Array<TaskModel>;
   findAllTasks: Array<TaskModel>;
   findCommentsByTask: Array<CommentModel>;
   findCurrentSession: SessionModel;
@@ -646,6 +682,7 @@ export type Query = {
   findNotificationsByUser: Array<NotificationModel>;
   findNotificationsUnreadCount: Scalars['Float']['output'];
   findProfile: UserModel;
+  findProfileBySlug: UserModel;
   findProjectById: ProjectModel;
   findProjectMembers: Array<MemberModel>;
   findSessionsByUser: Array<SessionModel>;
@@ -670,6 +707,36 @@ export type Query = {
 };
 
 
+export type QueryFindUserAssigedTasksArgs = {
+  filter?: InputMaybe<TaskFilterInput>;
+};
+
+
+export type QueryFindUserCreatedTasksArgs = {
+  filter?: InputMaybe<TaskFilterInput>;
+};
+
+
+export type QueryFindUserDashboardArgs = {
+  filter?: InputMaybe<DashboardFilterInput>;
+};
+
+
+export type QueryFindUserOverdueTasksArgs = {
+  filter?: InputMaybe<TaskFilterInput>;
+};
+
+
+export type QueryFindUserProjectsTasksSummaryArgs = {
+  projectIds?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+
+export type QueryFindUserUpcomingTasksArgs = {
+  filter?: InputMaybe<TaskFilterInput>;
+};
+
+
 export type QueryFindCommentsByTaskArgs = {
   taskId: Scalars['String']['input'];
 };
@@ -677,6 +744,11 @@ export type QueryFindCommentsByTaskArgs = {
 
 export type QueryFindDocumentByIdArgs = {
   documentId: Scalars['String']['input'];
+};
+
+
+export type QueryFindProfileBySlugArgs = {
+  slug: Scalars['String']['input'];
 };
 
 
@@ -763,11 +835,11 @@ export type SocialLinkOrderInput = {
 
 export type SocialLinksModel = {
   __typename?: 'SocialLinksModel';
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   position: Scalars['Float']['output'];
   title: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
   url: Scalars['String']['output'];
   userId: Scalars['String']['output'];
 };
@@ -808,23 +880,37 @@ export type SubscriptionTaskDeletedArgs = {
 
 export type TaskAssigneeModel = {
   __typename?: 'TaskAssigneeModel';
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   task: TaskModel;
   taskId: Scalars['ID']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
   user: UserModel;
   userId: Scalars['ID']['output'];
+};
+
+export type TaskFilterInput = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  onlyAssignedToMe?: InputMaybe<Scalars['Boolean']['input']>;
+  onlyCreatedByMe?: InputMaybe<Scalars['Boolean']['input']>;
+  onlyDueThisWeek?: InputMaybe<Scalars['Boolean']['input']>;
+  onlyDueToday?: InputMaybe<Scalars['Boolean']['input']>;
+  onlyOverdue?: InputMaybe<Scalars['Boolean']['input']>;
+  priorities?: InputMaybe<Array<Priority>>;
+  projectIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  searchTerm?: InputMaybe<Scalars['String']['input']>;
+  statuses?: InputMaybe<Array<TaskStatus>>;
 };
 
 export type TaskInput = {
   assigneeId?: InputMaybe<Scalars['ID']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  dueDate?: InputMaybe<Scalars['DateTime']['input']>;
+  dueDate?: InputMaybe<Scalars['Date']['input']>;
   labelsIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   position?: InputMaybe<Scalars['Float']['input']>;
   priority: Priority;
-  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  startDate?: InputMaybe<Scalars['Date']['input']>;
   status: TaskStatus;
   title: Scalars['String']['input'];
 };
@@ -832,11 +918,11 @@ export type TaskInput = {
 export type TaskLabelModel = {
   __typename?: 'TaskLabelModel';
   color: Scalars['String']['output'];
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   projectId: Scalars['ID']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type TaskLinkInput = {
@@ -846,11 +932,11 @@ export type TaskLinkInput = {
 
 export type TaskLinkModel = {
   __typename?: 'TaskLinkModel';
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   taskId: Scalars['ID']['output'];
   title?: Maybe<Scalars['String']['output']>;
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
   url: Scalars['String']['output'];
 };
 
@@ -859,11 +945,11 @@ export type TaskModel = {
   assignees: Array<TaskAssigneeModel>;
   attachments: Array<AttachmentModel>;
   comments: Array<CommentModel>;
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   createdBy: UserModel;
   createdById: Scalars['ID']['output'];
   description?: Maybe<Scalars['String']['output']>;
-  dueDate?: Maybe<Scalars['DateTime']['output']>;
+  dueDate?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   labels: Array<TaskLabelModel>;
   links: Array<TaskLinkModel>;
@@ -871,10 +957,10 @@ export type TaskModel = {
   priority: Priority;
   project: ProjectModel;
   projectId: Scalars['ID']['output'];
-  startDate?: Maybe<Scalars['DateTime']['output']>;
+  startDate?: Maybe<Scalars['Date']['output']>;
   status: TaskStatus;
   title: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export enum TaskStatus {
@@ -903,6 +989,27 @@ export type TaskTrend = {
   month: Scalars['String']['output'];
 };
 
+export type TasksCountByPriorityModel = {
+  __typename?: 'TasksCountByPriorityModel';
+  count: Scalars['Int']['output'];
+  priority?: Maybe<Priority>;
+};
+
+export type TasksCountByStatusModel = {
+  __typename?: 'TasksCountByStatusModel';
+  count: Scalars['Int']['output'];
+  status: TaskStatus;
+};
+
+export type TasksDueDateModel = {
+  __typename?: 'TasksDueDateModel';
+  dueThisWeek: Scalars['Int']['output'];
+  dueToday: Scalars['Int']['output'];
+  noDueDate: Scalars['Int']['output'];
+  overdue: Scalars['Int']['output'];
+  upcoming: Scalars['Int']['output'];
+};
+
 export type TotpModel = {
   __typename?: 'TotpModel';
   qrCodeUrl: Scalars['String']['output'];
@@ -917,11 +1024,11 @@ export type UpdateCommentInput = {
 export type UpdateTaskInput = {
   assigneeId?: InputMaybe<Scalars['ID']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  dueDate?: InputMaybe<Scalars['DateTime']['input']>;
+  dueDate?: InputMaybe<Scalars['Date']['input']>;
   labelsIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   position?: InputMaybe<Scalars['Float']['input']>;
   priority?: InputMaybe<Priority>;
-  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  startDate?: InputMaybe<Scalars['Date']['input']>;
   status?: InputMaybe<TaskStatus>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -930,7 +1037,7 @@ export type UserModel = {
   __typename?: 'UserModel';
   avatar?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['Date']['output'];
   displayName: Scalars['String']['output'];
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
@@ -943,7 +1050,7 @@ export type UserModel = {
   socialLinks: Array<SocialLinksModel>;
   telegramId?: Maybe<Scalars['String']['output']>;
   totpSecret?: Maybe<Scalars['String']['output']>;
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['Date']['output'];
   username: Scalars['String']['output'];
 };
 
@@ -1324,6 +1431,14 @@ export type UpdateSocialLinkMutationVariables = Exact<{
 
 export type UpdateSocialLinkMutation = { __typename?: 'Mutation', updateSocialLink: boolean };
 
+export type FindUserDashboardQueryVariables = Exact<{
+  filter?: InputMaybe<DashboardFilterInput>;
+  taskFilter?: InputMaybe<TaskFilterInput>;
+}>;
+
+
+export type FindUserDashboardQuery = { __typename?: 'Query', FindUserDashboard: { __typename?: 'DashboardSummaryModel', totalAssignedTasks: number, tasksByStatus: Array<{ __typename?: 'TasksCountByStatusModel', status: TaskStatus, count: number }>, tasksByPriority: Array<{ __typename?: 'TasksCountByPriorityModel', priority?: Priority | null, count: number }>, tasksByDueDate: { __typename?: 'TasksDueDateModel', overdue: number, dueToday: number, dueThisWeek: number, upcoming: number, noDueDate: number }, projectsSummary: Array<{ __typename?: 'ProjectTasksSummaryModel', totalTasks: number, completedTasks: number, pendingTasks: number, project: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null, description?: string | null, plan: ProjectPlan } }>, recentTasks: Array<{ __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, dueDate?: any | null, createdAt: any, updatedAt: any, project: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null }, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }>, assignees: Array<{ __typename?: 'TaskAssigneeModel', user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, createdBy: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, upcomingDeadlines: Array<{ __typename?: 'TaskModel', id: string, title: string, status: TaskStatus, priority: Priority, dueDate?: any | null, project: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null }, assignees: Array<{ __typename?: 'TaskAssigneeModel', user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }> }> }, FindUserAssigedTasks: Array<{ __typename?: 'TaskModel', id: string, title: string, description?: string | null, status: TaskStatus, priority: Priority, position: number, startDate?: any | null, dueDate?: any | null, createdAt: any, updatedAt: any, project: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null }, assignees: Array<{ __typename?: 'TaskAssigneeModel', id: string, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, labels: Array<{ __typename?: 'TaskLabelModel', id: string, name: string, color: string }>, comments: Array<{ __typename?: 'CommentModel', id: string }>, attachments: Array<{ __typename?: 'AttachmentModel', id: string, filename: string, mimeType: string }>, links: Array<{ __typename?: 'TaskLinkModel', id: string, title?: string | null, url: string }>, createdBy: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null } }>, FindUserOverdueTasks: Array<{ __typename?: 'TaskModel', id: string, title: string, status: TaskStatus, priority: Priority, dueDate?: any | null, project: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null }, assignees: Array<{ __typename?: 'TaskAssigneeModel', user: { __typename?: 'UserModel', id: string, displayName: string, avatar?: string | null } }> }>, FindUserUpcomingTasks: Array<{ __typename?: 'TaskModel', id: string, title: string, status: TaskStatus, priority: Priority, dueDate?: any | null, project: { __typename?: 'ProjectModel', id: string, name: string, icon?: string | null }, assignees: Array<{ __typename?: 'TaskAssigneeModel', user: { __typename?: 'UserModel', id: string, displayName: string, avatar?: string | null } }> }> };
+
 export type FindDocumentByIdQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
@@ -1408,6 +1523,13 @@ export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, username: string, email: string, displayName: string, avatar?: string | null, bio?: string | null, isTotpEnabled: boolean, notificationSettings: { __typename?: 'NotificationSettingsModel', siteNotification: boolean, telegramNotification: boolean } } };
+
+export type FindProfileBySlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type FindProfileBySlugQuery = { __typename?: 'Query', findProfileBySlug: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null, email: string, bio?: string | null, socialLinks: Array<{ __typename?: 'SocialLinksModel', id: string, title: string, url: string, position: number }> } };
 
 export type FindSessionsByUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3204,6 +3326,216 @@ export function useUpdateSocialLinkMutation(baseOptions?: Apollo.MutationHookOpt
 export type UpdateSocialLinkMutationHookResult = ReturnType<typeof useUpdateSocialLinkMutation>;
 export type UpdateSocialLinkMutationResult = Apollo.MutationResult<UpdateSocialLinkMutation>;
 export type UpdateSocialLinkMutationOptions = Apollo.BaseMutationOptions<UpdateSocialLinkMutation, UpdateSocialLinkMutationVariables>;
+export const FindUserDashboardDocument = gql`
+    query FindUserDashboard($filter: DashboardFilterInput, $taskFilter: TaskFilterInput) {
+  FindUserDashboard(filter: $filter) {
+    totalAssignedTasks
+    tasksByStatus {
+      status
+      count
+    }
+    tasksByPriority {
+      priority
+      count
+    }
+    tasksByDueDate {
+      overdue
+      dueToday
+      dueThisWeek
+      upcoming
+      noDueDate
+    }
+    projectsSummary {
+      project {
+        id
+        name
+        icon
+        description
+        plan
+      }
+      totalTasks
+      completedTasks
+      pendingTasks
+    }
+    recentTasks {
+      id
+      title
+      description
+      status
+      priority
+      dueDate
+      createdAt
+      updatedAt
+      project {
+        id
+        name
+        icon
+      }
+      labels {
+        id
+        name
+        color
+      }
+      assignees {
+        user {
+          id
+          username
+          displayName
+          avatar
+        }
+      }
+      createdBy {
+        id
+        username
+        displayName
+        avatar
+      }
+    }
+    upcomingDeadlines {
+      id
+      title
+      status
+      priority
+      dueDate
+      project {
+        id
+        name
+        icon
+      }
+      assignees {
+        user {
+          id
+          username
+          displayName
+          avatar
+        }
+      }
+    }
+  }
+  FindUserAssigedTasks(filter: $taskFilter) {
+    id
+    title
+    description
+    status
+    priority
+    position
+    startDate
+    dueDate
+    createdAt
+    updatedAt
+    project {
+      id
+      name
+      icon
+    }
+    assignees {
+      id
+      user {
+        id
+        username
+        displayName
+        avatar
+      }
+    }
+    labels {
+      id
+      name
+      color
+    }
+    comments {
+      id
+    }
+    attachments {
+      id
+      filename
+      mimeType
+    }
+    links {
+      id
+      title
+      url
+    }
+    createdBy {
+      id
+      username
+      displayName
+      avatar
+    }
+  }
+  FindUserOverdueTasks(filter: $taskFilter) {
+    id
+    title
+    status
+    priority
+    dueDate
+    project {
+      id
+      name
+      icon
+    }
+    assignees {
+      user {
+        id
+        displayName
+        avatar
+      }
+    }
+  }
+  FindUserUpcomingTasks(filter: $taskFilter) {
+    id
+    title
+    status
+    priority
+    dueDate
+    project {
+      id
+      name
+      icon
+    }
+    assignees {
+      user {
+        id
+        displayName
+        avatar
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindUserDashboardQuery__
+ *
+ * To run a query within a React component, call `useFindUserDashboardQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUserDashboardQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUserDashboardQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *      taskFilter: // value for 'taskFilter'
+ *   },
+ * });
+ */
+export function useFindUserDashboardQuery(baseOptions?: Apollo.QueryHookOptions<FindUserDashboardQuery, FindUserDashboardQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUserDashboardQuery, FindUserDashboardQueryVariables>(FindUserDashboardDocument, options);
+      }
+export function useFindUserDashboardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserDashboardQuery, FindUserDashboardQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUserDashboardQuery, FindUserDashboardQueryVariables>(FindUserDashboardDocument, options);
+        }
+export function useFindUserDashboardSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindUserDashboardQuery, FindUserDashboardQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindUserDashboardQuery, FindUserDashboardQueryVariables>(FindUserDashboardDocument, options);
+        }
+export type FindUserDashboardQueryHookResult = ReturnType<typeof useFindUserDashboardQuery>;
+export type FindUserDashboardLazyQueryHookResult = ReturnType<typeof useFindUserDashboardLazyQuery>;
+export type FindUserDashboardSuspenseQueryHookResult = ReturnType<typeof useFindUserDashboardSuspenseQuery>;
+export type FindUserDashboardQueryResult = Apollo.QueryResult<FindUserDashboardQuery, FindUserDashboardQueryVariables>;
 export const FindDocumentByIdDocument = gql`
     query FindDocumentById($id: String!) {
   findDocumentById(documentId: $id) {
@@ -3982,6 +4314,57 @@ export type FindProfileQueryHookResult = ReturnType<typeof useFindProfileQuery>;
 export type FindProfileLazyQueryHookResult = ReturnType<typeof useFindProfileLazyQuery>;
 export type FindProfileSuspenseQueryHookResult = ReturnType<typeof useFindProfileSuspenseQuery>;
 export type FindProfileQueryResult = Apollo.QueryResult<FindProfileQuery, FindProfileQueryVariables>;
+export const FindProfileBySlugDocument = gql`
+    query FindProfileBySlug($slug: String!) {
+  findProfileBySlug(slug: $slug) {
+    id
+    username
+    displayName
+    avatar
+    email
+    bio
+    socialLinks {
+      id
+      title
+      url
+      position
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindProfileBySlugQuery__
+ *
+ * To run a query within a React component, call `useFindProfileBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindProfileBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindProfileBySlugQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useFindProfileBySlugQuery(baseOptions: Apollo.QueryHookOptions<FindProfileBySlugQuery, FindProfileBySlugQueryVariables> & ({ variables: FindProfileBySlugQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>(FindProfileBySlugDocument, options);
+      }
+export function useFindProfileBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>(FindProfileBySlugDocument, options);
+        }
+export function useFindProfileBySlugSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>(FindProfileBySlugDocument, options);
+        }
+export type FindProfileBySlugQueryHookResult = ReturnType<typeof useFindProfileBySlugQuery>;
+export type FindProfileBySlugLazyQueryHookResult = ReturnType<typeof useFindProfileBySlugLazyQuery>;
+export type FindProfileBySlugSuspenseQueryHookResult = ReturnType<typeof useFindProfileBySlugSuspenseQuery>;
+export type FindProfileBySlugQueryResult = Apollo.QueryResult<FindProfileBySlugQuery, FindProfileBySlugQueryVariables>;
 export const FindSessionsByUserDocument = gql`
     query findSessionsByUser {
   findSessionsByUser {

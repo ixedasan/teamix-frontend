@@ -39,7 +39,6 @@ type Member = NonNullable<
 	FindProjectByIdQuery['findProjectById']
 >['members'][number]
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const columns: (t: any) => ColumnDef<Member>[] = t => [
 	{
 		id: 'user',

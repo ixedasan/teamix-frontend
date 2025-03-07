@@ -1,5 +1,6 @@
 'use client'
 
+import { type ComponentType } from 'react'
 import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
@@ -11,7 +12,7 @@ import {
 	useFindSessionsByUserQuery,
 	useRemoveSessionMutation
 } from '@/graphql/generated/output'
-import { getBrowserIcon } from '@/utils/get-browser-icon'
+import { getBrowserIcon, IconProps } from '@/utils/get-browser-icon'
 import { SessionModal } from './SessionModal'
 
 interface ISessionItem {
@@ -34,7 +35,9 @@ export function SessionItem({ session, isCurrentSession }: ISessionItem) {
 		}
 	})
 
-	const Icon = getBrowserIcon(session.metadata.device.browser)
+	const Icon: ComponentType<IconProps> = getBrowserIcon(
+		session.metadata.device.browser
+	)
 
 	return (
 		<CardContainer

@@ -29,7 +29,7 @@ export function Notifications() {
 			</PopoverTrigger>
 			<PopoverContent
 				align="end"
-				className="max-h-[500px] w-[320px] overflow-y-auto"
+				className="ml-6 max-h-[500px] w-[320px] overflow-y-auto"
 			>
 				<NotificationsList />
 			</PopoverContent>

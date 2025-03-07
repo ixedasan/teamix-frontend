@@ -19,18 +19,24 @@ import { NavUser } from './nav/NavUser'
 
 export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 	const { state } = useSidebar()
+	const isCollapsed = state === 'collapsed'
 
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
-				<div className="flex items-center px-1 justify-between">
+				<div className="flex items-center justify-between">
 					<Logo
 						iconSize={12}
 						showText={state === 'expanded'}
 						className="mt-2"
 					/>
-					<Notifications />
+					{!isCollapsed && <Notifications />}
 				</div>
+				{isCollapsed && (
+					<div className="mt-2 flex justify-center">
+						<Notifications />
+					</div>
+				)}
 				<Separator />
 				<NavMain />
 			</SidebarHeader>

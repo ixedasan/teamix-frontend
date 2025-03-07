@@ -1,0 +1,193 @@
+query FindUserDashboard(
+	$filter: DashboardFilterInput
+	$taskFilter: TaskFilterInput
+) {
+	FindUserDashboard(filter: $filter) {
+		totalAssignedTasks
+
+		tasksByStatus {
+			status
+			count
+		}
+
+		tasksByPriority {
+			priority
+			count
+		}
+
+		tasksByDueDate {
+			overdue
+			dueToday
+			dueThisWeek
+			upcoming
+			noDueDate
+		}
+
+		projectsSummary {
+			project {
+				id
+				name
+				icon
+				description
+				plan
+			}
+			totalTasks
+			completedTasks
+			pendingTasks
+		}
+
+		recentTasks {
+			id
+			title
+			description
+			status
+			priority
+			dueDate
+			createdAt
+			updatedAt
+			project {
+				id
+				name
+				icon
+			}
+			labels {
+				id
+				name
+				color
+			}
+			assignees {
+				user {
+					id
+					username
+					displayName
+					avatar
+				}
+			}
+			createdBy {
+				id
+				username
+				displayName
+				avatar
+			}
+		}
+
+		upcomingDeadlines {
+			id
+			title
+			status
+			priority
+			dueDate
+			project {
+				id
+				name
+				icon
+			}
+			assignees {
+				user {
+					id
+					username
+					displayName
+					avatar
+				}
+			}
+		}
+	}
+
+	FindUserAssigedTasks(filter: $taskFilter) {
+		id
+		title
+		description
+		status
+		priority
+		position
+		startDate
+		dueDate
+		createdAt
+		updatedAt
+
+		project {
+			id
+			name
+			icon
+		}
+
+		assignees {
+			id
+			user {
+				id
+				username
+				displayName
+				avatar
+			}
+		}
+
+		labels {
+			id
+			name
+			color
+		}
+
+		comments {
+			id
+		}
+
+		attachments {
+			id
+			filename
+			mimeType
+		}
+
+		links {
+			id
+			title
+			url
+		}
+
+		createdBy {
+			id
+			username
+			displayName
+			avatar
+		}
+	}
+
+	FindUserOverdueTasks(filter: $taskFilter) {
+		id
+		title
+		status
+		priority
+		dueDate
+		project {
+			id
+			name
+			icon
+		}
+		assignees {
+			user {
+				id
+				displayName
+				avatar
+			}
+		}
+	}
+
+	FindUserUpcomingTasks(filter: $taskFilter) {
+		id
+		title
+		status
+		priority
+		dueDate
+		project {
+			id
+			name
+			icon
+		}
+		assignees {
+			user {
+				id
+				displayName
+				avatar
+			}
+		}
+	}
+}

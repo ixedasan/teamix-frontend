@@ -75,6 +75,7 @@ export function KanbanBoard({ tasks }: IKanbanBoard) {
 
 			client.cache.modify({
 				fields: {
+					// @ts-ignore
 					findAllTasks(existingTasks: Reference[] = []) {
 						return reorderTasks(existingTasks)
 					}
@@ -94,6 +95,7 @@ export function KanbanBoard({ tasks }: IKanbanBoard) {
 			} catch {
 				client.cache.modify({
 					fields: {
+						// @ts-ignore
 						findAllTasks(existingTasks: Reference[] = []) {
 							const filtered = existingTasks.filter(
 								t => t.__ref !== `TaskModel:${task.id}`

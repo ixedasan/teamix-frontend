@@ -7,7 +7,8 @@ import {
 	ChevronRight,
 	ClipboardList,
 	FileText,
-	Hash
+	Hash,
+	Settings
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
@@ -40,7 +41,8 @@ export function NavProjects() {
 	const subMenuItems = [
 		{ title: t('task'), icon: ClipboardList, path: 'tasks' },
 		{ title: t('analytics'), icon: BarChart2, path: 'analytics' },
-		{ title: t('docs'), icon: FileText, path: 'docs' }
+		{ title: t('docs'), icon: FileText, path: 'docs' },
+		{ title: t('settings'), icon: Settings, path: 'settings' }
 	]
 
 	return (
