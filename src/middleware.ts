@@ -43,7 +43,7 @@ export function middleware(request: NextRequest) {
 				path: '/',
 				httpOnly: true,
 				secure: process.env.NODE_ENV === 'production',
-				sameSite: 'lax'
+				sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
 			})
 		}
 	} else {
